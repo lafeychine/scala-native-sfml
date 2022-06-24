@@ -1,6 +1,13 @@
-name: CI
+name: develop
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - master
+
+concurrency:
+  group: ci-develop-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -11,7 +18,7 @@ jobs:
 
     steps:
     - name: Install Linux Dependencies
-      run: sudo apt-get update && sudo apt-get install libcsfml-dev
+      run: sudo apt-get install libcsfml-dev
 
     - name: Checkout
       uses: actions/checkout@v2
@@ -25,11 +32,15 @@ jobs:
     - name: Coursier cache
       uses: coursier/cache-action@v6
 
-    - name: Build
-      run: sbt compile
+    - name: Check lint
+      run: sbt -v scalafmtCheckAll
 
-    - name: Format
-      run: sbt scalafmtCheck
+    - name: Check docs
+      shell: bash
+      run: sbt -v doc | ( ! grep "\-\- Warning" )
+
+    - name: Build
+      run: sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; compile'
 
     - name: Cleanup before cache
       shell: bash
