@@ -2,7 +2,7 @@ import scala.scalanative.build.*
 
 name := "scala-native-sfml"
 organization := "io.github.lafeychine"
-version := "0.2.0"
+version := "0.3.0"
 
 scalaVersion := "3.1.1"
 enablePlugins(ScalaNativePlugin)
@@ -13,10 +13,10 @@ nativeConfig ~= {
 }
 
 nativeLinkingOptions := Seq(
-    "-lcsfml-graphics",
-    "-lcsfml-network",
-    "-lcsfml-system",
-    "-lcsfml-window"
+    "-lsfml-graphics",
+    "-lsfml-network",
+    "-lsfml-system",
+    "-lsfml-window"
 )
 
 githubOwner := "lafeychine"

@@ -7,7 +7,7 @@ import scalanative.unsafe.*
 import system.Vector2
 import window.{Event, VideoMode, Window}
 
-@link("csfml-graphics")
+@link("sfml-graphics")
 @extern object RenderWindow:
     type sfRenderWindow
 

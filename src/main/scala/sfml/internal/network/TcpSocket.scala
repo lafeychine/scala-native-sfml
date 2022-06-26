@@ -6,7 +6,7 @@ import scalanative.unsafe.*
 
 import system.Time
 
-@link("csfml-network")
+@link("sfml-network")
 @extern object TcpSocket:
     type sfTcpSocket
 
