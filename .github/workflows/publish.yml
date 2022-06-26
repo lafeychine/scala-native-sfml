@@ -1,9 +1,13 @@
-name: Publish
+name: publish
 
 on:
-  push:
+  create:
     tags:
-      - "v*"
+      - '*'
+
+concurrency:
+  group: ci-publish-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -28,8 +32,8 @@ jobs:
     - name: Coursier cache
       uses: coursier/cache-action@v6
 
-    - name: Publish
-      run: sbt publish
+    - name: Publish the build
+      run: sbt -v publish
 
     - name: Cleanup before cache
       shell: bash
