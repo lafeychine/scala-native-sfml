@@ -6,7 +6,7 @@ import scalanative.unsafe.*
 
 import system.Vector2
 
-@link("csfml-graphics")
+@link("sfml-graphics")
 @extern object Text:
     type sfText
 

@@ -4,7 +4,7 @@ package network
 
 import scalanative.unsafe.*
 
-@link("csfml-network")
+@link("sfml-network")
 @extern object TcpListener:
     type sfTcpListener
 
