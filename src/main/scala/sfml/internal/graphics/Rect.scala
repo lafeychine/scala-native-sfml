@@ -4,7 +4,7 @@ package graphics
 
 import scalanative.unsafe.*
 
-@link("csfml-graphics")
+@link("sfml-graphics")
 @extern object Rect:
     type sfIntRect = CStruct4[CInt, CInt, CInt, CInt]
     type sfFloatRect = CStruct4[CFloat, CFloat, CFloat, CFloat]

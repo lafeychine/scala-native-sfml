@@ -7,7 +7,7 @@ import scalanative.unsafe.*
 import graphics.RenderWindow
 import system.Vector2
 
-@link("csfml-window")
+@link("sfml-window")
 @extern object Mouse:
     def sfMouse_isButtonPressed(button: MouseButton.sfMouseButton): Type.sfBool = extern
     def sfMouse_getPosition_fix(relativeTo: Ptr[RenderWindow.sfRenderWindow], position: Ptr[Vector2.sfVector2i]): Unit = extern

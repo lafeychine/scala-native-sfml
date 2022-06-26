@@ -4,7 +4,7 @@ package graphics
 
 import scalanative.unsafe.*
 
-@link("csfml-graphics")
+@link("sfml-graphics")
 @extern object Font:
     type sfFont
 

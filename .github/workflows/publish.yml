@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Install Linux Dependencies
-      run: sudo apt-get update && sudo apt-get install libcsfml-dev
+      run: sudo apt-get update && sudo apt-get install libsfml-dev
 
     - name: Checkout
       uses: actions/checkout@v2
