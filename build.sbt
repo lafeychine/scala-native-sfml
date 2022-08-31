@@ -12,12 +12,5 @@ nativeConfig ~= {
    .withMode(Mode.releaseFull)
 }
 
-nativeLinkingOptions := Seq(
-    "-lsfml-graphics",
-    "-lsfml-network",
-    "-lsfml-system",
-    "-lsfml-window"
-)
-
 githubOwner := "lafeychine"
 githubRepository := "scala-native-sfml"
