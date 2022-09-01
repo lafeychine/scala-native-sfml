@@ -4,7 +4,10 @@ package window
 import scalanative.unsafe.*
 
 import internal.Type.sfBoolToBoolean
+import internal.window.Event.sfEvent
 import internal.window.Window.*
+
+import window.Event
 
 class Window private[sfml] (self: Ptr[sfWindowFields])
         extends Resource[Ptr[sfWindow]]:
@@ -19,6 +22,19 @@ class Window private[sfml] (self: Ptr[sfWindowFields])
 
     def isOpen(): Boolean =
         sfWindow_isOpen(bind)
+
+    def pollEvent(): LazyList[Event] =
+        def polling(event: Ptr[sfEvent]): Event =
+            if sfWindow_pollEvent(bind, event) then {
+                return Event(event).getOrElse(polling(event))
+            }
+            return null
+
+        Zone { implicit z =>
+            val event = alloc[sfEvent]()
+
+            return LazyList.continually(polling(event)).takeWhile(_ != null)
+        }
 
 
 object Window:
