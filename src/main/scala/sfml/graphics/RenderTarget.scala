@@ -9,12 +9,9 @@ import internal.window.Window.sfWindow
 import system.String
 import window.{ContextSettings, VideoMode, Window}
 
-trait RenderTarget private[sfml] (self: Ptr[sfRenderTargetFields])
-    extends Resource[Ptr[sfRenderTarget]]:
-
-    private[sfml] def bind = self
+trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTarget]) extends Resource:
 
     def clear(color: Color): Unit =
         Zone { implicit z =>
-          sfRenderTarget_clear(bind, color.bind)
+            sfRenderTarget_clear(renderTarget, color.color)
         }
