@@ -10,19 +10,16 @@ import stdlib.Locale
 
 type ScalaString = java.lang.String
 
-class String private[sfml] (self: Ptr[sfStringFields])
-        extends Resource[Ptr[sfString]]:
-
-    private[sfml] def bind = self
+class String private[sfml] (private[sfml] val string: Ptr[sfString]) extends Resource:
 
     def this(ansiString: ScalaString) =
-        this(Resource[sfStringFields, sfString] { (r: Ptr[sfString]) =>
+        this(Resource[sfString] { (r: Ptr[sfString]) =>
             Zone { implicit z =>
                 Using.resource(Locale()) { locale =>
-                    ctor(r, toCString(ansiString), locale.bind);
+                    ctor(r, toCString(ansiString), locale.locale);
                 }
             };
         })
 
     def close(): Unit =
-      Resource.close(dtor)(bind)
+        Resource.close(dtor)(string)
