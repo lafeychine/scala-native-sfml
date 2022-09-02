@@ -3,18 +3,14 @@ package sfml
 import scalanative.libc.stdlib.{malloc, free}
 import scalanative.unsafe.*
 
-private[sfml] trait Resource[+T] extends AutoCloseable:
-    private[sfml] def bind: T
-
-    def close(): Unit
+trait Resource extends AutoCloseable
 
 private[sfml] object Resource:
-    private def apply[T: Tag, U](ctor: Ptr[U] => Unit, buffer: Ptr[Byte]): Ptr[T] =
-        ctor(buffer.asInstanceOf[Ptr[U]])
-        buffer.asInstanceOf[Ptr[T]]
+    private def apply[T: Tag](ctor: Ptr[T] => Unit, buffer: Ptr[T]): Ptr[T] =
+        ctor(buffer); buffer
 
-    final def apply[T: Tag, U](ctor: Ptr[U] => Unit): Ptr[T] =
-        apply(ctor, malloc(sizeof[T]))
+    final def apply[T: Tag](ctor: Ptr[T] => Unit): Ptr[T] =
+        apply(ctor, malloc(sizeof[T]).asInstanceOf[Ptr[T]])
 
     final def close[T](dtor: Ptr[T] => Unit)(resource: Ptr[T]): Unit =
         dtor(resource)
