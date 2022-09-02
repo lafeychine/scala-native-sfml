@@ -35,10 +35,6 @@ jobs:
     - name: Check lint
       run: sbt -v scalafmtCheckAll
 
-    - name: Check docs
-      shell: bash
-      run: sbt -v doc | ( ! grep "\-\- Warning" )
-
     - name: Build
       run: sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; compile'
 
