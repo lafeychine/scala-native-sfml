@@ -6,16 +6,12 @@ import scalanative.unsigned.UnsignedRichByte
 
 import internal.graphics.Color.*
 
-class Color(var r: Byte, var g: Byte, var b: Byte, var a: Byte) extends StackResource[Ptr[sfColor]]:
+class Color private[sfml] (private[sfml] val color: Ptr[sfColor]) extends Resource:
 
-    private[sfml] def bind(implicit z: Zone) =
-        val color = alloc[sfColor]()
-
-        color._1 = r.toUByte
-        color._2 = g.toUByte
-        color._3 = b.toUByte
-        color._4 = a.toUByte
-        return color
+    def this(r: Byte, g: Byte, b: Byte, a: Byte) =
+        this(Resource { (buffer: Ptr[sfColor]) =>
+            ctor(buffer, r.toUByte, g.toUByte, b.toUByte, a.toUByte)
+        })
 
     def this(r: Int, g: Int, b: Int, a: Int) = this(r.toByte, g.toByte, b.toByte, a.toByte)
 
@@ -25,8 +21,7 @@ class Color(var r: Byte, var g: Byte, var b: Byte, var a: Byte) extends StackRes
 
     def this() = this(255, 255, 255)
 
-    def this(color: Color) = this(color.r, color.g, color.b, color.a)
-
+    def close(): Unit = () // TODO
 
 object Color:
     def Black(): Color = Color(0, 0, 0)

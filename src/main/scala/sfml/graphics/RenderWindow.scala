@@ -11,21 +11,16 @@ import internal.window.Window.sfWindow
 import system.String
 import window.{ContextSettings, VideoMode, Window}
 
-class RenderWindow private[sfml] (self: Ptr[sfRenderWindowFields])
-        extends Window(self.at1)
-        with RenderTarget(self.at2)
-        with Resource[Ptr[sfRenderWindow]]:
-
-    private[sfml] override def bind = self
+class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWindow]) extends Window(renderWindow.at1) with RenderTarget(renderWindow.at2) with Resource:
 
     def this(mode: VideoMode, title: String, style: Window.WindowStyle) =
         this(Resource { (r: Ptr[sfRenderWindow]) =>
             Zone { implicit z =>
                 val modeSplit = split(mode.bind)
 
-                ctor(r, modeSplit(0), modeSplit(1), title.bind, style.value.toUInt, ContextSettings().bind);
+                ctor(r, modeSplit(0), modeSplit(1), title.string, style.value.toUInt, ContextSettings().bind);
             }
         })
 
     override def close(): Unit =
-        Resource.close(dtor)(bind)
+        Resource.close(dtor)(renderWindow)

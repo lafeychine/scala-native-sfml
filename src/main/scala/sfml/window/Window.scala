@@ -9,23 +9,19 @@ import internal.window.Window.*
 
 import window.Event
 
-class Window private[sfml] (self: Ptr[sfWindowFields])
-        extends Resource[Ptr[sfWindow]]:
+class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Resource:
 
-    private[sfml] def bind = self
-
-    def close(): Unit =
-      Resource.close(dtor)(bind)
+    def close(): Unit = () // TODO
 
     def display(): Unit =
-        sfWindow_display(bind)
+        sfWindow_display(window)
 
     def isOpen(): Boolean =
-        sfWindow_isOpen(bind)
+        sfWindow_isOpen(window)
 
     def pollEvent(): LazyList[Event] =
         def polling(event: Ptr[sfEvent]): Event =
-            if sfWindow_pollEvent(bind, event) then {
+            if sfWindow_pollEvent(window, event) then {
                 return Event(event).getOrElse(polling(event))
             }
             return null
@@ -35,7 +31,6 @@ class Window private[sfml] (self: Ptr[sfWindowFields])
 
             return LazyList.continually(polling(event)).takeWhile(_ != null)
         }
-
 
 object Window:
     enum WindowStyle(val value: Int):

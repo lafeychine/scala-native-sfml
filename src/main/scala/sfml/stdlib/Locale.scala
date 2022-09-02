@@ -5,13 +5,10 @@ import scalanative.unsafe.*
 
 import internal.stdlib.Locale.*
 
-class Locale private[sfml] (self: Ptr[stdLocaleFields])
-    extends Resource[Ptr[stdLocale]]:
-
-    private[sfml] def bind = self
+class Locale private[sfml] (private[sfml] val locale: Ptr[stdLocale]) extends Resource:
 
     def this() =
-      this(Resource { ctor(_) })
+        this(Resource { ctor(_) })
 
     def close(): Unit =
-      Resource.close(dtor)(bind)
+        Resource.close(dtor)(locale)

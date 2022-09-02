@@ -1,4 +1,3 @@
-
 package sfml
 package window
 

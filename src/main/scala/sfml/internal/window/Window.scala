@@ -5,9 +5,8 @@ package window
 import scalanative.unsafe.*
 
 @link("sfml-window")
-@extern private[this] object externWindow:
-    type sfWindow
-    type sfWindowFields = CArray[Byte, Nat.Digit2[Nat._4, Nat._8]]
+@extern private[sfml] object Window:
+    type sfWindow = CArray[Byte, Nat.Digit2[Nat._4, Nat._8]]
 
     @name("_ZN2sf6WindowD2Ev")
     def dtor(self: Ptr[sfWindow]): Unit = extern
@@ -20,12 +19,3 @@ import scalanative.unsafe.*
 
     @name("_ZN2sf6Window9pollEventERNS_5EventE")
     def sfWindow_pollEvent(self: Ptr[sfWindow], event: Ptr[Event.sfEvent]): Type.sfBool = extern
-
-private[sfml] object Window:
-
-    import scala.language.implicitConversions
-
-    export externWindow.*
-
-    implicit def fieldsToType(fields: Ptr[Window.sfWindowFields]): Ptr[Window.sfWindow] =
-        return fields.asInstanceOf[Ptr[Window.sfWindow]]
