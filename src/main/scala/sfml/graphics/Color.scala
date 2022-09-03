@@ -21,7 +21,8 @@ class Color private[sfml] (private[sfml] val color: Ptr[sfColor]) extends Resour
 
     def this() = this(255, 255, 255)
 
-    def close(): Unit = () // TODO
+    final override def close(): Unit =
+        Resource.close(color)
 
 object Color:
     def Black(): Color = Color(0, 0, 0)

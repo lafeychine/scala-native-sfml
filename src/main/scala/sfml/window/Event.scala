@@ -8,28 +8,28 @@ import internal.window.Event.*
 sealed trait Event
 
 object Event:
-    case class Closed() extends Event
-    case class Resized(val width: Int, val height: Int) extends Event
-    case class LostFocus() extends Event
-    case class GainedFocus() extends Event
-    case class TextEntered(val unicode: Int) extends Event
-    case class KeyPressed(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean) extends Event
-    case class KeyReleased(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean) extends Event
-    case class MouseWheelScrolled(val wheel: Mouse.Wheel, val delta: Float, val x: Int, val y: Int) extends Event
-    case class MouseButtonPressed(val button: Mouse.Button, val x: Int, val y: Int) extends Event
-    case class MouseButtonReleased(val button: Mouse.Button, val x: Int, val y: Int) extends Event
-    case class MouseMoved(val x: Int, val y: Int) extends Event
-    case class MouseEntered() extends Event
-    case class MouseLeft() extends Event
-    case class JoystickButtonPressed(val joystickId: Int, val button: Int) extends Event
-    case class JoystickButtonReleased(val joystickId: Int, val button: Int) extends Event
-    case class JoystickMoved(val joystickId: Int, val axis: Joystick.Axis, val position: Float) extends Event
-    case class JoystickConnected(val joystickId: Int) extends Event
-    case class JoystickDisconnected(val joystickId: Int) extends Event
-    case class TouchBegan(val finger: Int, val x: Int, val y: Int) extends Event
-    case class TouchMoved(val finger: Int, val x: Int, val y: Int) extends Event
-    case class TouchEnded(val finger: Int, val x: Int, val y: Int) extends Event
-    case class SensorChanged(val sensor: Sensor.Type, val x: Float, val y: Float, val z: Float) extends Event
+    final case class Closed() extends Event
+    final case class Resized(val width: Int, val height: Int) extends Event
+    final case class LostFocus() extends Event
+    final case class GainedFocus() extends Event
+    final case class TextEntered(val unicode: Int) extends Event
+    final case class KeyPressed(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean) extends Event
+    final case class KeyReleased(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean) extends Event
+    final case class MouseWheelScrolled(val wheel: Mouse.Wheel, val delta: Float, val x: Int, val y: Int) extends Event
+    final case class MouseButtonPressed(val button: Mouse.Button, val x: Int, val y: Int) extends Event
+    final case class MouseButtonReleased(val button: Mouse.Button, val x: Int, val y: Int) extends Event
+    final case class MouseMoved(val x: Int, val y: Int) extends Event
+    final case class MouseEntered() extends Event
+    final case class MouseLeft() extends Event
+    final case class JoystickButtonPressed(val joystickId: Int, val button: Int) extends Event
+    final case class JoystickButtonReleased(val joystickId: Int, val button: Int) extends Event
+    final case class JoystickMoved(val joystickId: Int, val axis: Joystick.Axis, val position: Float) extends Event
+    final case class JoystickConnected(val joystickId: Int) extends Event
+    final case class JoystickDisconnected(val joystickId: Int) extends Event
+    final case class TouchBegan(val finger: Int, val x: Int, val y: Int) extends Event
+    final case class TouchMoved(val finger: Int, val x: Int, val y: Int) extends Event
+    final case class TouchEnded(val finger: Int, val x: Int, val y: Int) extends Event
+    final case class SensorChanged(val sensor: Sensor.Type, val x: Float, val y: Float, val z: Float) extends Event
 
     def apply(event: Ptr[sfEvent]): Option[Event] =
         sfEventType.fromOrdinal(!event) match
