@@ -12,6 +12,9 @@ private[sfml] object Resource:
     final def apply[T: Tag](ctor: Ptr[T] => Unit): Ptr[T] =
         apply(ctor, malloc(sizeof[T]).asInstanceOf[Ptr[T]])
 
+    final def close[T](resource: Ptr[T]): Unit =
+        free(resource.asInstanceOf[Ptr[Byte]])
+
     final def close[T](dtor: Ptr[T] => Unit)(resource: Ptr[T]): Unit =
         dtor(resource)
-        free(resource.asInstanceOf[Ptr[Byte]])
+        close(resource)

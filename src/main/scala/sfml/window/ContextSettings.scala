@@ -15,9 +15,9 @@ class ContextSettings(
     val minor: Int = 1,
     val attributeFlags: Int = 0,
     val sRgbCapable: Boolean = false
-) extends StackResource[Ptr[sfContextSettings]]:
+):
 
-    private[sfml] def bind(implicit z: Zone) =
+    private[sfml] final def contextSettings(implicit z: Zone): Ptr[sfContextSettings] =
         val contextSettings = alloc[sfContextSettings]()
 
         contextSettings._1 = depth.toUInt
@@ -27,4 +27,4 @@ class ContextSettings(
         contextSettings._5 = minor.toUInt
         contextSettings._6 = attributeFlags.toUInt
         contextSettings._7 = sRgbCapable
-        return contextSettings
+        contextSettings

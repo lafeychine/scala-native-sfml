@@ -11,25 +11,25 @@ import window.Event
 
 class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Resource:
 
-    def close(): Unit = () // TODO
+    @SuppressWarnings(Array("org.wartremover.contrib.warts.UnsafeInheritance"))
+    override def close(): Unit = () // TODO
 
-    def display(): Unit =
+    final def display(): Unit =
         sfWindow_display(window)
 
-    def isOpen(): Boolean =
+    final def isOpen(): Boolean =
         sfWindow_isOpen(window)
 
-    def pollEvent(): LazyList[Event] =
-        def polling(event: Ptr[sfEvent]): Event =
-            if sfWindow_pollEvent(window, event) then {
-                return Event(event).getOrElse(polling(event))
-            }
-            return null
+    @SuppressWarnings(Array("org.wartremover.warts.OptionPartial"))
+    final def pollEvent(): LazyList[Event] =
+        def polling(event: Ptr[sfEvent]): Option[Event] =
+            if sfWindow_pollEvent(window, event) then { Event(event) }
+            else { None }
 
         Zone { implicit z =>
             val event = alloc[sfEvent]()
 
-            return LazyList.continually(polling(event)).takeWhile(_ != null)
+            LazyList.continually(polling(event)).takeWhile(_.isDefined).map(_.get)
         }
 
 object Window:

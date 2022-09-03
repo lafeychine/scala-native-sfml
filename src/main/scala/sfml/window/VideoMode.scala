@@ -7,12 +7,12 @@ import scalanative.unsigned.{UnsignedRichInt, UnsignedRichLong}
 import internal.Type
 import internal.window.VideoMode.*
 
-class VideoMode(val width: Int, val height: Int, val bitsPerPixel: Int) extends StackResource[Ptr[sfVideoMode]]:
+class VideoMode(val width: Int, val height: Int, val bitsPerPixel: Int):
 
-    private[sfml] def bind(implicit z: Zone) =
+    private[sfml] final def videoMode(implicit z: Zone): Ptr[sfVideoMode] =
         val videoMode = alloc[sfVideoMode]()
 
         videoMode._1 = width.toUInt
         videoMode._2 = height.toUInt
         videoMode._3 = bitsPerPixel.toUInt
-        return videoMode
+        videoMode

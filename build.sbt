@@ -4,7 +4,7 @@ name := "scala-native-sfml"
 organization := "io.github.lafeychine"
 version := "0.3.0"
 
-scalaVersion := "3.1.3"
+scalaVersion := "3.2.0"
 enablePlugins(ScalaNativePlugin)
 
 nativeConfig ~= {
@@ -17,3 +17,19 @@ nativeLinkingOptions := Seq("-fsanitize=leak")
 
 githubOwner := "lafeychine"
 githubRepository := "scala-native-sfml"
+
+wartremoverErrors := Warts.allBut(
+    Wart.AsInstanceOf,
+    Wart.DefaultArguments,
+    Wart.ImplicitConversion,
+    Wart.ImplicitParameter,
+    Wart.Overloading
+) ++ Seq(
+    ContribWart.Apply,
+    ContribWart.ExposedTuples,
+    ContribWart.MissingOverride,
+    ContribWart.NoNeedForMonad,
+    ContribWart.SealedCaseClass,
+    ContribWart.SymbolicName,
+    ContribWart.UnsafeInheritance
+)

@@ -11,7 +11,7 @@ import window.{ContextSettings, VideoMode, Window}
 
 trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTarget]) extends Resource:
 
-    def clear(color: Color): Unit =
+    final def clear(color: Color): Unit =
         Zone { implicit z =>
             sfRenderTarget_clear(renderTarget, color.color)
         }
