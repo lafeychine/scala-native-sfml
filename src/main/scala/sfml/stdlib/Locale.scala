@@ -10,5 +10,5 @@ class Locale private[sfml] (private[sfml] val locale: Ptr[stdLocale]) extends Re
     def this() =
         this(Resource { ctor(_) })
 
-    def close(): Unit =
+    final override def close(): Unit =
         Resource.close(dtor)(locale)

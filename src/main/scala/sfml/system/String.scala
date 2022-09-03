@@ -21,5 +21,5 @@ class String private[sfml] (private[sfml] val string: Ptr[sfString]) extends Res
             };
         })
 
-    def close(): Unit =
+    final override def close(): Unit =
         Resource.close(dtor)(string)
