@@ -1,0 +1,16 @@
+---
+Language:     Cpp
+BasedOnStyle: LLVM
+
+ColumnLimit: 0
+IndentWidth: 4
+TabWidth: 4
+
+AlignOperands: true
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+BreakBeforeBraces: Linux
+IncludeBlocks: Regroup 
+NamespaceIndentation: All
+PointerAlignment: Middle
+...
