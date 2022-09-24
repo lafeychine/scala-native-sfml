@@ -1,0 +1,2 @@
+# Ignore Scala Native's MemoryPool's leak
+leak:_SM36scala.scalanative.runtime.MemoryPoolD13allocateChunkuEPT36scala.scalanative.runtime.MemoryPool

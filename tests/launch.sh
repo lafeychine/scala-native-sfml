@@ -6,7 +6,6 @@ SCALA_VERSION="3.2.0"
 PROGRAM_SCALA=${DIR}/target/scala-${SCALA_VERSION}/tests-out
 PROGRAM_CXX=${DIR}/target/cxx/tests-out
 
-
 function getXFreeSlot() {
     local N=1
 
@@ -19,17 +18,18 @@ function getXFreeSlot() {
 
 function startXServer() {
     AUTHFILE=$(mktemp -p "${TMPDIR}" Xauthority.XXXXXX)
-    
-    XAUTHORITY=$AUTHFILE xauth source - << EOF 
-add :${DISPLAY} . $(mcookie)
+
+    XAUTHORITY=$AUTHFILE xauth source - << EOF
+add ${DISPLAY} . $(mcookie)
 EOF
 
-    XAUTHORITY=$AUTHFILE Xvfb ":$DISPLAY" -screen 0 1024x768x24 -nolisten tcp &>/dev/null &
+    XAUTHORITY=$AUTHFILE Xvfb "${DISPLAY}" -screen 0 1024x768x24 -nolisten tcp &>/dev/null &
     
     XVFB_PID=$!
 
-    # TODO: Wait X server
-    sleep 1
+    while ! xset q &>/dev/null; do
+        sleep 0.1
+    done
 }
 
 function launchTests() {
@@ -46,31 +46,36 @@ function launchTests() {
 }
 
 function launchTest() {
-    mkdir "${TMPDIR}/screenshot" "${TMPDIR}/screenshot/cxx" "${TMPDIR}/screenshot/scala"
+    mkdir "${TMPDIR}/cxx" "${TMPDIR}/scala"
 
     echo -n " - $1: "
 
-    executeProgram "${PROGRAM_SCALA}" "${TMPDIR}/screenshot" "$1" || return 1
-    executeProgram "${PROGRAM_CXX}" "${TMPDIR}/screenshot" "$1" || return 1
+    executeProgram "${PROGRAM_SCALA}" "${TMPDIR}/cxx" "$1" || return 1
+    executeProgram "${PROGRAM_CXX}" "${TMPDIR}/scala" "$1" || return 1
 
-    compareScreenshot || return 1
+    compareOutputs || return 1
 
     tput setaf 2; echo "OK"; tput sgr0
 
-    rm -rf "${TMPDIR}/screenshot"
+    rm -rf "${TMPDIR}/cxx" "${TMPDIR}/scala"
 }
 
 function executeProgram() {
-    DISPLAY=:${DISPLAY} "$@" >"${TMPDIR}/stdout" 2>"${TMPDIR}/stderr"
+    if "$@" >"$2_stdout" 2>"${TMPDIR}/stderr"; then
+        return 0
+    fi
 
-    # TODO: Check output
+    tput setaf 1; echo "KO"; tput sgr0
+    cat "${TMPDIR}/stderr"
 
-    return 0
+    return 1
 }
 
-function compareScreenshot() {
-    if DIFF_OUTPUT=$(diff -q "${TMPDIR}/screenshot/cxx" "${TMPDIR}/screenshot/scala"); then
-        return 0
+function compareOutputs() {
+    if DIFF_OUTPUT=$(diff -q "${TMPDIR}/cxx" "${TMPDIR}/scala"); then
+        if DIFF_OUTPUT=$(diff -aB "${TMPDIR}/cxx_stdout" "${TMPDIR}/scala_stdout"); then
+            return 0
+        fi
     fi
 
     tput setaf 1; echo "KO"; tput sgr0
@@ -83,11 +88,13 @@ function closeXServer() {
     kill ${XVFB_PID}
     wait ${XVFB_PID}
 
-    XAUTHORITY=$AUTHFILE xauth remove ":$DISPLAY"
+    XAUTHORITY=$AUTHFILE xauth remove "${DISPLAY}"
 }
 
 
-DISPLAY=$(getXFreeSlot)
+export DISPLAY=":$(getXFreeSlot)"
+export LSAN_OPTIONS=suppressions=${DIR}/leak.txt
+
 TMPDIR="$(mktemp --directory --tmpdir tests.XXXXXX)"
 
 startXServer
