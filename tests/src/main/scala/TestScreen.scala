@@ -9,6 +9,6 @@ class TestScreen(path: String):
 
     final def takeScreenshot(): Unit =
         Zone { implicit z =>
-            system(toCString(s"xwd -root -silent > ${path}/scala/${idScreenshot}"))
+            system(toCString(s"xwd -root -silent > ${path}/${idScreenshot}"))
         }
         idScreenshot = idScreenshot + 1
