@@ -1,10 +1,9 @@
 #include "Test.hpp"
 
 #include <SFML/Graphics.hpp>
-#include <csignal>
 #include <iostream>
 
-SN_Test(example)
+snTest(Example)
 {
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Test");
 
@@ -18,8 +17,8 @@ SN_Test(example)
 
     window.clear(sf::Color(0x01, 0x23, 0x45, 0x67));
     window.display();
-
-    SN_TestScreen.takeScreenshot();
+    snTestScreen.takeScreenshot();
+    snTestScreen.takeScreenshot();
 
     window.close();
 }
