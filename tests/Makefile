@@ -1,6 +1,6 @@
-override SRC			=	Main.cpp			\
-					TestScreen.cpp			\
-					tests/Example.cpp
+override SRC			=	src/main/cxx/Main.cpp					\
+					src/main/cxx/TestScreen.cpp				\
+					$(shell find src/main/cxx/tests -name '*.cpp')
 
 BUILDDIR			=	target/cxx
 
@@ -25,7 +25,7 @@ $(NAME):			$(OBJ)
 
 .SECONDEXPANSION:
 $(BUILDDIR)/%.o:		override CPPFLAGS += -MT $@ -MMD -MP -MF $(@:.o=.d)
-$(BUILDDIR)/%.o:		src/main/cxx/%.cpp | $$(@D)/.
+$(BUILDDIR)/%.o:		%.cpp | $$(@D)/.
 		            	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 $(BUILDDIR)/.:
