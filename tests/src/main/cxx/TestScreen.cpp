@@ -1,17 +1,22 @@
 #include "Test.hpp"
 
-#include <csignal>
+#include <cstdlib>
 
-TestScreen::TestScreen(pid_t pid)
-    : _pid(pid)
+TestScreen::TestScreen(char const * path)
+    : _path(path)
 {
-    signal(SIGUSR2, [](int) {});
-    sigfillset(&(_mask));
-    sigdelset(&(_mask), SIGUSR2);
 }
 
 void TestScreen::takeScreenshot()
 {
-    kill(_pid, SIGUSR1);
-    sigsuspend(&(_mask));
+    std::stringstream cmd;
+
+    cmd << SCREENSHOT_CMD " > "
+        << _path.string()
+        << "/cxx/"
+        << _id_screenshot;
+
+    (void)system(cmd.str().c_str());
+
+    _id_screenshot = _id_screenshot + 1;
 }
