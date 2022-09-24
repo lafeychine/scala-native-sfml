@@ -3,7 +3,7 @@
 #include <cstdlib>
 
 TestScreen::TestScreen(char const * path)
-    : _path(path)
+    : _path(path), _id_screenshot(0)
 {
 }
 
