@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
 {
     assert(argc == 3);
 
-    TestScreen SN_TestScreen(atoi(argv[1]));
+    TestScreen snTestScreen(argv[1]);
 
     int fd = open(PROGRAM_PATH, O_RDONLY);
     assert(fd != -1);
@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
                 continue;
             }
 
-            sn_data[j].fptr(SN_TestScreen);
+            sn_data[j].fptr(snTestScreen);
         }
     }
 

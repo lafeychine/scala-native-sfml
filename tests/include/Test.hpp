@@ -1,25 +1,26 @@
 #ifndef __TEST_H_
 #define __TEST_H_
 
-#include <csignal>
+#include <filesystem>
 
+#define SCREENSHOT_CMD "xwd -root -silent"
 #define SECTION_NAME ".sn_test"
 
-#define SN_Test(name)                                                 \
+#define snTest(name)                                                  \
     static void name(TestScreen &);                                   \
     static const sn_data_t __sn_##name                                \
         __attribute__((section(SECTION_NAME), used)) = {#name, name}; \
-    static void name(TestScreen & SN_TestScreen)
+    static void name(TestScreen & snTestScreen)
 
 class TestScreen
 {
   public:
-    TestScreen(pid_t pid);
+    TestScreen(char const * path);
     void takeScreenshot();
 
   private:
-    pid_t _pid;
-    sigset_t _mask;
+    const std::filesystem::path _path;
+    int _id_screenshot;
 };
 
 typedef struct {
