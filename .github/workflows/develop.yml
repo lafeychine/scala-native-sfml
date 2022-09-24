@@ -22,16 +22,14 @@ jobs:
       run: sudo apt-get install libsfml-dev x11-apps xvfb
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup JDK
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
+        cache: 'sbt'
         distribution: 'temurin'
         java-version: '17'
-
-    - name: Coursier cache
-      uses: coursier/cache-action@v6
 
     - name: Check lint
       run: sbt -v scalafmtCheckAll
@@ -44,12 +42,3 @@ jobs:
         sbt -v 'set tests / nativeLTO := "none"; set tests / nativeMode := "debug"; tests / nativeLink'
         make -C tests
         ./tests/launch.sh
-
-    - name: Cleanup before cache
-      shell: bash
-      run: |
-        rm -rf "$HOME/.ivy2/local" || true
-        find $HOME/Library/Caches/Coursier/v1 -name "ivydata-*.properties" -delete || true
-        find $HOME/.ivy2/cache                -name "ivydata-*.properties" -delete || true
-        find $HOME/.cache/coursier/v1         -name "ivydata-*.properties" -delete || true
-        find $HOME/.sbt                       -name "*.lock"               -delete || true
