@@ -7,6 +7,7 @@ IndentWidth: 4
 TabWidth: 4
 
 AlignOperands: true
+AllowShortBlocksOnASingleLine: Empty
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
 BreakBeforeBraces: Linux
