@@ -20,16 +20,18 @@ function startXServer() {
     AUTHFILE=$(mktemp -p "${TMPDIR}" Xauthority.XXXXXX)
 
     XAUTHORITY=$AUTHFILE xauth source - << EOF
-add ${DISPLAY} . $(mcookie)
+add :${DISPLAY} . $(mcookie)
 EOF
 
-    XAUTHORITY=$AUTHFILE Xvfb "${DISPLAY}" -screen 0 1024x768x24 -nolisten tcp &>/dev/null &
+    XAUTHORITY=$AUTHFILE Xvfb ":${DISPLAY}" -screen 0 1024x768x24 -nolisten tcp &>/dev/null &
     
     XVFB_PID=$!
 
-    while ! xset q &>/dev/null; do
-        sleep 0.1
-    done
+    sleep 1
+    #while ! DISPLAY=:${DISPLAY} xset q &>/dev/null; do
+#	echo "Sleep"
+ #       sleep 0.1
+  #  done
 }
 
 function launchTests() {
@@ -61,7 +63,7 @@ function launchTest() {
 }
 
 function executeProgram() {
-    if "$@" >"$2_stdout" 2>"${TMPDIR}/stderr"; then
+    if DISPLAY=:${DISPLAY} "$@" >"$2_stdout" 2>"${TMPDIR}/stderr"; then
         return 0
     fi
 
@@ -88,13 +90,13 @@ function closeXServer() {
     kill ${XVFB_PID}
     wait ${XVFB_PID}
 
-    XAUTHORITY=$AUTHFILE xauth remove "${DISPLAY}"
+    XAUTHORITY=$AUTHFILE xauth remove ":${DISPLAY}"
 }
 
 
-export DISPLAY=":$(getXFreeSlot)"
 export LSAN_OPTIONS=suppressions=${DIR}/leak.txt
 
+DISPLAY="$(getXFreeSlot)"
 TMPDIR="$(mktemp --directory --tmpdir tests.XXXXXX)"
 
 startXServer
