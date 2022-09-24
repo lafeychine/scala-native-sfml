@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Install Linux Dependencies
-      run: sudo apt-get install libsfml-dev
+      run: sudo apt-get install libsfml-dev x11-apps xvfb
 
     - name: Checkout
       uses: actions/checkout@v2
@@ -36,7 +36,13 @@ jobs:
       run: sbt -v scalafmtCheckAll
 
     - name: Build
-      run: sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; compile'
+      run: sbt -v 'set sfml / nativeLTO := "none"; set sfml / nativeMode := "debug"; sfml / compile'
+
+    - name: Tests
+      run: |
+        sbt -v 'set tests / nativeLTO := "none"; set tests / nativeMode := "debug"; tests / nativeLink'
+        make -C tests
+        ./tests/launch.sh
 
     - name: Cleanup before cache
       shell: bash
