@@ -4,21 +4,15 @@ name := "scala-native-sfml"
 organization := "io.github.lafeychine"
 version := "0.3.0"
 
-scalaVersion := "3.2.0"
-enablePlugins(ScalaNativePlugin)
+ThisBuild / scalaVersion := "3.2.0"
 
-nativeConfig ~= {
+ThisBuild / nativeConfig ~= {
     _.withLTO(LTO.thin)
         .withMode(Mode.releaseFull)
 }
 
-nativeCompileOptions := Seq("-fsanitize=leak")
-nativeLinkingOptions := Seq("-fsanitize=leak")
-
-githubOwner := "lafeychine"
-githubRepository := "scala-native-sfml"
-
-wartremoverErrors := Warts.allBut(
+/* Linting options */
+ThisBuild / wartremoverErrors := Warts.allBut(
     Wart.AsInstanceOf,
     Wart.DefaultArguments,
     Wart.ImplicitConversion,
@@ -33,3 +27,18 @@ wartremoverErrors := Warts.allBut(
     ContribWart.SymbolicName,
     ContribWart.UnsafeInheritance
 )
+
+/* Project definitions */
+lazy val sfml = (project in file("sfml"))
+    .settings(
+        githubOwner := "lafeychine",
+        githubRepository := "scala-native-sfml"
+    )
+    .enablePlugins(ScalaNativePlugin)
+
+lazy val tests = (project in file("tests"))
+    .enablePlugins(ScalaNativePlugin)
+    .dependsOn(sfml)
+
+tests / Compile / nativeCompileOptions := Seq("-fsanitize=leak")
+tests / Compile / nativeLinkingOptions := Seq("-fsanitize=leak")
