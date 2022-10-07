@@ -6,7 +6,7 @@ import scala.language.implicitConversions
 import scalanative.unsafe.*
 
 private[sfml] object Type:
-    type sfBool = CInt
+    type sfBool = CChar
     type sfInt8 = CChar
     type sfUint8 = CUnsignedChar
     type sfInt16 = CShort
