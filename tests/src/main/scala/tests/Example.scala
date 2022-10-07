@@ -19,5 +19,5 @@ object Example extends SNTest:
             window.display()
             snTestScreen.takeScreenshot()
 
-            window.close()
+            window.closeWindow()
         }
