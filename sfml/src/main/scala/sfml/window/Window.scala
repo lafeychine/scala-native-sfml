@@ -14,6 +14,9 @@ class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Res
     @SuppressWarnings(Array("org.wartremover.contrib.warts.UnsafeInheritance"))
     override def close(): Unit = () // TODO
 
+    final def closeWindow(): Unit =
+        sfWindow_closeWindow(window)
+
     final def display(): Unit =
         sfWindow_display(window)
 

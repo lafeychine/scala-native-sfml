@@ -12,7 +12,7 @@ import scalanative.unsafe.*
     def dtor(self: Ptr[sfWindow]): Unit = extern
 
     @name("_ZN2sf6Window5closeEv")
-    def sfWindow_close(self: Ptr[sfWindow]): Unit = extern
+    def sfWindow_closeWindow(self: Ptr[sfWindow]): Unit = extern
 
     @name("_ZN2sf6Window7displayEv")
     def sfWindow_display(self: Ptr[sfWindow]): Unit = extern

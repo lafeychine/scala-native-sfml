@@ -6,7 +6,7 @@ import scalanative.unsigned.UnsignedRichInt
 
 import internal.Type.{booleanToSfBool, split, sfBoolToBoolean}
 import internal.graphics.RenderWindow.*
-import internal.window.Window.{sfWindow, sfWindow_close}
+import internal.window.Window.sfWindow
 
 import system.String
 import window.{ContextSettings, VideoMode, Window}
@@ -23,5 +23,4 @@ class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWi
         })
 
     final override def close(): Unit =
-        sfWindow_close(renderWindow.asInstanceOf[Ptr[sfWindow]])
         Resource.close(dtor)(renderWindow)
