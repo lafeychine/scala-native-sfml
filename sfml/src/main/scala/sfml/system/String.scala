@@ -22,4 +22,5 @@ class String private[sfml] (private[sfml] val string: Ptr[sfString]) extends Res
         })
 
     final override def close(): Unit =
-        Resource.close(dtor)(string)
+        dtor(!(string.asInstanceOf[Ptr[Ptr[Byte]]]))
+        Resource.close(string)
