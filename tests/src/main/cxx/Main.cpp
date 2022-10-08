@@ -33,13 +33,13 @@ int main(int argc, char * argv[])
     char const * strtab = (char *)data + shdr[elf->e_shstrndx].sh_offset;
 
     for (int i = 0; i < elf->e_shnum; i++) {
-        char const * name = &(strtab[shdr[i].sh_name]);
+        const ElfW(Shdr) * hdr = shdr + i;
+        char const * name = &(strtab[hdr->sh_name]);
 
         if (strcmp(name, SECTION_NAME)) {
             continue;
         }
 
-        const ElfW(Shdr) * hdr = shdr + i;
         sn_data_t * sn_data = (sn_data_t *)hdr->sh_addr;
 
         for (size_t j = 0; j < hdr->sh_size / sizeof(sn_data_t); j++) {

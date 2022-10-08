@@ -12,7 +12,8 @@ override CXXFLAGS		+=	-std=gnu++17 -W -Wall
 override RMFLAGS		+=	-r
 
 LD				=	$(CXX)
-override LDFLAGS		+=	-lsfml-graphics -lsfml-system -lsfml-window
+override LDFLAGS		+=	-no-pie
+override LDLIBS			+=	-lsfml-graphics -lsfml-system -lsfml-window
 
 NAME				=	target/cxx/tests-out
 
@@ -28,16 +29,13 @@ $(BUILDDIR)/%.o:		override CPPFLAGS += -MT $@ -MMD -MP -MF $(@:.o=.d)
 $(BUILDDIR)/%.o:		%.cpp | $$(@D)/.
 		            	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-$(BUILDDIR)/.:
-				mkdir -p $@
-
 $(BUILDDIR)%/.:
 				mkdir -p $@
 
 clean:
 				$(RM) $(RMFLAGS) $(BUILDDIR) $(NAME)
 
-.PRECIOUS:			$(BUILDDIR)/. $(BUILDDIR)%/.
+.PRECIOUS:			$(BUILDDIR)%/.
 
 .PHONY:				all clean
 
