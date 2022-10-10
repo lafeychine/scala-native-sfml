@@ -3,6 +3,8 @@
 DIR=$(dirname "$0")
 SCALA_VERSION="3.2.0"
 
+PATCH=${DIR}/target/libpatch.so
+
 PROGRAM_SCALA=${DIR}/target/scala-${SCALA_VERSION}/tests-out
 PROGRAM_CXX=${DIR}/target/cxx/tests-out
 
@@ -17,21 +19,25 @@ function getXFreeSlot() {
 }
 
 function startXServer() {
+    local ATTEMPT=0
+
     AUTHFILE=$(mktemp -p "${TMPDIR}" Xauthority.XXXXXX)
 
     XAUTHORITY=$AUTHFILE xauth source - << EOF
-add :${DISPLAY} . $(mcookie)
+add ${DISPLAY} . $(tr -dc 'A-F0-9' < /dev/urandom | head -c32)
 EOF
 
-    XAUTHORITY=$AUTHFILE Xvfb ":${DISPLAY}" -screen 0 1024x768x24 -nolisten tcp &>/dev/null &
+    XAUTHORITY=$AUTHFILE Xvfb "${DISPLAY}" -screen 0 1024x768x24 -nolisten tcp &>/dev/null &
     
     XVFB_PID=$!
 
-    sleep 1
-    #while ! DISPLAY=:${DISPLAY} xset q &>/dev/null; do
-#	echo "Sleep"
- #       sleep 0.1
-  #  done
+    while ! xset q &>/dev/null; do
+        [[ ${ATTEMPT} -eq 30 ]] && echo "Cannot open X server" && exit 1
+
+        sleep 0.1
+
+        ATTEMPT=$((ATTEMPT + 1))
+    done
 }
 
 function launchTests() {
@@ -52,8 +58,8 @@ function launchTest() {
 
     echo -n " - $1: "
 
-    executeProgram "${PROGRAM_SCALA}" "${TMPDIR}/cxx" "$1" || return 1
-    executeProgram "${PROGRAM_CXX}" "${TMPDIR}/scala" "$1" || return 1
+    executeProgram "${PROGRAM_CXX}" "${TMPDIR}/cxx" "$1" || return 1
+    executeProgram "${PROGRAM_SCALA}" "${TMPDIR}/scala" "$1" || return 1
 
     compareOutputs || return 1
 
@@ -63,7 +69,7 @@ function launchTest() {
 }
 
 function executeProgram() {
-    if DISPLAY=:${DISPLAY} "$@" >"$2_stdout" 2>"${TMPDIR}/stderr"; then
+    if LD_PRELOAD="${PATCH}" "$@" >"$2_stdout" 2>"${TMPDIR}/stderr"; then
         return 0
     fi
 
@@ -90,13 +96,12 @@ function closeXServer() {
     kill ${XVFB_PID}
     wait ${XVFB_PID}
 
-    XAUTHORITY=$AUTHFILE xauth remove ":${DISPLAY}"
+    XAUTHORITY=$AUTHFILE xauth remove "${DISPLAY}"
 }
 
-
+export DISPLAY=":$(getXFreeSlot)"
 export LSAN_OPTIONS=suppressions=${DIR}/leak.txt
 
-DISPLAY="$(getXFreeSlot)"
 TMPDIR="$(mktemp --directory --tmpdir tests.XXXXXX)"
 
 startXServer
