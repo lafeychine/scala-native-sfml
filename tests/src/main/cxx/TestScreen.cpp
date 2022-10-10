@@ -11,9 +11,9 @@ void TestScreen::takeScreenshot()
 {
     std::stringstream cmd;
 
-    cmd << SCREENSHOT_CMD " > "
+    cmd << SCREENSHOT_CMD
         << _path.string() << "/"
-        << _id_screenshot;
+        << "screenshot_" << _id_screenshot;
 
     (void)system(cmd.str().c_str());
 

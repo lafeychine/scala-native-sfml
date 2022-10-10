@@ -3,7 +3,9 @@
 
 #include <filesystem>
 
-#define SCREENSHOT_CMD "xwd -root -silent"
+#define HEADER_SIZE "3184"
+#define SCREENSHOT_CMD "xwd -root -silent | dd bs=" HEADER_SIZE " iflag=fullblock skip=1 status=none of="
+
 #define SECTION_NAME ".sn_test"
 
 #define snTest(name)                                                  \
