@@ -6,6 +6,7 @@ import scalanative.unsafe.*
 trait Resource extends AutoCloseable
 
 private[sfml] object Resource:
+
     private def apply[T: Tag](ctor: Ptr[T] => Unit, buffer: Ptr[T]): Ptr[T] =
         ctor(buffer); buffer
 
