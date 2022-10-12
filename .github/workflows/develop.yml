@@ -35,10 +35,10 @@ jobs:
       run: sbt -v scalafmtCheckAll
 
     - name: Build
-      run: sbt -v 'set sfml / nativeLTO := "none"; set sfml / nativeMode := "debug"; sfml / compile'
+      run: sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; compile'
 
     - name: Tests
       run: |
-        sbt -v 'set tests / nativeLTO := "none"; set tests / nativeMode := "debug"; tests / nativeLink'
-        make -C tests
-        ./tests/launch.sh
+        sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; test'
+        make -C src/test/cxx
+        ./launch_tests.sh
