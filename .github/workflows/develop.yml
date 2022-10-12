@@ -6,10 +6,10 @@ on:
       - master
 
 concurrency:
-  group: ci-develop-${{ github.ref }}
   cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
 
-env:
+env:      
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TERM: xterm
 
@@ -18,11 +18,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install Linux Dependencies
-      run: sudo apt-get install libsfml-dev x11-apps x11-xserver-utils xvfb
-
     - name: Checkout
       uses: actions/checkout@v3
+
+    - name: Install Linux Dependencies
+      run: sudo apt-get install libsfml-dev x11-apps x11-xserver-utils xvfb
 
     - name: Setup JDK
       uses: actions/setup-java@v3
@@ -32,7 +32,9 @@ jobs:
         java-version: '17'
 
     - name: Check lint
-      run: sbt -v scalafmtCheckAll
+      run: |
+        find . -name "*.cpp" -exec clang-format --dry-run --Werror {} +
+        sbt -v scalafmtCheckAll
 
     - name: Build
       run: sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; compile'
