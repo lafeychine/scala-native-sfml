@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 
-DIR=$(dirname "$0")
+PROGRAM_NAME=scala-native-sfml-test-out
 SCALA_VERSION="3.2.0"
 
+DIR=$(dirname "$0")
+
+PROGRAM_CXX=${DIR}/target/cxx/${PROGRAM_NAME}
+PROGRAM_SCALA=${DIR}/target/scala-${SCALA_VERSION}/${PROGRAM_NAME}
 PATCH=${DIR}/target/libpatch.so
 
-PROGRAM_SCALA=${DIR}/target/scala-${SCALA_VERSION}/tests-out
-PROGRAM_CXX=${DIR}/target/cxx/tests-out
+
+function checkCommand() {
+    command -v "$1" >/dev/null 2>&1 || {
+        echo >&2 "$1 isn't installed. Aborting."
+        exit 1
+    }
+}
 
 function getXFreeSlot() {
     local N=1
@@ -32,7 +41,10 @@ EOF
     XVFB_PID=$!
 
     while ! xset q &>/dev/null; do
-        [[ ${ATTEMPT} -eq 30 ]] && echo "Cannot open X server" && exit 1
+        [[ ${ATTEMPT} -eq 30 ]] && {
+            echo >&2 "Cannot open X server. Aborting."
+            exit 1
+        }
 
         sleep 0.1
 
@@ -41,7 +53,7 @@ EOF
 }
 
 function launchTests() {
-    find "${DIR}/src/main/cxx/tests" -name "*.cpp" -print0 |
+    find "${DIR}/src/test/cxx/tests" -name "*.cpp" -print0 |
         while IFS= read -r -d '' FILE; do
 
             FILENAME_TEST=${FILE##*/}
@@ -99,8 +111,15 @@ function closeXServer() {
     XAUTHORITY=$AUTHFILE xauth remove "${DISPLAY}"
 }
 
+for cmd in cat clang++ diff dirname find head make mkdir mktemp rm sbt sleep tput tr xauth xset Xvfb; do
+    checkCommand ${cmd}
+done
+
+([[ -f ${PROGRAM_CXX} ]] && [[ -f ${PATCH} ]]) || { make -C src/test/cxx || exit 1; }
+[[ -f ${PROGRAM_SCALA} ]] || { sbt test || exit 1; }
+
 export DISPLAY=":$(getXFreeSlot)"
-export LSAN_OPTIONS=suppressions=${DIR}/leak.txt
+export LSAN_OPTIONS=suppressions=${DIR}/src/test/leak.txt
 
 TMPDIR="$(mktemp --directory --tmpdir tests.XXXXXX)"
 

@@ -32,6 +32,7 @@ ThisBuild / wartremoverErrors := Warts.allBut(
 
 /* Testing */
 Test / mainClass := Some("main")
+Test / test := (Test / nativeLink).value
 
 Test / nativeCompileOptions := Seq("-fsanitize=leak")
 Test / nativeLinkingOptions := Seq("-fsanitize=leak")
@@ -39,4 +40,3 @@ Test / nativeLinkingOptions := Seq("-fsanitize=leak")
 /* Publishing */
 githubOwner := "lafeychine"
 githubRepository := "scala-native-sfml"
-
