@@ -45,6 +45,6 @@ Test / nativeCompileOptions := Seq("-fsanitize=leak")
 Test / nativeLinkingOptions := Seq("-fsanitize=leak")
 
 /* Publishing */
-git.remoteRepo := "git@github.com:lafeychine/scala-native-sfml.git"
+git.remoteRepo := "https://github.com/lafeychine/scala-native-sfml.git"
 githubOwner := "lafeychine"
 githubRepository := "scala-native-sfml"
