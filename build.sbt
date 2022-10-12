@@ -13,6 +13,13 @@ nativeConfig ~= {
         .withMode(Mode.releaseFull)
 }
 
+/* Documentation */
+enablePlugins(GhpagesPlugin)
+enablePlugins(SiteScaladocPlugin)
+
+Compile / doc / scalacOptions ++= Seq("-skip-by-id:sfml.internal")
+SiteScaladoc / siteSubdirName := ""
+
 /* Linting */
 ThisBuild / wartremoverErrors := Warts.allBut(
     Wart.AsInstanceOf,
@@ -38,5 +45,6 @@ Test / nativeCompileOptions := Seq("-fsanitize=leak")
 Test / nativeLinkingOptions := Seq("-fsanitize=leak")
 
 /* Publishing */
+git.remoteRepo := "git@github.com:lafeychine/scala-native-sfml.git"
 githubOwner := "lafeychine"
 githubRepository := "scala-native-sfml"
