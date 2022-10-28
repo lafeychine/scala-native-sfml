@@ -33,7 +33,7 @@ function startXServer() {
     AUTHFILE=$(mktemp -p "${TMPDIR}" Xauthority.XXXXXX)
 
     XAUTHORITY=$AUTHFILE xauth source - << EOF
-add ${DISPLAY} . $(tr -dc 'A-F0-9' < /dev/urandom | head -c32)
+add ${DISPLAY} . 00000000000000000000000000000000
 EOF
 
     XAUTHORITY=$AUTHFILE Xvfb "${DISPLAY}" -screen 0 1024x768x24 -nolisten tcp &>/dev/null &
@@ -111,7 +111,7 @@ function closeXServer() {
     XAUTHORITY=$AUTHFILE xauth remove "${DISPLAY}"
 }
 
-for cmd in cat clang++ diff dirname find head make mkdir mktemp rm sbt sleep tput tr xauth xset Xvfb; do
+for cmd in cat clang++ diff dirname find make mkdir mktemp rm sbt sleep tput xauth xset Xvfb; do
     checkCommand ${cmd}
 done
 
