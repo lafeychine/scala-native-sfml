@@ -3,13 +3,14 @@ import scala.scalanative.build.*
 name := "scala-native-sfml"
 organization := "io.github.lafeychine"
 
-scalaVersion := "3.2.0"
+scalaVersion := "3.2.1"
 version := "0.4.0"
 
 enablePlugins(ScalaNativePlugin)
 
 nativeConfig ~= {
-    _.withLTO(LTO.thin)
+    _.withIncrementalCompilation(true)
+        .withLTO(LTO.thin)
         .withMode(Mode.releaseFull)
 }
 
@@ -25,15 +26,15 @@ ThisBuild / wartremoverErrors := Warts.allBut(
     Wart.DefaultArguments,
     Wart.ImplicitConversion,
     Wart.ImplicitParameter,
-    Wart.Overloading
+    Wart.Overloading,
+    Wart.While // TODO: Remove
 ) ++ Seq(
     ContribWart.Apply,
     ContribWart.ExposedTuples,
     ContribWart.MissingOverride,
     ContribWart.NoNeedForMonad,
     ContribWart.SealedCaseClass,
-    ContribWart.SymbolicName,
-    ContribWart.UnsafeInheritance
+    ContribWart.SymbolicName
 )
 
 /* Testing */
