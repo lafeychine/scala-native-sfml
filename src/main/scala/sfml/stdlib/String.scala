@@ -8,7 +8,7 @@ import scalanative.unsigned.UnsignedRichInt
 
 import internal.stdlib.String.*
 
-class String private[sfml] (val string: Ptr[stdString]) extends Resource:
+class String private[sfml] (private[sfml] val string: Ptr[stdString]) extends Resource:
 
     def this(ansiString: java.lang.String) =
         this(malloc(sizeof[stdString] + ansiString.length().toULong).asInstanceOf[Ptr[stdString]])
