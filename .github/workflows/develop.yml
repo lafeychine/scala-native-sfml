@@ -22,7 +22,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Install Linux Dependencies
-      run: sudo apt-get install libsfml-dev x11-apps x11-xserver-utils xvfb
+      run: |
+        sudo apt-get update
+        sudo apt-get install libsfml-dev x11-apps x11-xserver-utils
 
     - name: Setup JDK
       uses: actions/setup-java@v3
