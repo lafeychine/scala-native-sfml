@@ -11,8 +11,8 @@ import window.Event
 
 class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Resource:
 
-    @SuppressWarnings(Array("org.wartremover.contrib.warts.UnsafeInheritance"))
-    override def close(): Unit = () // TODO
+    override def close(): Unit =
+        Resource.close(dtor)(window)
 
     final def closeWindow(): Unit =
         sfWindow_closeWindow(window)
