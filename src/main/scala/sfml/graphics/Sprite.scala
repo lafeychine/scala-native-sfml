@@ -11,7 +11,7 @@ import graphics.Transformable
 class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Transformable(sprite.at2) with Drawable(sprite.at1) with Resource:
 
     override def close(): Unit =
-        Resource.close(dtor)(sprite)
+        Resource.close(sprite)
 
     def this(texture: Texture) =
         this(Resource { (r: Ptr[sfSprite]) =>
