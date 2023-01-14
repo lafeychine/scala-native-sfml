@@ -21,6 +21,7 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
 
     final def draw(drawable: Drawable): Unit =
         Zone { implicit z =>
+            // TODO: Use RenderStates::Default()
             scala.util.Using.Manager { use =>
                 sfRenderTarget_draw(renderTarget, drawable.drawable, use(RenderStates()).renderStates)
             }

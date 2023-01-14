@@ -7,7 +7,7 @@ import scalanative.unsigned.{UnsignedRichInt, UnsignedRichLong}
 import internal.Type
 import internal.window.VideoMode.*
 
-class VideoMode(val width: Int, val height: Int, val bitsPerPixel: Int):
+class VideoMode(val width: Int, val height: Int, val bitsPerPixel: Int = 32):
 
     private[sfml] final def videoMode(implicit z: Zone): Ptr[sfVideoMode] =
         val videoMode = alloc[sfVideoMode]()
