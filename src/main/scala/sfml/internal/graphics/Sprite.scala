@@ -10,6 +10,3 @@ import scalanative.unsafe.*
 
     @name("_ZN2sf6SpriteC2ERKNS_7TextureE")
     def ctor(self: Ptr[sfSprite], texture: Ptr[Texture.sfTexture]): Unit = extern
-
-    @name("_ZN2sf6SpriteD2Ev")
-    def dtor(self: Ptr[sfSprite]): Unit = extern
