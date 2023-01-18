@@ -3,6 +3,54 @@
 This repository is a safe-[Scala Native](https://scala-native.org/en/stable/) binding of [SFML graphic library](https://www.sfml-dev.org/).
 
 
+## Example
+
+```scala
+import scala.util.Using
+
+import sfml.graphics.*
+import sfml.window.*
+
+@main def main =
+    Using.Manager { use =>
+        val title = use(sfml.system.String("Test"))
+        val videoMode = VideoMode(1024, 768)
+        val window = use(RenderWindow(videoMode, title, Window.WindowStyle.DefaultStyle))
+
+        val texture = use(Texture())
+        texture.loadFromFile("cat.png")
+
+        val sprite = use(Sprite(texture))
+
+        while window.isOpen() do
+            for event <- window.pollEvent() do
+                event match {
+                    case _: Event.Closed => window.closeWindow()
+                    case _               => ()
+                }
+
+            window.clear(use(Color(0x01, 0x23, 0x45, 0x67)))
+
+            window.draw(sprite)
+
+            window.display()
+    }
+```
+
+
+## Differences from SFML
+
+### Resource management
+
+As Scala is initially based on Java, which uses a garbage-collected memory, object destruction has to be handled by the language.
+
+When such an object has to deal with system's resources, the object must extend to the [`AutoCloseable`](https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html) trait, to be explicitly [`close`](https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html#close--)d.
+
+Since SFML library have such objects, a new trait [`Resource`](https://lafeychine.github.io/scala-native-sfml/sfml/Resource.html) is used and can be handled by the two following methods:
+ - [`Using`](https://www.scala-lang.org/api/3.x/scala/util/Using$.html) manager, as shown in the example above
+ - Explicit [`close`](https://lafeychine.github.io/scala-native-sfml/sfml/Resource.html#close:Unit) method
+
+
 ## Installation
 
 ### Requirements
