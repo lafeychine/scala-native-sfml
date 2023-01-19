@@ -2,23 +2,12 @@ package sfml
 package system
 
 import scalanative.unsafe.*
-import scala.util.Using
 
 import internal.system.String.*
+import stdlib.String.stringToStdString
 
-import stdlib.Locale
+object String:
+    implicit def stringToSfString(ansiString: java.lang.String)(implicit z: Zone): Ptr[sfString] =
+        val utf32Bytes = ansiString.toCharArray.foldLeft(Array[Char]())((x, y) => x :+ y :+ 0.toChar :+ 0.toChar :+ 0.toChar)
 
-class String private[sfml] (private[sfml] val string: Ptr[sfString]) extends Resource:
-
-    def this(ansiString: java.lang.String) =
-        this(Resource[sfString] { (r: Ptr[sfString]) =>
-            Zone { implicit z =>
-                Using.resource(Locale()) { locale =>
-                    ctor(r, toCString(ansiString), locale.locale);
-                }
-            };
-        })
-
-    final override def close(): Unit =
-        dtor(!(string.asInstanceOf[Ptr[Ptr[Byte]]]))
-        Resource.close(string)
+        stringToStdString(utf32Bytes.mkString)

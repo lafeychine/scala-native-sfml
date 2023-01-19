@@ -13,11 +13,6 @@ class RenderStates private[sfml] (val renderStates: Ptr[sfRenderStates]) extends
     def this() =
         this(Resource { (r: Ptr[sfRenderStates]) => ctor(r) })
 
-@extern object Test:
-    def toto(self: Ptr[sfml.internal.graphics.RenderStates.sfRenderStates]): Unit = extern
-
 object RenderStates:
-    def Default(): RenderStates = {
-        Test.toto(sfRenderStates_Default)
+    def Default(): RenderStates =
         RenderStates(sfRenderStates_Default)
-    }
