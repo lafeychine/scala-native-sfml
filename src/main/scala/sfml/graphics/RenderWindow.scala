@@ -8,7 +8,7 @@ import internal.Type.{booleanToSfBool, split, sfBoolToBoolean}
 import internal.graphics.RenderWindow.*
 import internal.window.Window.sfWindow
 
-import system.String
+import system.String.stringToSfString
 import window.{ContextSettings, VideoMode, Window}
 
 class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWindow]) extends Window(renderWindow.at1) with RenderTarget(renderWindow.at2) with Resource:
@@ -21,6 +21,9 @@ class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWi
             Zone { implicit z =>
                 val modeSplit = split(mode.videoMode)
 
-                ctor(r, modeSplit(0), modeSplit(1), title.string, style.value.toUInt, ContextSettings().contextSettings);
+                ctor(r, modeSplit(0), modeSplit(1), title, style.value.toUInt, ContextSettings().contextSettings);
             }
         })
+
+    def this(mode: VideoMode, title: String) =
+        this(mode, title, Window.WindowStyle.DefaultStyle)

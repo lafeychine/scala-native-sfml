@@ -22,7 +22,7 @@ snTest(Example)
     while (window.pollEvent(event)) {}
 
     // Clear screen
-    window.clear(sf::Color(0x01, 0x23, 0x45, 0x67));
+    window.clear(sf::Color(0x01, 0x23, 0x45));
     window.display();
     snTestScreen.takeScreenshot();
 
