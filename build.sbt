@@ -27,10 +27,8 @@ ThisBuild / wartremoverErrors := Warts.allBut(
     Wart.ImplicitConversion,
     Wart.ImplicitParameter,
     Wart.Overloading,
-    Wart.While // TODO: Remove
 ) ++ Seq(
     ContribWart.Apply,
-    ContribWart.ExposedTuples,
     ContribWart.MissingOverride,
     ContribWart.NoNeedForMonad,
     ContribWart.SealedCaseClass,

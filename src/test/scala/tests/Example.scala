@@ -9,9 +9,7 @@ object Example extends SNTest:
     override def snTest(snTestScreen: TestScreen): Unit =
         Using.Manager { use =>
             // Create the main window
-            val title = use(sfml.system.String("Test"))
-            val videoMode = VideoMode(1024, 768)
-            val window = use(RenderWindow(videoMode, title, Window.WindowStyle.DefaultStyle))
+            val window = use(RenderWindow(VideoMode(1024, 768), "Test"))
 
             // Load a sprite to display
             val texture = use(Texture())
@@ -26,7 +24,7 @@ object Example extends SNTest:
             window.pollEvent()
 
             // Clear screen
-            window.clear(use(Color(0x01, 0x23, 0x45, 0x67)))
+            window.clear(Color(0x01, 0x23, 0x45))
             window.display()
             snTestScreen.takeScreenshot()
 
