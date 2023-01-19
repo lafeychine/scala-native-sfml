@@ -11,9 +11,6 @@ project/metals.sbt
 .scala_dependencies
 *.class
 
-# docs
-docs/
-
 # sbt
 project/project/
 project/target/

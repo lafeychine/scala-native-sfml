@@ -10,14 +10,14 @@ enablePlugins(ScalaNativePlugin)
 
 nativeConfig ~= {
     _.withIncrementalCompilation(true)
-        .withLTO(LTO.thin)
-        .withMode(Mode.releaseFull)
+        .withLTO(LTO.none)
+        .withMode(Mode.debug)
 }
 
 /* Documentation */
 enablePlugins(SiteScaladocPlugin)
 
-Compile / doc / scalacOptions ++= Seq("-skip-by-id:sfml.internal")
+Compile / doc / scalacOptions ++= Seq("-siteroot", "docs", "-skip-by-id:sfml.internal")
 SiteScaladoc / siteSubdirName := ""
 
 /* Linting */
@@ -26,7 +26,7 @@ ThisBuild / wartremoverErrors := Warts.allBut(
     Wart.DefaultArguments,
     Wart.ImplicitConversion,
     Wart.ImplicitParameter,
-    Wart.Overloading,
+    Wart.Overloading
 ) ++ Seq(
     ContribWart.Apply,
     ContribWart.MissingOverride,

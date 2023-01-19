@@ -1,0 +1,8 @@
+index: ../../README.md
+
+subsection:
+  - title: Graphics module
+    directory: graphics
+
+    subsection:
+      - page: graphics/drawing-2d-stuff.md
