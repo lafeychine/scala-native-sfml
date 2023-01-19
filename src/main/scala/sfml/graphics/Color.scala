@@ -18,6 +18,8 @@ final case class Color(val r: Byte, val g: Byte, val b: Byte, val a: Byte = 255.
         color
 
 object Color:
+    def apply(): Color = Color.Black()
+
     def apply(r: Int, g: Int, b: Int): Color =
         Color(r.toByte, g.toByte, b.toByte, 255.toByte)
 

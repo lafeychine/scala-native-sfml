@@ -14,7 +14,7 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
     override def close(): Unit =
         Resource.close(dtor)(renderTarget)
 
-    final def clear(color: Color): Unit =
+    final def clear(color: Color = Color.Black()): Unit =
         Zone { implicit z =>
             sfRenderTarget_clear(renderTarget, color.color)
         }

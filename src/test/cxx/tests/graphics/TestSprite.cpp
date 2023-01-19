@@ -2,34 +2,32 @@
 
 #include <SFML/Graphics.hpp>
 
-snTest(Example)
+snTest(TestSprite)
 {
-    // Create the main window
+    // Setup
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Test");
 
-    // Load a sprite to display
     sf::Texture texture;
     texture.loadFromFile("src/test/resources/sfml.png");
 
     sf::Sprite sprite(texture);
 
-    // Start the game loop
     window.isOpen();
 
-    // Process events
-    sf::Event event;
-    while (window.pollEvent(event)) {}
-
-    // Clear screen
-    window.clear(sf::Color(0x01, 0x23, 0x45));
-    window.display();
-    snTestScreen.takeScreenshot();
-
-    // Draw the sprite
+    // Control test
+    window.clear();
     window.draw(sprite);
     window.display();
     snTestScreen.takeScreenshot();
 
-    // Close window
+    // sf::Sprite::setPosition
+    sprite.setPosition(100, 100);
+
+    window.clear();
+    window.draw(sprite);
+    window.display();
+    snTestScreen.takeScreenshot();
+
+    // Teardown
     window.close();
 }
