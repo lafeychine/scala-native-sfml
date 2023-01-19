@@ -5,14 +5,18 @@ import scalanative.unsafe.*
 
 import internal.graphics.RenderStates.*
 
-class RenderStates private[sfml] (val renderStates: Ptr[sfRenderStates]) extends Resource:
+final case class RenderStates(val blendMode: BlendMode):
 
-    override def close(): Unit =
-        Resource.close(renderStates)
+    private[sfml] final def renderStates(implicit z: Zone): Ptr[sfRenderStates] =
+        val renderStates = alloc[sfRenderStates]()
 
-    def this() =
-        this(Resource { (r: Ptr[sfRenderStates]) => ctor(r) })
+        renderStates._1 = blendMode.blendMode
+        renderStates._2(0) = 1
+        renderStates._2(5) = 1
+        renderStates._2(10) = 1
+        renderStates._2(15) = 1
+        renderStates
 
 object RenderStates:
-    def Default(): RenderStates =
-        RenderStates(sfRenderStates_Default)
+    def apply(): RenderStates =
+        RenderStates(BlendMode.Alpha())
