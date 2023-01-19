@@ -6,25 +6,24 @@ import scalanative.unsigned.UnsignedRichByte
 
 import internal.graphics.Color.*
 
-class Color private[sfml] (private[sfml] val color: Ptr[sfColor]) extends Resource:
+final case class Color(val r: Byte, val g: Byte, val b: Byte, val a: Byte = 255.toByte):
 
-    def this(r: Byte, g: Byte, b: Byte, a: Byte) =
-        this(Resource { (buffer: Ptr[sfColor]) =>
-            ctor(buffer, r.toUByte, g.toUByte, b.toUByte, a.toUByte)
-        })
+    private[sfml] final def color(implicit z: Zone): Ptr[sfColor] =
+        val color = alloc[sfColor]()
 
-    def this(r: Int, g: Int, b: Int, a: Int) = this(r.toByte, g.toByte, b.toByte, a.toByte)
-
-    def this(r: Byte, g: Byte, b: Byte) = this(r, g, b, 255.toByte)
-
-    def this(r: Int, g: Int, b: Int) = this(r.toByte, g.toByte, b.toByte)
-
-    def this() = this(255, 255, 255)
-
-    final override def close(): Unit =
-        Resource.close(color)
+        color._1 = r.toUByte
+        color._2 = g.toUByte
+        color._3 = b.toUByte
+        color._4 = a.toUByte
+        color
 
 object Color:
+    def apply(r: Int, g: Int, b: Int): Color =
+        Color(r.toByte, g.toByte, b.toByte, 255.toByte)
+
+    def apply(r: Int, g: Int, b: Int, a: Int): Color =
+        Color(r.toByte, g.toByte, b.toByte, a.toByte)
+
     def Black(): Color = Color(0, 0, 0)
     def White(): Color = Color(255, 255, 255)
     def Red(): Color = Color(255, 0, 0)
