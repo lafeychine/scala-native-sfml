@@ -32,30 +32,30 @@ object Event:
     final case class SensorChanged(val sensor: Sensor.Type, val x: Float, val y: Float, val z: Float) extends Event
 
     def apply(event: Ptr[sfEvent]): Option[Event] =
-        sfEventType.fromOrdinal(!event) match
-            case sfEventType.sfEvtClosed                 => Some(Closed())
-            case sfEventType.sfEvtResized                => Some(Resized(event.asInstanceOf[Ptr[sfSizeEvent]]))
-            case sfEventType.sfEvtLostFocus              => Some(LostFocus())
-            case sfEventType.sfEvtGainedFocus            => Some(GainedFocus())
-            case sfEventType.sfEvtTextEntered            => Some(TextEntered(event.asInstanceOf[Ptr[sfTextEvent]]))
-            case sfEventType.sfEvtKeyPressed             => Some(KeyPressed(event.asInstanceOf[Ptr[sfKeyEvent]]))
-            case sfEventType.sfEvtKeyReleased            => Some(KeyReleased(event.asInstanceOf[Ptr[sfKeyEvent]]))
-            case sfEventType.sfEvtMouseWheelScrolled     => Some(MouseWheelScrolled(event.asInstanceOf[Ptr[sfMouseWheelScrollEvent]]))
-            case sfEventType.sfEvtMouseButtonPressed     => Some(MouseButtonPressed(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
-            case sfEventType.sfEvtMouseButtonReleased    => Some(MouseButtonReleased(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
-            case sfEventType.sfEvtMouseMoved             => Some(MouseMoved(event.asInstanceOf[Ptr[sfMouseMoveEvent]]))
-            case sfEventType.sfEvtMouseEntered           => Some(MouseEntered())
-            case sfEventType.sfEvtMouseLeft              => Some(MouseLeft())
-            case sfEventType.sfEvtJoystickButtonPressed  => Some(JoystickButtonPressed(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
-            case sfEventType.sfEvtJoystickButtonReleased => Some(JoystickButtonReleased(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
-            case sfEventType.sfEvtJoystickMoved          => Some(JoystickMoved(event.asInstanceOf[Ptr[sfJoystickMoveEvent]]))
-            case sfEventType.sfEvtJoystickConnected      => Some(JoystickConnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
-            case sfEventType.sfEvtJoystickDisconnected   => Some(JoystickDisconnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
-            case sfEventType.sfEvtTouchBegan             => Some(TouchBegan(event.asInstanceOf[Ptr[sfTouchEvent]]))
-            case sfEventType.sfEvtTouchMoved             => Some(TouchMoved(event.asInstanceOf[Ptr[sfTouchEvent]]))
-            case sfEventType.sfEvtTouchEnded             => Some(TouchEnded(event.asInstanceOf[Ptr[sfTouchEvent]]))
-            case sfEventType.sfEvtSensorChanged          => Some(SensorChanged(event.asInstanceOf[Ptr[sfSensorEvent]]))
-            case _                                       => None
+        EventType.fromOrdinal(!event) match
+            case EventType.Closed                 => Some(Closed())
+            case EventType.Resized                => Some(Resized(event.asInstanceOf[Ptr[sfSizeEvent]]))
+            case EventType.LostFocus              => Some(LostFocus())
+            case EventType.GainedFocus            => Some(GainedFocus())
+            case EventType.TextEntered            => Some(TextEntered(event.asInstanceOf[Ptr[sfTextEvent]]))
+            case EventType.KeyPressed             => Some(KeyPressed(event.asInstanceOf[Ptr[sfKeyEvent]]))
+            case EventType.KeyReleased            => Some(KeyReleased(event.asInstanceOf[Ptr[sfKeyEvent]]))
+            case EventType.MouseWheelScrolled     => Some(MouseWheelScrolled(event.asInstanceOf[Ptr[sfMouseWheelScrollEvent]]))
+            case EventType.MouseButtonPressed     => Some(MouseButtonPressed(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
+            case EventType.MouseButtonReleased    => Some(MouseButtonReleased(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
+            case EventType.MouseMoved             => Some(MouseMoved(event.asInstanceOf[Ptr[sfMouseMoveEvent]]))
+            case EventType.MouseEntered           => Some(MouseEntered())
+            case EventType.MouseLeft              => Some(MouseLeft())
+            case EventType.JoystickButtonPressed  => Some(JoystickButtonPressed(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
+            case EventType.JoystickButtonReleased => Some(JoystickButtonReleased(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
+            case EventType.JoystickMoved          => Some(JoystickMoved(event.asInstanceOf[Ptr[sfJoystickMoveEvent]]))
+            case EventType.JoystickConnected      => Some(JoystickConnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
+            case EventType.JoystickDisconnected   => Some(JoystickDisconnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
+            case EventType.TouchBegan             => Some(TouchBegan(event.asInstanceOf[Ptr[sfTouchEvent]]))
+            case EventType.TouchMoved             => Some(TouchMoved(event.asInstanceOf[Ptr[sfTouchEvent]]))
+            case EventType.TouchEnded             => Some(TouchEnded(event.asInstanceOf[Ptr[sfTouchEvent]]))
+            case EventType.SensorChanged          => Some(SensorChanged(event.asInstanceOf[Ptr[sfSensorEvent]]))
+            case _                                => None
 
     object Resized:
         def apply(event: Ptr[sfSizeEvent]): Resized =
