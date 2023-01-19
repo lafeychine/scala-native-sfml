@@ -5,7 +5,7 @@ import scalanative.unsafe.*
 
 import internal.graphics.Rect.*
 
-class IntRect(val left: Int = 0, val top: Int = 0, val width: Int = 0, val height: Int = 0):
+final case class IntRect(val left: Int, val top: Int, val width: Int, val height: Int):
 
     private[sfml] final def intRect(implicit z: Zone): Ptr[sfIntRect] =
         val rect = alloc[sfIntRect]()
@@ -15,3 +15,10 @@ class IntRect(val left: Int = 0, val top: Int = 0, val width: Int = 0, val heigh
         rect._3 = width
         rect._4 = height
         rect
+
+object IntRect:
+    def apply(): IntRect =
+        IntRect(0, 0, 0, 0)
+
+    implicit def tupleIntToIntRect(tuple: (Int, Int, Int, Int)): IntRect =
+        IntRect(tuple._1, tuple._2, tuple._3, tuple._4)
