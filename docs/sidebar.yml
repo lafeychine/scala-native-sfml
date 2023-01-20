@@ -1,6 +1,12 @@
 index: ../../README.md
 
 subsection:
+  - title: Window module
+    directory: window
+
+    subsection:
+      - page: window/opening-managing-window.md
+
   - title: Graphics module
     directory: graphics
 

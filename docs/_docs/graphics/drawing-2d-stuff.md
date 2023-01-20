@@ -7,6 +7,17 @@ title: Drawing 2D stuff
 Original content can be found [on the SFML website](https://www.sfml-dev.org/tutorials/2.5/graphics-draw.php) (only for C++)
 
 
+## Introduction
+
+As you learnt in the previous tutorials, SFML's window module provides an easy
+way to open an OpenGL window and handle its events, but it doesn't help when it
+comes to drawing something. The only option which is left to you is to use the
+powerful, yet complex and low level OpenGL API.
+
+Fortunately, SFML provides a graphics module which will help you draw 2D
+entities in a much simpler way than with OpenGL. 
+
+
 ## The drawing window
 
 To draw the entities provided by the graphics module, you must use a specialized
@@ -28,7 +39,7 @@ Here is what a typical main loop looks like with a render window:
 import sfml.graphics.*
 import sfml.window.*
 
-def main =
+@main def main =
     // handle resources properly with Using manager
     scala.util.Using.Manager { use =>
         // create the window
@@ -76,7 +87,7 @@ sprites 60 times per second, you're far below the millions of triangles that
 your computer can handle. 
 
 
-# What can I draw now?
+## What can I draw now?
 
 Now that you have a main loop which is ready to draw, let's see what, and how,
 you can actually draw there.
