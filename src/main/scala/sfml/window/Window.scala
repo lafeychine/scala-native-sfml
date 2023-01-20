@@ -2,23 +2,44 @@ package sfml
 package window
 
 import scalanative.unsafe.*
+import scalanative.unsigned.UnsignedRichInt
 
-import internal.Type.sfBoolToBoolean
+import internal.Type.{booleanToSfBool, split, sfBoolToBoolean}
 import internal.window.Event.sfEvent
 import internal.window.Window.*
 
-import window.Event
+import system.String.stringToSfString
 
 class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Resource:
 
     override def close(): Unit =
         Resource.close(dtor)(window)
 
+    def this(mode: VideoMode, title: String, style: Style, settings: ContextSettings) =
+        this(Resource { (r: Ptr[sfWindow]) =>
+            Zone { implicit z =>
+                val modeSplit = split(mode.videoMode)
+
+                ctor(r, modeSplit(0), modeSplit(1), title, style.value.toUInt, settings.contextSettings);
+            }
+        })
+
+    def this(mode: VideoMode, title: String, style: Style) =
+        this(mode, title, style, ContextSettings())
+
+    def this(mode: VideoMode, title: String) =
+        this(mode, title, Style.Default)
+
     final def closeWindow(): Unit =
         sfWindow_closeWindow(window)
 
     final def display(): Unit =
         sfWindow_display(window)
+
+    final def framerateLimit: Unit = ()
+
+    final def framerateLimit_=(limit: Int) =
+        sfWindow_setFramerateLimit(window, limit.toUInt)
 
     final def isOpen(): Boolean =
         sfWindow_isOpen(window)
@@ -35,11 +56,5 @@ class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Res
             LazyList.continually(polling(event)).takeWhile(_.isDefined).map(_.get)
         }
 
-object Window:
-    enum WindowStyle(val value: Int):
-        case None extends WindowStyle(0)
-        case Titlebar extends WindowStyle(1 << 0)
-        case Resize extends WindowStyle(1 << 1)
-        case Close extends WindowStyle(1 << 2)
-        case Fullscreen extends WindowStyle(1 << 3)
-        case DefaultStyle extends WindowStyle(Titlebar.value | Resize.value | Close.value)
+    final def verticalSync_=(enabled: Boolean): Unit =
+        sfWindow_setVerticalSyncEnabled(window, enabled)
