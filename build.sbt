@@ -32,6 +32,7 @@ ThisBuild / wartremoverErrors := Warts.allBut(
     ContribWart.MissingOverride,
     ContribWart.NoNeedForMonad,
     ContribWart.SealedCaseClass,
+    ContribWart.SomeApply,
     ContribWart.SymbolicName
 )
 

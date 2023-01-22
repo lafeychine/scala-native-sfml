@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
   group: ${{ github.workflow }}-${{ github.ref }}
 
-env:      
+env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TERM: xterm
 

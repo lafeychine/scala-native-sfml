@@ -12,10 +12,10 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
     override def close(): Unit =
         Resource.close(dtor)(transformable)
 
-    def position: Vector2f =
+    final def position: Vector2f =
         val pos = sfTransformable_getPosition(transformable)
 
         Vector2f(pos._1, pos._2)
 
-    def position_=(pos: Vector2f) =
+    final def position_=(pos: Vector2f) =
         Zone { implicit z => sfTransformable_setPosition(transformable, pos.vector) }

@@ -10,13 +10,13 @@ import stdlib.String.stringToStdString
 
 class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends Resource:
 
+    override def close(): Unit =
+        Resource.close(dtor)(texture)
+
     def this() =
         this(Resource { (r: Ptr[sfTexture]) =>
             ctor(r)
         })
-
-    override def close(): Unit =
-        Resource.close(dtor)(texture)
 
     final def loadFromFile(filename: String, area: IntRect = IntRect()): Boolean =
         Zone { implicit z =>
