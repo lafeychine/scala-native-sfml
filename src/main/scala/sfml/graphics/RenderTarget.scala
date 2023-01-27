@@ -20,6 +20,11 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
         }
 
     final def draw(drawable: Drawable, states: RenderStates = RenderStates()): Unit =
-        Zone { implicit z =>
-            sfRenderTarget_draw(renderTarget, drawable.drawable, states.renderStates)
-        }
+        drawable.draw(this, states)
+
+object RenderTarget:
+    import internal.graphics.Drawable.sfDrawable
+
+    private[sfml] def patch_draw(self: Ptr[sfDrawable], target: RenderTarget, states: RenderStates)(implicit z: Zone): Unit =
+        // NOTE: Use this endpoint to avoid us splitting `states` in the stack
+        sfRenderTarget_draw(target.renderTarget, self, states.renderStates)

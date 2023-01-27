@@ -26,6 +26,6 @@ private[sfml] object Type:
     implicit def sfBoolToBoolean(bool: sfBool): Boolean =
         bool != sfFalse
 
-    def split[T: Tag](value: Ptr[T]): IndexedSeq[sfSplit[T]] =
+    inline def split[T: Tag](value: Ptr[T]): IndexedSeq[sfSplit[T]] =
         for i <- 0 to sizeof[T].toInt by sizeof[sfSplit[T]].toInt
-        yield !(((value.asInstanceOf[Ptr[Byte]]) + i).asInstanceOf[Ptr[sfSplit[T]]])
+            yield !(((value.asInstanceOf[Ptr[Byte]]) + i).asInstanceOf[Ptr[sfSplit[T]]])

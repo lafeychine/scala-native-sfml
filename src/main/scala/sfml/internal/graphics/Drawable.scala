@@ -6,4 +6,4 @@ import scalanative.unsafe.*
 
 @link("sfml-graphics")
 @extern private[sfml] object Drawable:
-    type sfDrawable = CArray[Byte, Nat._8]
+    type sfDrawable = Ptr[Byte]

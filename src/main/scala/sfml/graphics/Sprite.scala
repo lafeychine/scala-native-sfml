@@ -8,10 +8,7 @@ import internal.graphics.Sprite.*
 
 import graphics.Transformable
 
-class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite])
-    extends Transformable(sprite.at2)
-    with Drawable(sprite.at1)
-    with Resource:
+class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Transformable(sprite.at2) with Drawable with Resource:
 
     override def close(): Unit =
         Resource.close(sprite)
@@ -20,3 +17,6 @@ class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite])
         this(Resource { (r: Ptr[sfSprite]) =>
             Zone { implicit z => ctor(r, texture.texture) }
         })
+
+    override final def draw(target: RenderTarget, states: RenderStates): Unit =
+        Zone { implicit z => RenderTarget.patch_draw(sprite.at1, target, states) }
