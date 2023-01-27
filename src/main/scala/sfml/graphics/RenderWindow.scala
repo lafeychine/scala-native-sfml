@@ -11,7 +11,10 @@ import internal.window.Window.sfWindow
 import system.String.stringToSfString
 import window.{ContextSettings, Style, VideoMode, Window}
 
-class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWindow]) extends Window(renderWindow.at1) with RenderTarget(renderWindow.at2) with Resource:
+class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWindow])
+    extends Window(renderWindow.at1)
+    with RenderTarget(renderWindow.at2)
+    with Resource:
 
     override def close(): Unit =
         Resource.close(dtor)(renderWindow)

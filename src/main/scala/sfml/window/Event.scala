@@ -8,6 +8,7 @@ import internal.window.Event.*
 private[sfml] sealed trait Event
 
 object Event:
+    // format: off
     final case class Closed() extends Event
     final case class Resized(val width: Int, val height: Int) extends Event
     final case class LostFocus() extends Event
@@ -30,6 +31,7 @@ object Event:
     final case class TouchMoved(val finger: Int, val x: Int, val y: Int) extends Event
     final case class TouchEnded(val finger: Int, val x: Int, val y: Int) extends Event
     final case class SensorChanged(val sensor: Sensor.Type, val x: Float, val y: Float, val z: Float) extends Event
+    // format: on
 
     def apply(event: Ptr[sfEvent]): Option[Event] =
         EventType.fromOrdinal(!event) match

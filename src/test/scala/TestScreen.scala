@@ -8,7 +8,7 @@ class TestScreen(path: String):
     private var idScreenshot = 0
 
     final def takeScreenshot(): Unit =
-        Zone { implicit z =>
-            system(toCString(s"xwd -root -silent | dd bs=3184 iflag=fullblock skip=1 status=none of=${path}/screenshot_${idScreenshot}"))
-        }
+        val cmd = s"xwd -root -silent | dd bs=3184 iflag=fullblock skip=1 status=none of=${path}/screenshot_${idScreenshot}"
+
+        Zone { implicit z => system(toCString(cmd)) }
         idScreenshot = idScreenshot + 1
