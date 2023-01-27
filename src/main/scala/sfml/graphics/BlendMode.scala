@@ -5,7 +5,7 @@ import scalanative.unsafe.*
 
 import internal.graphics.BlendMode.*
 
-sealed trait BlendModeTrait
+private[sfml] sealed trait BlendModeTrait
 
 final case class BlendMode(
     val colorSrcFactor: Factor,

@@ -5,7 +5,7 @@ import scalanative.unsafe.*
 
 import internal.window.Event.*
 
-sealed trait Event
+private[sfml] sealed trait Event
 
 object Event:
     final case class Closed() extends Event

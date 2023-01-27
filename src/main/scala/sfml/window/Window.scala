@@ -36,9 +36,7 @@ class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Res
     final def display(): Unit =
         sfWindow_display(window)
 
-    final def framerateLimit: Unit = ()
-
-    final def framerateLimit_=(limit: Int) =
+    final def framerateLimit_=(limit: Int): Unit =
         sfWindow_setFramerateLimit(window, limit.toUInt)
 
     final def isOpen(): Boolean =

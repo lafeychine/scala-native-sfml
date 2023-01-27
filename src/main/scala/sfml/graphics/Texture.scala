@@ -5,7 +5,7 @@ import scalanative.unsafe.*
 
 import internal.graphics.Texture.*
 
-import graphics.IntRect
+import graphics.Rect
 import stdlib.String.stringToStdString
 
 class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends Resource:
@@ -18,7 +18,7 @@ class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends 
             ctor(r)
         })
 
-    final def loadFromFile(filename: String, area: IntRect = IntRect()): Boolean =
+    final def loadFromFile(filename: String, area: Rect[Int] = Rect()): Boolean =
         Zone { implicit z =>
             sfTexture_loadFromFile(texture, filename, area.intRect)
         }
