@@ -12,3 +12,4 @@ subsection:
 
     subsection:
       - page: graphics/drawing-2d-stuff.md
+      - page: graphics/sprites-and-textures.md

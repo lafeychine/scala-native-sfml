@@ -21,7 +21,7 @@ entities in a much simpler way than with OpenGL.
 ## The drawing window
 
 To draw the entities provided by the graphics module, you must use a specialized
-window class: [`RenderWindow``](sfml.graphics.RenderWindow). This class is
+window class: [`RenderWindow`](sfml.graphics.RenderWindow). This class is
 derived from [`Window`](sfml.window.Window), and inherits all its functions.
 Everything that you've learnt about [`Window`](sfml.window.Window) (creation,
 event handling, controlling the framerate, mixing with OpenGL, etc.) is
@@ -98,7 +98,7 @@ help you create your own drawable entities (vertex arrays).
 
 Although they share some common properties, each of these entities come with
 their own nuances and are therefore explained in dedicated tutorials:
-  - Sprite tutorial
-  - Text tutorial
+  - [Sprite tutorial](sprites-and-textures.html)
+  - Text tutorial (feature not ported yet)
   - Shape tutorial (feature not ported yet)
   - Vertex array tutorial (feature not ported yet)
