@@ -1,6 +1,7 @@
 package sfml
 package system
 
+import scala.language.implicitConversions
 import scalanative.unsafe.*
 
 import internal.system.Vector2.*
@@ -31,10 +32,10 @@ object Vector2f:
         Vector2f(vector.x, vector.y)
 
     implicit def vectorIntToFloat(vector: Vector2i): Vector2f =
-        Vector2f(vector.x, vector.y)
+        Vector2f(vector.x.toFloat, vector.y.toFloat)
 
     implicit def tupleFloatToVectorFloat(tuple: (Float, Float)): Vector2f =
         Vector2f(tuple._1, tuple._2)
 
     implicit def tupleIntToVectorFloat(tuple: (Int, Int)): Vector2f =
-        Vector2f(tuple._1, tuple._2)
+        Vector2f(tuple._1.toFloat, tuple._2.toFloat)

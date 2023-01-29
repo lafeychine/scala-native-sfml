@@ -1,6 +1,7 @@
 package sfml
 package system
 
+import scala.language.implicitConversions
 import scalanative.unsafe.*
 
 import internal.system.Vector2.*

@@ -1,6 +1,7 @@
 package sfml
 package graphics
 
+import scala.language.implicitConversions
 import scalanative.unsafe.*
 
 import internal.graphics.Rect.*
