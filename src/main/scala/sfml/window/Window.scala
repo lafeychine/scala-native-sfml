@@ -36,7 +36,10 @@ class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Res
     final def display(): Unit =
         sfWindow_display(window)
 
-    final def framerateLimit_=(limit: Int): Unit =
+    // NOTE: To be able to use [`framerateLimit_=`]
+    final def framerateLimit = ()
+
+    final def framerateLimit_=(limit: Int) =
         sfWindow_setFramerateLimit(window, limit.toUInt)
 
     final def isOpen(): Boolean =
@@ -54,5 +57,8 @@ class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Res
             LazyList.continually(polling(event)).takeWhile(_.isDefined).map(_.get)
         }
 
-    final def verticalSync_=(enabled: Boolean): Unit =
+    // NOTE: To be able to use [`verticalSync_=`]
+    final def verticalSync = ()
+
+    final def verticalSync_=(enabled: Boolean) =
         sfWindow_setVerticalSyncEnabled(window, enabled)
