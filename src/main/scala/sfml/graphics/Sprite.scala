@@ -6,8 +6,6 @@ import scalanative.unsigned.UnsignedRichInt
 
 import internal.graphics.Sprite.*
 
-import graphics.Transformable
-
 class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Transformable(sprite.at2) with Drawable with Resource:
 
     override def close(): Unit =
