@@ -75,7 +75,7 @@ The first property allows one to smooth the texture. Smoothing a texture makes
 pixel boundaries less visible (but the image a little more blurry), which can be
 desirable if it is up-scaled.
 ```scala
-texture.setSmooth(true)
+texture.smooth = true
 ```
 <img src="https://www.sfml-dev.org/tutorials/2.5/images/graphics-sprites-smooth.png"/>
 
@@ -87,7 +87,7 @@ area. This can happen when your sprite is located at non-integer coordinates.
 
 The second property allows a texture to be repeatedly tiled within a single sprite.
 ```scala
-texture.setRepeated(true)
+texture.repeated = true
 ```
 <img src="https://www.sfml-dev.org/tutorials/2.5/images/graphics-sprites-repeated.png"/>
 
