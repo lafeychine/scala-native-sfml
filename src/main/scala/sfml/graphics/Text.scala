@@ -23,3 +23,56 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
 
     override final def draw(target: RenderTarget, states: RenderStates): Unit =
         Zone { implicit z => RenderTarget.patch_draw(text.at1, target, states) }
+
+    /* Getter / Setter */
+
+    final def characterSize: Int =
+        sfText_getCharacterSize(text).toInt
+
+    final def characterSize_=(size: Int) =
+        sfText_setCharacterSize(text, size.toUInt)
+
+    final def color: Color =
+        Color.sfColorToColor(sfText_getColor(text))
+
+    final def color_=(color: Color) =
+        Zone { implicit z => sfText_setColor(text, color.color) }
+
+    final def fillColor: Color =
+        Color.sfColorToColor(sfText_getFillColor(text))
+
+    final def fillColor_=(color: Color) =
+        Zone { implicit z => sfText_setFillColor(text, color.color) }
+
+    final def font_=(font: Font) =
+        Zone { implicit z => sfText_setFont(text, font.font) }
+
+    final def letterSpacing: Float =
+        sfText_getLetterSpacing(text)
+
+    final def letterSpacing_=(spacingFactor: Float) =
+        sfText_setLetterSpacing(text, spacingFactor)
+
+    final def lineSpacing: Float =
+        sfText_getLineSpacing(text)
+
+    final def lineSpacing_=(spacingFactor: Float) =
+        sfText_setLineSpacing(text, spacingFactor)
+
+    final def outlineColor: Color =
+        Color.sfColorToColor(sfText_getOutlineColor(text))
+
+    final def outlineColor_=(color: Color) =
+        Zone { implicit z => sfText_setOutlineColor(text, color.color) }
+
+    final def outlineThickness: Float =
+        sfText_getOutlineThickness(text)
+
+    final def outlineThickness_=(thickness: Float) =
+        sfText_setOutlineThickness(text, thickness)
+
+    // TODO: sfText_getString
+    final def string = ()
+
+    final def string_=(string: String) =
+        Zone { implicit z => sfText_setString(text, string) }
