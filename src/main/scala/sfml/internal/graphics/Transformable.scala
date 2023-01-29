@@ -16,8 +16,6 @@ import system.Vector2
     @name("_ZN2sf13TransformableD2Ev")
     def dtor(self: Ptr[sfTransformable]): Unit = extern
 
-    /* Methods */
-
     @name("_ZN2sf13Transformable4moveEff")
     def sfTransformable_move(self: Ptr[sfTransformable], offsetX: CFloat, offsetY: CFloat): Unit = extern
 

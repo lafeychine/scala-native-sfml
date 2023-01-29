@@ -35,3 +35,6 @@ object Color:
     def Magenta(): Color = Color(255, 0, 255)
     def Cyan(): Color = Color(0, 255, 255)
     def Transparent(): Color = Color(0, 0, 0, 0)
+
+    private[sfml] def sfColorToColor(rect: Ptr[sfColor]): Color =
+        Color(rect._1.toByte, rect._2.toByte, rect._3.toByte, rect._4.toByte)

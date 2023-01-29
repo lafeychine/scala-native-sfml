@@ -14,8 +14,6 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
     def this() =
         this(Resource { (r: Ptr[sfTransformable]) => ctor(r) })
 
-    /* Methods */
-
     final def move(offsetX: Float, offsetY: Float): Unit =
         sfTransformable_move(transformable, offsetX, offsetY)
 
