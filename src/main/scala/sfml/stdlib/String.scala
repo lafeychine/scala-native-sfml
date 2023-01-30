@@ -10,7 +10,10 @@ import scalanative.unsigned.UnsignedRichInt
 
 import internal.stdlib.String.*
 
-object String:
+private[sfml] object String:
+    private[sfml] def close(string: Ptr[stdString]): Unit =
+        Resource.close(string._1)
+
     private inline def convert(ansiString: java.lang.String, charSize: Int)(implicit z: Zone): Ptr[stdString] =
         val string = alloc[stdString]()
         val length = ansiString.length

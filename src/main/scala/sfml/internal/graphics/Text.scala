@@ -8,7 +8,14 @@ import system.{String, Vector2}
 
 @link("sfml-graphics")
 @extern private[sfml] object Text:
-    type sfText = CStruct3[Drawable.sfDrawable, Transformable.sfTransformable, CArray[Byte, Nat.Digit3[Nat._1, Nat._8, Nat._4]]]
+    type sfText = CStruct6[
+        Drawable.sfDrawable,
+        Transformable.sfTransformable,
+        String.sfString,
+        CArray[Byte, Nat.Digit2[Nat._3, Nat._2]],
+        CArray[Byte, Nat.Digit2[Nat._4, Nat._0]],
+        CArray[Byte, Nat.Digit2[Nat._7, Nat._2]]
+    ]
 
     @name("_ZN2sf4TextC2Ev")
     def ctor(self: Ptr[sfText]): Unit = extern

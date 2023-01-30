@@ -6,12 +6,14 @@ import scalanative.unsigned.UnsignedRichInt
 
 import internal.graphics.Text.*
 
+import system.String
 import system.String.stringToSfString
 
 class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transformable(text.at2) with Drawable with Resource:
 
     override def close(): Unit =
         Resource.close(text)
+        String.close(text.at3)
 
     def this() =
         this(Resource { (r: Ptr[sfText]) => ctor(r) })
