@@ -14,6 +14,8 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
     override def close(): Unit =
         Resource.close(text)
         String.close(text.at3)
+        VertexArray.close(text.at5)
+        VertexArray.close(text.at6)
 
     def this() =
         this(Resource { (r: Ptr[sfText]) => ctor(r) })
