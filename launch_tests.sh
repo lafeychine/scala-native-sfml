@@ -9,6 +9,21 @@ PROGRAM_CXX=${DIR}/target/cxx/${PROGRAM_NAME}
 PROGRAM_SCALA=${DIR}/target/scala-${SCALA_VERSION}/${PROGRAM_NAME}
 PATCH=${DIR}/target/libpatch.so
 
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --discard-leaks)
+            DISCARD_LEAKS="exitcode=0"
+            shift;;
+
+        --only)
+            REGEXP="$2"
+            shift; shift;;
+
+        -h|--help|*)
+            echo "USAGE: $0 [--discard-leaks] [--only regexp]"
+            exit 0;;
+    esac
+done
 
 function checkCommand() {
     command -v "$1" >/dev/null 2>&1 || {
@@ -57,8 +72,11 @@ function launchTests() {
         while IFS= read -r -d '' FILE; do
 
             FILENAME_TEST=${FILE##*/}
+            FILENAME_TEST=${FILENAME_TEST%.cpp}
 
-            launchTest "${FILENAME_TEST%.cpp}" || return 1
+            [[ ${REGEXP} ]] && [[ ! ${FILENAME_TEST} =~ ${REGEXP} ]] && continue
+
+            launchTest "${FILENAME_TEST}" || return 1
 
         done
 
@@ -119,7 +137,7 @@ done
 [[ -f ${PROGRAM_SCALA} ]] || { sbt test || exit 1; }
 
 export DISPLAY=":$(getXFreeSlot)"
-export LSAN_OPTIONS=suppressions=${DIR}/src/test/leak.txt
+export LSAN_OPTIONS=${DISCARD_LEAKS}:suppressions=${DIR}/src/test/leak.txt
 
 TMPDIR="$(mktemp --directory --tmpdir tests.XXXXXX)"
 
