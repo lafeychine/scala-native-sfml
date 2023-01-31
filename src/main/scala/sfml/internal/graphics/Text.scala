@@ -8,14 +8,15 @@ import system.{String, Vector2}
 
 @link("sfml-graphics")
 @extern private[sfml] object Text:
-    type sfText = CStruct7[
+    type sfText = CStruct8[
         Drawable.sfDrawable,
         Transformable.sfTransformable,
         String.sfString,
         CArray[Byte, Nat.Digit2[Nat._4, Nat._8]],
         VertexArray.sfVertexArray,
         VertexArray.sfVertexArray,
-        CArray[Byte, Nat.Digit2[Nat._3, Nat._2]]
+        Rect.sfFloatRect,
+        CArray[Byte, Nat.Digit2[Nat._1, Nat._6]]
     ]
 
     @name("_ZN2sf4TextC2Ev")
@@ -27,9 +28,11 @@ import system.{String, Vector2}
     @name("_ZNK2sf4Text4drawERNS_12RenderTargetENS_12RenderStatesE")
     def sfText_draw(self: Ptr[sfText], target: Ptr[RenderTarget.sfRenderTarget], states: RenderStates.sfRenderStates): Unit = extern
 
-    // TODO: sfText_findCharacterPos
-    // TODO: sfText_getLocalBounds
-    // TODO: sfText_getGlobalBounds
+    @name("_ZNK2sf4Text20ensureGeometryUpdateEv")
+    def sfText_ensureGeometryUpdate(self: Ptr[sfText]): Unit = extern
+
+    // @name("_ZNK2sf4Text16findCharacterPosEm")
+    // def sfText_findCharacterPos(self: Ptr[sfText], index: CSize): Vector2.sfVector2f = extern
 
     /* Getter / Setter */
 
