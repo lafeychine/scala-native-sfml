@@ -71,6 +71,16 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
     final def scale_=(factors: Vector2f) =
         Zone { implicit z => sfTransformable_setScale(transformable, factors.vector) }
 
+    final def transform: Transform =
+        val transform = sfTransformable_getTransform(transformable)
+
+        Transform.sfTransformToTransform(transform)
+
+    final def inverseTransform: Transform =
+        val transform = sfTransformable_getInverseTransform(transformable)
+
+        Transform.sfTransformToTransform(transform)
+
 object Transformable:
     extension (transformable: Ptr[sfTransformable])
         private[sfml] def close(): Unit =

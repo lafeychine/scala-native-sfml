@@ -65,3 +65,9 @@ import system.Vector2
 
     @name("_ZN2sf13Transformable8setScaleERKNS_7Vector2IfEE")
     def sfTransformable_setScale(self: Ptr[sfTransformable], factors: Ptr[Vector2.sfVector2f]): Unit = extern
+
+    @name("_ZNK2sf13Transformable12getTransformEv")
+    def sfTransformable_getTransform(self: Ptr[sfTransformable]): Transform.sfTransform = extern
+
+    @name("_ZNK2sf13Transformable19getInverseTransformEv")
+    def sfTransformable_getInverseTransform(self: Ptr[sfTransformable]): Transform.sfTransform = extern
