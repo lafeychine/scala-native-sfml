@@ -1,6 +1,8 @@
 #include "Test.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <iomanip>
+#include <iostream>
 
 snTest(TestText)
 {
@@ -27,6 +29,16 @@ snTest(TestText)
     window.draw(text);
     window.display();
     snTestScreen.takeScreenshot();
+
+    // sf::Text::getGlobalBounds
+    auto globalBounds = text.getGlobalBounds();
+
+    std::cout << std::fixed << std::setprecision(1)
+              << "Global bounds: ("
+              << globalBounds.left << ", "
+              << globalBounds.top << ", "
+              << globalBounds.width << ", "
+              << globalBounds.height << ")" << std::endl;
 
     // Teardown
     window.close();

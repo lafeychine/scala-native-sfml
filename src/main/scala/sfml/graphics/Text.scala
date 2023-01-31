@@ -27,6 +27,9 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
     override final def draw(target: RenderTarget, states: RenderStates): Unit =
         Zone { implicit z => RenderTarget.patch_draw(text.at1, target, states) }
 
+    final def globalBounds: Rect[Float] =
+        transform.transformRect(localBounds)
+
     final def localBounds: Rect[Float] =
         sfText_ensureGeometryUpdate(text)
 

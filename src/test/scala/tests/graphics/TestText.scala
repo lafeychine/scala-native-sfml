@@ -30,6 +30,11 @@ object TestText extends SNTest:
             window.display()
             snTestScreen.takeScreenshot()
 
+            // sf::Text::getGlobalBounds
+            val globalBounds = text.globalBounds
+
+            println(s"Global bounds: (${globalBounds.left}, ${globalBounds.top}, ${globalBounds.width}, ${globalBounds.height})")
+
             // Teardown
             window.closeWindow()
         }
