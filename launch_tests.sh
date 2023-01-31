@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROGRAM_NAME=scala-native-sfml-test-out
-SCALA_VERSION="3.2.1"
+SCALA_VERSION="3.2.2"
 
 DIR=$(dirname "$0")
 

@@ -3,7 +3,7 @@ import scala.scalanative.build.*
 name := "scala-native-sfml"
 organization := "io.github.lafeychine"
 
-scalaVersion := "3.2.1"
+scalaVersion := "3.2.2"
 version := "0.2.6"
 
 enablePlugins(ScalaNativePlugin)

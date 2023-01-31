@@ -1,4 +1,4 @@
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.9")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.10")
 
 /* Documentation */
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.1")
