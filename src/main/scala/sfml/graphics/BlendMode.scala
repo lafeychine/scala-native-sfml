@@ -16,7 +16,7 @@ final case class BlendMode(
     val alphaEquation: Equation
 ):
 
-    private[sfml] final def blendMode(implicit z: Zone): Ptr[sfBlendMode] =
+    private[sfml] final def blendMode(using Zone): Ptr[sfBlendMode] =
         val blendMode = alloc[sfBlendMode]()
 
         blendMode._1 = colorSrcFactor.ordinal

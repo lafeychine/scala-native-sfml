@@ -17,7 +17,7 @@ class ContextSettings(
     val sRgbCapable: Boolean = false
 ):
 
-    private[sfml] final def contextSettings(implicit z: Zone): Ptr[sfContextSettings] =
+    private[sfml] final def contextSettings(using Zone): Ptr[sfContextSettings] =
         val contextSettings = alloc[sfContextSettings]()
 
         contextSettings._1 = depth.toUInt

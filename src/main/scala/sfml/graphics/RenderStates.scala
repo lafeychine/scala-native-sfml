@@ -7,7 +7,7 @@ import internal.graphics.RenderStates.*
 
 final case class RenderStates(val blendMode: BlendMode):
 
-    private[sfml] final def renderStates(implicit z: Zone): Ptr[sfRenderStates] =
+    private[sfml] final def renderStates(using Zone): Ptr[sfRenderStates] =
         val renderStates = alloc[sfRenderStates]()
 
         renderStates._1 = blendMode.blendMode

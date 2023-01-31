@@ -15,7 +15,7 @@ private[sfml] object String:
         def close(): Unit =
             Resource.close(string._1)
 
-    private inline def convert(ansiString: java.lang.String, charSize: Int)(implicit z: Zone): Ptr[stdString] =
+    private inline def convert(ansiString: java.lang.String, charSize: Int)(using Zone): Ptr[stdString] =
         val string = alloc[stdString]()
         val length = ansiString.length
         val payload = alloc[Byte](length.toULong + charSize.toULong).asInstanceOf[CString]
@@ -28,8 +28,8 @@ private[sfml] object String:
 
         string
 
-    implicit def stringToStdString(ansiString: java.lang.String)(implicit z: Zone): Ptr[stdString] =
+    implicit def stringToStdString(ansiString: java.lang.String)(using Zone): Ptr[stdString] =
         convert(ansiString, 1)
 
-    implicit def wideStringToStdString(ansiString: java.lang.String)(implicit z: Zone): Ptr[stdString] =
+    implicit def wideStringToStdString(ansiString: java.lang.String)(using Zone): Ptr[stdString] =
         convert(ansiString, 4)

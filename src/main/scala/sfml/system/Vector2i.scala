@@ -8,7 +8,7 @@ import internal.system.Vector2.*
 
 final case class Vector2i(val x: Int, val y: Int):
 
-    private[sfml] def vector(implicit z: Zone): Ptr[sfVector2i] =
+    private[sfml] def vector(using Zone): Ptr[sfVector2i] =
         val vector2 = alloc[sfVector2i]()
 
         vector2._1 = x

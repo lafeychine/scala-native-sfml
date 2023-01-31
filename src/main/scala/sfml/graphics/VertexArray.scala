@@ -9,4 +9,3 @@ object VertexArray:
     extension (vertexArray: Ptr[sfVertexArray])
         private[sfml] def close(): Unit =
             Resource.close(vertexArray._2)
-            Resource.close(vertexArray)

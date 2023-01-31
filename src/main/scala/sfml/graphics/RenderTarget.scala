@@ -30,6 +30,6 @@ object RenderTarget:
         private[sfml] def close(): Unit =
             dtor(renderTarget)
 
-    private[sfml] def patch_draw(self: Ptr[sfDrawable], target: RenderTarget, states: RenderStates)(implicit z: Zone): Unit =
+    private[sfml] def patch_draw(self: Ptr[sfDrawable], target: RenderTarget, states: RenderStates)(using Zone): Unit =
         // NOTE: Use this endpoint to avoid us splitting `states` in the stack
         sfRenderTarget_draw(target.renderTarget, self, states.renderStates)
