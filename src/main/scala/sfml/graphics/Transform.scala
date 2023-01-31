@@ -76,6 +76,13 @@ final case class Transform private[sfml] (val matrix: Array[Float]):
         for (value, index) <- combine(rhs).matrix.zipWithIndex do matrix(index) = value
 
 object Transform:
+    extension (transform: sfTransform)
+        private[sfml] def toTransform(): Transform =
+            val array = new Array[Float](16)
+
+            for i <- 0 until 16 do array(i) = transform(i)
+            Transform(array)
+
     def apply(): Transform = Transform.Identity()
 
     def apply(a00: Float, a01: Float, a02: Float, a10: Float, a11: Float, a12: Float, a20: Float, a21: Float, a22: Float)
@@ -84,9 +91,3 @@ object Transform:
 
     def Identity(): Transform =
         Transform(Array(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1))
-
-    private[sfml] def sfTransformToTransform(transform: sfTransform): Transform =
-        val array = new Array[Float](16)
-
-        for i <- 0 until 16 do array(i) = transform(i)
-        Transform(array)

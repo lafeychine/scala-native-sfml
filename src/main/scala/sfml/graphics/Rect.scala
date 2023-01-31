@@ -50,8 +50,9 @@ final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T 
         rect
 
 object Rect:
+    extension (rect: Ptr[sfFloatRect])
+        private[sfml] def toRectFloat(): Rect[Float] =
+            Rect(rect._1, rect._2, rect._3, rect._4)
+
     implicit def tupleToRect[T: Numeric](tuple: (T, T, T, T)): Rect[T] =
         Rect(tuple._1, tuple._2, tuple._3, tuple._4)
-
-    private[sfml] def sfFloatRectToRect(rect: Ptr[sfFloatRect]): Rect[Float] =
-        Rect(rect._1, rect._2, rect._3, rect._4)

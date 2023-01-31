@@ -33,7 +33,7 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
     final def localBounds: Rect[Float] =
         sfText_ensureGeometryUpdate(text)
 
-        Rect.sfFloatRectToRect(text.at7)
+        Rect.toRectFloat(text.at7)()
 
     /* Getter / Setter */
 
@@ -44,13 +44,13 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
         sfText_setCharacterSize(text, size.toUInt)
 
     final def color: Color =
-        Color.sfColorToColor(sfText_getColor(text))
+        Color.toColor(sfText_getColor(text))()
 
     final def color_=(color: Color) =
         Zone { implicit z => sfText_setColor(text, color.color) }
 
     final def fillColor: Color =
-        Color.sfColorToColor(sfText_getFillColor(text))
+        Color.toColor(sfText_getFillColor(text))()
 
     final def fillColor_=(color: Color) =
         Zone { implicit z => sfText_setFillColor(text, color.color) }
@@ -71,7 +71,7 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
         sfText_setLineSpacing(text, spacingFactor)
 
     final def outlineColor: Color =
-        Color.sfColorToColor(sfText_getOutlineColor(text))
+        Color.toColor(sfText_getOutlineColor(text))()
 
     final def outlineColor_=(color: Color) =
         Zone { implicit z => sfText_setOutlineColor(text, color.color) }

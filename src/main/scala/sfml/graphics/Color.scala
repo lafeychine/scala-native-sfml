@@ -18,6 +18,10 @@ final case class Color(val r: Byte, val g: Byte, val b: Byte, val a: Byte = 255.
         color
 
 object Color:
+    extension (color: Ptr[sfColor])
+        private[sfml] def toColor(): Color =
+            Color(color._1.toByte, color._2.toByte, color._3.toByte, color._4.toByte)
+
     def apply(): Color = Color.Black()
 
     def apply(r: Int, g: Int, b: Int): Color =
@@ -35,6 +39,3 @@ object Color:
     def Magenta(): Color = Color(255, 0, 255)
     def Cyan(): Color = Color(0, 255, 255)
     def Transparent(): Color = Color(0, 0, 0, 0)
-
-    private[sfml] def sfColorToColor(rect: Ptr[sfColor]): Color =
-        Color(rect._1.toByte, rect._2.toByte, rect._3.toByte, rect._4.toByte)

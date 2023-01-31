@@ -33,7 +33,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
     /* Getter / Setter */
 
     final def origin: Vector2[Float] =
-        Vector2.sfVector2fToVector2(sfTransformable_getOrigin(transformable))
+        Vector2.toVector2Float(sfTransformable_getOrigin(transformable))()
 
     final def origin_=(x: Float, y: Float) =
         sfTransformable_setOrigin(transformable, x, y)
@@ -42,7 +42,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         Zone { implicit z => sfTransformable_setOrigin(transformable, origin.vector2f) }
 
     final def position: Vector2[Float] =
-        Vector2.sfVector2fToVector2(sfTransformable_getPosition(transformable))
+        Vector2.toVector2Float(sfTransformable_getPosition(transformable))()
 
     final def position_=(x: Float, y: Float) =
         sfTransformable_setPosition(transformable, x, y)
@@ -57,7 +57,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         Zone { implicit z => sfTransformable_setRotation(transformable, angle) }
 
     final def scale: Vector2[Float] =
-        Vector2.sfVector2fToVector2(sfTransformable_getScale(transformable))
+        Vector2.toVector2Float(sfTransformable_getScale(transformable))()
 
     final def scale_=(x: Float, y: Float) =
         sfTransformable_setScale(transformable, x, y)
@@ -66,10 +66,10 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         Zone { implicit z => sfTransformable_setScale(transformable, factors.vector2f) }
 
     final def transform: Transform =
-        Transform.sfTransformToTransform(sfTransformable_getTransform(transformable))
+        Transform.toTransform(sfTransformable_getTransform(transformable))()
 
     final def inverseTransform: Transform =
-        Transform.sfTransformToTransform(sfTransformable_getInverseTransform(transformable))
+        Transform.toTransform(sfTransformable_getInverseTransform(transformable))()
 
 object Transformable:
     extension (transformable: Ptr[sfTransformable])
