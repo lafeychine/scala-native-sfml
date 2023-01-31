@@ -15,7 +15,3 @@ private[sfml] object Resource:
 
     final def close[T](resource: Ptr[T]): Unit =
         free(resource.asInstanceOf[Ptr[Byte]])
-
-    final def close[T](dtor: Ptr[T] => Unit)(resource: Ptr[T]): Unit =
-        dtor(resource)
-        close(resource)

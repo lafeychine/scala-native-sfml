@@ -13,7 +13,8 @@ import system.String.stringToSfString
 class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Resource:
 
     override def close(): Unit =
-        Resource.close(dtor)(window)
+        Window.close(window)()
+        Resource.close(window)
 
     def this(mode: VideoMode, title: String, style: Style, settings: ContextSettings) =
         this(Resource { (r: Ptr[sfWindow]) =>
@@ -62,3 +63,8 @@ class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Res
 
     final def verticalSync_=(enabled: Boolean) =
         sfWindow_setVerticalSyncEnabled(window, enabled)
+
+object Window:
+    extension (window: Ptr[sfWindow])
+        private[sfml] def close(): Unit =
+            dtor(window)

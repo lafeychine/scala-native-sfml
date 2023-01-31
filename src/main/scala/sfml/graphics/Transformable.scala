@@ -9,7 +9,8 @@ import system.Vector2f
 class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransformable]) extends Resource:
 
     override def close(): Unit =
-        Resource.close(dtor)(transformable)
+        Transformable.close(transformable)()
+        Resource.close(transformable)
 
     def this() =
         this(Resource { (r: Ptr[sfTransformable]) => ctor(r) })
@@ -69,3 +70,8 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
 
     final def scale_=(factors: Vector2f) =
         Zone { implicit z => sfTransformable_setScale(transformable, factors.vector) }
+
+object Transformable:
+    extension (transformable: Ptr[sfTransformable])
+        private[sfml] def close(): Unit =
+            dtor(transformable)

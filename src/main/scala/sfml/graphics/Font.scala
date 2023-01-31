@@ -12,10 +12,16 @@ import stdlib.String.stringToStdString
 class Font private[sfml] (private[sfml] val font: Ptr[sfFont]) extends Resource:
 
     override def close(): Unit =
-        Resource.close(dtor)(font)
+        Font.close(font)()
+        Resource.close(font)
 
     def this() =
         this(Resource { (r: Ptr[sfFont]) => ctor(r) })
 
     final def loadFromFile(filename: String): Boolean =
         Zone { implicit z => sfFont_loadFromFile(font, filename) }
+
+object Font:
+    extension (font: Ptr[sfFont])
+        private[sfml] def close(): Unit =
+            dtor(font)

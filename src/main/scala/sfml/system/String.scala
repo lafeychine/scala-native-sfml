@@ -6,11 +6,12 @@ import scalanative.unsafe.*
 
 import internal.system.String.*
 
-object String:
-    private[sfml] def close(string: Ptr[sfString]): Unit =
-        stdlib.String.close(string)
+private[sfml] object String:
+    extension (string: Ptr[sfString])
+        def close(): Unit =
+            Resource.close(string._1)
 
-    private[sfml] implicit def stringToSfString(ansiString: java.lang.String)(implicit z: Zone): Ptr[sfString] =
+    implicit def stringToSfString(ansiString: java.lang.String)(implicit z: Zone): Ptr[sfString] =
         val utf32Bytes = ansiString.toCharArray.foldLeft(Array[Char]())((x, y) => x :+ y :+ 0.toChar :+ 0.toChar :+ 0.toChar)
 
         stdlib.String.wideStringToStdString(utf32Bytes.mkString)

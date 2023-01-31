@@ -17,7 +17,8 @@ class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWi
     with Resource:
 
     override def close(): Unit =
-        Resource.close(dtor)(renderWindow)
+        RenderWindow.close(renderWindow)()
+        Resource.close(renderWindow)
 
     def this(mode: VideoMode, title: String, style: Style, settings: ContextSettings) =
         this(Resource { (r: Ptr[sfRenderWindow]) =>
@@ -33,3 +34,8 @@ class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWi
 
     def this(mode: VideoMode, title: String) =
         this(mode, title, Style.Default)
+
+object RenderWindow:
+    extension (renderWindow: Ptr[sfRenderWindow])
+        private[sfml] def close(): Unit =
+            dtor(renderWindow)

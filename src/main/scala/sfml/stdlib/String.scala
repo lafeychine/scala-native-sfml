@@ -11,8 +11,9 @@ import scalanative.unsigned.UnsignedRichInt
 import internal.stdlib.String.*
 
 private[sfml] object String:
-    private[sfml] def close(string: Ptr[stdString]): Unit =
-        Resource.close(string._1)
+    extension (string: Ptr[stdString])
+        def close(): Unit =
+            Resource.close(string._1)
 
     private inline def convert(ansiString: java.lang.String, charSize: Int)(implicit z: Zone): Ptr[stdString] =
         val string = alloc[stdString]()
@@ -27,8 +28,8 @@ private[sfml] object String:
 
         string
 
-    private[sfml] implicit def stringToStdString(ansiString: java.lang.String)(implicit z: Zone): Ptr[stdString] =
+    implicit def stringToStdString(ansiString: java.lang.String)(implicit z: Zone): Ptr[stdString] =
         convert(ansiString, 1)
 
-    private[sfml] implicit def wideStringToStdString(ansiString: java.lang.String)(implicit z: Zone): Ptr[stdString] =
+    implicit def wideStringToStdString(ansiString: java.lang.String)(implicit z: Zone): Ptr[stdString] =
         convert(ansiString, 4)

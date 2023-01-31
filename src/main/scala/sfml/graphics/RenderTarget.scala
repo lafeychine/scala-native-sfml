@@ -12,7 +12,8 @@ import window.{ContextSettings, VideoMode, Window}
 trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTarget]) extends Resource:
 
     override def close(): Unit =
-        Resource.close(dtor)(renderTarget)
+        RenderTarget.close(renderTarget)()
+        Resource.close(renderTarget)
 
     final def clear(color: Color = Color.Black()): Unit =
         Zone { implicit z =>
@@ -24,6 +25,10 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
 
 object RenderTarget:
     import internal.graphics.Drawable.sfDrawable
+
+    extension (renderTarget: Ptr[sfRenderTarget])
+        private[sfml] def close(): Unit =
+            dtor(renderTarget)
 
     private[sfml] def patch_draw(self: Ptr[sfDrawable], target: RenderTarget, states: RenderStates)(implicit z: Zone): Unit =
         // NOTE: Use this endpoint to avoid us splitting `states` in the stack

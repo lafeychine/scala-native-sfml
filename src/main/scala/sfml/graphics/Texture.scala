@@ -12,7 +12,8 @@ import stdlib.String.stringToStdString
 class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends Resource:
 
     override def close(): Unit =
-        Resource.close(dtor)(texture)
+        Texture.close(texture)()
+        Resource.close(texture)
 
     def this() =
         this(Resource { (r: Ptr[sfTexture]) => ctor(r) })
@@ -31,3 +32,8 @@ class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends 
 
     final def repeated_=(repeated: Boolean) =
         sfTexture_setRepeated(texture, smooth)
+
+object Texture:
+    extension (texture: Ptr[sfTexture])
+        private[sfml] def close(): Unit =
+            dtor(texture)
