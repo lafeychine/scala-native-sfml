@@ -1,6 +1,8 @@
 package sfml
 package graphics
 
+import math.Numeric.Implicits.infixNumericOps
+
 import scala.language.implicitConversions
 import scalanative.unsafe.*
 
@@ -39,8 +41,6 @@ final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T 
         interLeft < interRight && interTop < interBottom
 
     private[sfml] final def intRect(using Zone): Ptr[sfIntRect] =
-        import math.Numeric.Implicits.infixNumericOps
-
         val rect = alloc[sfIntRect]()
 
         rect._1 = left.toInt

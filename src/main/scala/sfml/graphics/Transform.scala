@@ -4,7 +4,7 @@ package graphics
 import scalanative.unsafe.*
 
 import internal.graphics.Transform.*
-import system.Vector2f
+import system.Vector2
 
 final case class Transform private[sfml] (val matrix: Array[Float]):
 
@@ -33,16 +33,16 @@ final case class Transform private[sfml] (val matrix: Array[Float]):
     def translate(x: Float, y: Float): Transform =
         combine(Transform(1, 0, x, 0, 1, y, 0, 0, 1))
 
-    def translate(offset: Vector2f): Transform =
+    def translate(offset: Vector2[Float]): Transform =
         translate(offset.x, offset.y)
 
-    def transformPoint(x: Float, y: Float): Vector2f =
+    def transformPoint(x: Float, y: Float): Vector2[Float] =
         val transformedX = matrix(0) * x + matrix(4) * y + matrix(12)
         val transformedY = matrix(1) * x + matrix(5) * y + matrix(13)
 
-        Vector2f(transformedX, transformedY)
+        Vector2(transformedX, transformedY)
 
-    def transformPoint(point: Vector2f): Vector2f =
+    def transformPoint(point: Vector2[Float]): Vector2[Float] =
         transformPoint(point.x, point.y)
 
     @SuppressWarnings(Array("org.wartremover.warts.Var"))
