@@ -139,10 +139,10 @@ object Transform:
 
     def apply(a00: Float, a01: Float, a02: Float, a10: Float, a11: Float, a12: Float, a20: Float, a21: Float, a22: Float): Transform =
         Transform(Array(
-            a00, a01, 0, a02,
-            a10, a11, 0, a12,
+            a00, a10, 0, a20,
+            a01, a11, 0, a21,
               0,   0, 1,   0,
-            a20, a21, 0, a22
+            a02, a12, 0, a22
         ))
 
     def Identity(): Transform =
