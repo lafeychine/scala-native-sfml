@@ -5,18 +5,17 @@ import scalanative.unsafe.*
 
 import internal.graphics.RenderStates.*
 
-final case class RenderStates(val blendMode: BlendMode):
+final case class RenderStates(val blendMode: BlendMode, val transform: Transform):
 
     private[sfml] final def renderStates(using Zone): Ptr[sfRenderStates] =
+        import internal.graphics.Transform.sfTransform
+
         val renderStates = alloc[sfRenderStates]()
 
         renderStates._1 = blendMode.blendMode
-        renderStates._2(0) = 1
-        renderStates._2(5) = 1
-        renderStates._2(10) = 1
-        renderStates._2(15) = 1
+        for i <- 0 until 16 do renderStates._2(i) = transform.matrix(i)
         renderStates
 
 object RenderStates:
     def apply(): RenderStates =
-        RenderStates(BlendMode.Alpha())
+        RenderStates(BlendMode.Alpha(), Transform.Identity())
