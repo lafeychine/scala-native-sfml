@@ -50,6 +50,10 @@ final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T 
         rect
 
 object Rect:
+    extension (rect: Ptr[sfIntRect])
+        private[sfml] def toRectInt(): Rect[Int] =
+            Rect(rect._1, rect._2, rect._3, rect._4)
+
     extension (rect: Ptr[sfFloatRect])
         private[sfml] def toRectFloat(): Rect[Float] =
             Rect(rect._1, rect._2, rect._3, rect._4)
