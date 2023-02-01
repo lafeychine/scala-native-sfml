@@ -68,7 +68,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
     final def transform: Transform =
         Transform.toTransform(sfTransformable_getTransform(transformable))()
 
-    final def inverseTransform: Transform =
+    final def inverseTransform(): Transform =
         Transform.toTransform(sfTransformable_getInverseTransform(transformable))()
 
 object Transformable:
