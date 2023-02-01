@@ -17,7 +17,7 @@ nativeConfig ~= {
 /* Documentation */
 enablePlugins(SiteScaladocPlugin)
 
-Compile / doc / scalacOptions ++= Seq("-siteroot", "docs", "-skip-by-id:sfml.internal")
+Compile / doc / scalacOptions ++= Seq("-siteroot", "docs", "-skip-by-id:sfml.internal", "-snippet-compiler:docs=compile")
 SiteScaladoc / siteSubdirName := ""
 
 /* Linting */

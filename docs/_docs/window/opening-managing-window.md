@@ -20,11 +20,11 @@ exactly the same so reading this tutorial is important in any case.
 Windows in SFML are defined by the [`Window`](sfml.window.Window) class. A
 window can be created an opened directly upon construction:
 ```scala
-import sfml.window.*
+import sfml.window.{VideoMode, Window}
 
 @main def main =
     scala.util.Using.Manager { use =>
-        val window = use(RenderWindow(VideoMode(800, 600), "My window"))
+        val window = use(Window(VideoMode(800, 600), "My window"))
     }
 ```
 
@@ -65,7 +65,7 @@ this code, you would see a dead window, unable to be moved, resized, or closed.
 
 Let's add some code to make this program a bit more interesting:
 ```scala
-import sfml.window.*
+import sfml.window.{Event, VideoMode, Window}
 
 @main def main =
     scala.util.Using.Manager { use =>
@@ -139,7 +139,12 @@ The solution to this problem is to activate vertical synchronization. It is
 automatically handled by the graphics card, and can easily be switched on and
 off with [`verticalSync`](sfml.window.Window.verticalSync_=):
 ```scala
-window.verticalSync = true; // call it once, after creating the window
+//{
+import sfml.window.{VideoMode, Window}
+
+val window = Window(VideoMode(800, 600), "My window")
+//}
+window.verticalSync = true  // call it once, after creating the window
 ```
 
 After this call, your application will run at the same frequency as the
@@ -154,7 +159,12 @@ In other situations, you may also want your application to run at a given
 framerate, instead of the monitor's frequency. This can be done by setting
 [`framerateLimit`](sfml.window.Window.framerateLimit_=):
 ```scala
-window.framerateLimit = 60; // call it once, after creating the window
+//{
+import sfml.window.{VideoMode, Window}
+
+val window = Window(VideoMode(800, 600), "My window")
+//}
+window.framerateLimit = 60  // call it once, after creating the window
 ```
 
 Unlike `verticalSync`, this feature is implemented by SFML itself.
