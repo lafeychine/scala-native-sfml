@@ -5,35 +5,32 @@ import scalanative.unsafe.*
 
 import internal.window.Event.*
 
-private[sfml] sealed trait Event
+enum Event:
+    case Closed()
+    case Resized(val width: Int, val height: Int)
+    case LostFocus()
+    case GainedFocus()
+    case TextEntered(val unicode: Int)
+    case KeyPressed(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean)
+    case KeyReleased(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean)
+    case MouseWheelScrolled(val wheel: Mouse.Wheel, val delta: Float, val x: Int, val y: Int)
+    case MouseButtonPressed(val button: Mouse.Button, val x: Int, val y: Int)
+    case MouseButtonReleased(val button: Mouse.Button, val x: Int, val y: Int)
+    case MouseMoved(val x: Int, val y: Int)
+    case MouseEntered()
+    case MouseLeft()
+    case JoystickButtonPressed(val joystickId: Int, val button: Int)
+    case JoystickButtonReleased(val joystickId: Int, val button: Int)
+    case JoystickMoved(val joystickId: Int, val axis: Joystick.Axis, val position: Float)
+    case JoystickConnected(val joystickId: Int)
+    case JoystickDisconnected(val joystickId: Int)
+    case TouchBegan(val finger: Int, val x: Int, val y: Int)
+    case TouchMoved(val finger: Int, val x: Int, val y: Int)
+    case TouchEnded(val finger: Int, val x: Int, val y: Int)
+    case SensorChanged(val sensor: Sensor.Type, val x: Float, val y: Float, val z: Float)
 
 object Event:
-    // format: off
-    final case class Closed() extends Event
-    final case class Resized(val width: Int, val height: Int) extends Event
-    final case class LostFocus() extends Event
-    final case class GainedFocus() extends Event
-    final case class TextEntered(val unicode: Int) extends Event
-    final case class KeyPressed(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean) extends Event
-    final case class KeyReleased(val code: Keyboard.Key, val alt: Boolean, val control: Boolean, val shift: Boolean, val system: Boolean) extends Event
-    final case class MouseWheelScrolled(val wheel: Mouse.Wheel, val delta: Float, val x: Int, val y: Int) extends Event
-    final case class MouseButtonPressed(val button: Mouse.Button, val x: Int, val y: Int) extends Event
-    final case class MouseButtonReleased(val button: Mouse.Button, val x: Int, val y: Int) extends Event
-    final case class MouseMoved(val x: Int, val y: Int) extends Event
-    final case class MouseEntered() extends Event
-    final case class MouseLeft() extends Event
-    final case class JoystickButtonPressed(val joystickId: Int, val button: Int) extends Event
-    final case class JoystickButtonReleased(val joystickId: Int, val button: Int) extends Event
-    final case class JoystickMoved(val joystickId: Int, val axis: Joystick.Axis, val position: Float) extends Event
-    final case class JoystickConnected(val joystickId: Int) extends Event
-    final case class JoystickDisconnected(val joystickId: Int) extends Event
-    final case class TouchBegan(val finger: Int, val x: Int, val y: Int) extends Event
-    final case class TouchMoved(val finger: Int, val x: Int, val y: Int) extends Event
-    final case class TouchEnded(val finger: Int, val x: Int, val y: Int) extends Event
-    final case class SensorChanged(val sensor: Sensor.Type, val x: Float, val y: Float, val z: Float) extends Event
-    // format: on
-
-    def apply(event: Ptr[sfEvent]): Option[Event] =
+    private[sfml] def apply(event: Ptr[sfEvent]): Option[Event] =
         EventType.fromOrdinal(!event) match
             case EventType.Closed                 => Option(Closed())
             case EventType.Resized                => Option(Resized(event.asInstanceOf[Ptr[sfSizeEvent]]))
@@ -59,70 +56,70 @@ object Event:
             case EventType.SensorChanged          => Option(SensorChanged(event.asInstanceOf[Ptr[sfSensorEvent]]))
             case _                                => None
 
-    object Resized:
+    private[sfml] object Resized:
         def apply(event: Ptr[sfSizeEvent]): Resized =
             Resized(event._2.toInt, event._3.toInt)
 
-    object TextEntered:
+    private[sfml] object TextEntered:
         def apply(event: Ptr[sfTextEvent]): TextEntered =
             TextEntered(event._2.toInt)
 
-    object KeyPressed:
+    private[sfml] object KeyPressed:
         def apply(event: Ptr[sfKeyEvent]): KeyPressed =
             KeyPressed(Keyboard.Key.fromOrdinal(event._2 + 1), event._3, event._4, event._5, event._6)
 
-    object KeyReleased:
+    private[sfml] object KeyReleased:
         def apply(event: Ptr[sfKeyEvent]): KeyReleased =
             KeyReleased(Keyboard.Key.fromOrdinal(event._2 + 1), event._3, event._4, event._5, event._6)
 
-    object MouseWheelScrolled:
+    private[sfml] object MouseWheelScrolled:
         def apply(event: Ptr[sfMouseWheelScrollEvent]): MouseWheelScrolled =
             MouseWheelScrolled(Mouse.Wheel.fromOrdinal(event._2), event._3, event._4, event._5)
 
-    object MouseButtonPressed:
+    private[sfml] object MouseButtonPressed:
         def apply(event: Ptr[sfMouseButtonEvent]): MouseButtonPressed =
             MouseButtonPressed(Mouse.Button.fromOrdinal(event._2), event._3, event._4)
 
-    object MouseButtonReleased:
+    private[sfml] object MouseButtonReleased:
         def apply(event: Ptr[sfMouseButtonEvent]): MouseButtonReleased =
             MouseButtonReleased(Mouse.Button.fromOrdinal(event._2), event._3, event._4)
 
-    object MouseMoved:
+    private[sfml] object MouseMoved:
         def apply(event: Ptr[sfMouseMoveEvent]): MouseMoved =
             MouseMoved(event._2, event._3)
 
-    object JoystickButtonPressed:
+    private[sfml] object JoystickButtonPressed:
         def apply(event: Ptr[sfJoystickButtonEvent]): JoystickButtonPressed =
             JoystickButtonPressed(event._2.toInt, event._3.toInt)
 
-    object JoystickButtonReleased:
+    private[sfml] object JoystickButtonReleased:
         def apply(event: Ptr[sfJoystickButtonEvent]): JoystickButtonReleased =
             JoystickButtonReleased(event._2.toInt, event._3.toInt)
 
-    object JoystickMoved:
+    private[sfml] object JoystickMoved:
         def apply(event: Ptr[sfJoystickMoveEvent]): JoystickMoved =
             JoystickMoved(event._2.toInt, Joystick.Axis.fromOrdinal(event._3), event._4)
 
-    object JoystickConnected:
+    private[sfml] object JoystickConnected:
         def apply(event: Ptr[sfJoystickConnectEvent]): JoystickConnected =
             JoystickConnected(event._2.toInt)
 
-    object JoystickDisconnected:
+    private[sfml] object JoystickDisconnected:
         def apply(event: Ptr[sfJoystickConnectEvent]): JoystickDisconnected =
             JoystickDisconnected(event._2.toInt)
 
-    object TouchBegan:
+    private[sfml] object TouchBegan:
         def apply(event: Ptr[sfTouchEvent]): TouchBegan =
             TouchBegan(event._2.toInt, event._3, event._4)
 
-    object TouchMoved:
+    private[sfml] object TouchMoved:
         def apply(event: Ptr[sfTouchEvent]): TouchMoved =
             TouchMoved(event._2.toInt, event._3, event._4)
 
-    object TouchEnded:
+    private[sfml] object TouchEnded:
         def apply(event: Ptr[sfTouchEvent]): TouchEnded =
             TouchEnded(event._2.toInt, event._3, event._4)
 
-    object SensorChanged:
+    private[sfml] object SensorChanged:
         def apply(event: Ptr[sfSensorEvent]): SensorChanged =
             SensorChanged(Sensor.Type.fromOrdinal(event._2), event._3, event._4, event._5)
