@@ -1,10 +1,12 @@
-package tests
+import org.junit.Test
 
 import sfml.graphics.*
 import sfml.window.*
 
-object TestSprite extends SNTest:
-    override def snTest(snTestScreen: TestScreen): Unit =
+class GraphicalTestSprite extends GraphicalTest:
+    @Test def graphicalTest(): Unit =
+        snTestScreen.testName = "TestSprite"
+
         scala.util.Using.Manager { use =>
             // Setup
             val window = use(RenderWindow(VideoMode(1024, 768), "Test"))

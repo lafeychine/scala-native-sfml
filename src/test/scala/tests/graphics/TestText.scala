@@ -1,11 +1,30 @@
-package tests
+import org.junit.Assert.*
+import org.junit.{After, AfterClass, Before, Test}
+
+import scala.util.Using
 
 import sfml.graphics.*
 import sfml.window.*
 
-object TestText extends SNTest:
-    override def snTest(snTestScreen: TestScreen): Unit =
-        scala.util.Using.Manager { use =>
+class TestText:
+    val font = Font()
+
+    @Before def init(): Unit =
+        font.loadFromFile("src/test/resources/tuffy.ttf")
+
+    @Test def getGlobalBounds(): Unit =
+        val text = Using(Text("Hello, world!", font, 50)) { text =>
+            assertEquals(text.globalBounds, Rect[Float](3, 13, 244, 43))
+        }
+
+    @After def teardown(): Unit =
+        font.close()
+
+class GraphicalTestText extends GraphicalTest:
+    @Test def graphicalTest(): Unit =
+        snTestScreen.testName = "TestText"
+
+        Using.Manager { use =>
             // Setup
             val window = use(RenderWindow(VideoMode(1024, 768), "Test"))
 
@@ -29,11 +48,6 @@ object TestText extends SNTest:
             window.draw(text)
             window.display()
             snTestScreen.takeScreenshot()
-
-            // sf::Text::getGlobalBounds
-            val globalBounds = text.globalBounds
-
-            println(s"Global bounds: (${globalBounds.left}, ${globalBounds.top}, ${globalBounds.width}, ${globalBounds.height})")
 
             // Teardown
             window.closeWindow()

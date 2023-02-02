@@ -38,13 +38,10 @@ jobs:
     - name: Check lint
       run: |
         find . -name "*.cpp" -exec clang-format --dry-run --Werror {} +
-        sbt -v scalafmtCheckAll
+        sbt scalafmtCheckAll
 
     - name: Build
-      run: sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; compile'
+      run: sbt 'set nativeLTO := "none"; set nativeMode := "debug"' compile
 
     - name: Tests
-      run: |
-        sbt -v 'set nativeLTO := "none"; set nativeMode := "debug"; test'
-        make -C src/test/cxx
-        ./launch_tests.sh
+      run: ./launch_graphical_tests.sh --fast

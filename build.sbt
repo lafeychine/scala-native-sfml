@@ -37,11 +37,13 @@ ThisBuild / wartremoverErrors := Warts.allBut(
 )
 
 /* Testing */
-Test / mainClass := Some("main")
-Test / test := (Test / nativeLink).value
+addCompilerPlugin("org.scala-native" % "junit-plugin" % "0.4.10" cross CrossVersion.full)
+libraryDependencies += "org.scala-native" %%% "junit-runtime" % "0.4.10"
 
+Test / envVars := Map("LSAN_OPTIONS" -> "print_suppressions=false:suppressions=src/test/leak.txt")
 Test / nativeCompileOptions := Seq("-fsanitize=leak")
 Test / nativeLinkingOptions := Seq("-fsanitize=leak")
+Test / parallelExecution := false
 
 /* Publishing */
 githubOwner := "lafeychine"
