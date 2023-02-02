@@ -5,8 +5,6 @@ import scalanative.unsafe.*
 
 import internal.graphics.BlendMode.*
 
-private[sfml] sealed trait BlendModeTrait
-
 final case class BlendMode(
     val colorSrcFactor: Factor,
     val colorDstFactor: Factor,
@@ -28,59 +26,23 @@ final case class BlendMode(
         blendMode
 
 object BlendMode:
-    def apply(): BlendMode = BlendMode(
-        Factor.SrcAlpha,
-        Factor.OneMinusSrcAlpha,
-        Equation.Add,
-        Factor.One,
-        Factor.Zero,
-        Equation.Add
-    )
+    def apply(): BlendMode =
+        BlendMode(Factor.SrcAlpha, Factor.OneMinusSrcAlpha, Equation.Add, Factor.One, Factor.Zero, Equation.Add)
 
     def apply(sourceFactor: Factor, destinationFactor: Factor): BlendMode =
-        BlendMode(
-            sourceFactor,
-            destinationFactor,
-            Equation.Add,
-            sourceFactor,
-            destinationFactor,
-            Equation.Add
-        )
+        BlendMode(sourceFactor, destinationFactor, Equation.Add, sourceFactor, destinationFactor, Equation.Add)
 
     def apply(sourceFactor: Factor, destinationFactor: Factor, blendEquation: Equation): BlendMode =
-        BlendMode(
-            sourceFactor,
-            destinationFactor,
-            blendEquation,
-            sourceFactor,
-            destinationFactor,
-            blendEquation
-        )
+        BlendMode(sourceFactor, destinationFactor, blendEquation, sourceFactor, destinationFactor, blendEquation)
 
-    def Alpha(): BlendMode = BlendMode(
-        Factor.SrcAlpha,
-        Factor.OneMinusSrcAlpha,
-        Equation.Add,
-        Factor.One,
-        Factor.OneMinusSrcAlpha,
-        Equation.Add
-    )
+    def Alpha(): BlendMode =
+        BlendMode(Factor.SrcAlpha, Factor.OneMinusSrcAlpha, Equation.Add, Factor.One, Factor.OneMinusSrcAlpha, Equation.Add)
 
-    def Add(): BlendMode = BlendMode(
-        Factor.SrcAlpha,
-        Factor.One,
-        Equation.Add,
-        Factor.One,
-        Factor.One,
-        Equation.Add
-    )
+    def Add(): BlendMode =
+        BlendMode(Factor.SrcAlpha, Factor.One, Equation.Add, Factor.One, Factor.One, Equation.Add)
 
-    def Multiply(): BlendMode = BlendMode(
-        Factor.DstColor,
-        Factor.Zero
-    )
+    def Multiply(): BlendMode =
+        BlendMode(Factor.DstColor, Factor.Zero)
 
-    def None(): BlendMode = BlendMode(
-        Factor.One,
-        Factor.Zero
-    )
+    def None(): BlendMode =
+        BlendMode(Factor.One, Factor.Zero)
