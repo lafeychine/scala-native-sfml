@@ -4,14 +4,14 @@ name := "scala-native-sfml"
 organization := "io.github.lafeychine"
 
 scalaVersion := "3.2.2"
-version := "0.3.2"
+version := "0.3.3"
 
 enablePlugins(ScalaNativePlugin)
 
 nativeConfig ~= {
     _.withIncrementalCompilation(true)
-        .withLTO(LTO.thin)
-        .withMode(Mode.releaseFull)
+        .withLTO(LTO.none)
+        .withMode(Mode.debug)
 }
 
 /* Documentation */
