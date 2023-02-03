@@ -10,8 +10,8 @@ enablePlugins(ScalaNativePlugin)
 
 nativeConfig ~= {
     _.withIncrementalCompilation(true)
-        .withLTO(LTO.none)
-        .withMode(Mode.debug)
+        .withLTO(LTO.thin)
+        .withMode(Mode.releaseFull)
 }
 
 /* Documentation */
