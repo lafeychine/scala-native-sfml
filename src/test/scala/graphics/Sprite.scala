@@ -3,36 +3,35 @@ import org.junit.Test
 import sfml.graphics.*
 import sfml.window.*
 
-class GraphicalExample extends GraphicalTest:
+class GraphicalSprite extends GraphicalTest:
     @Test def graphicalTest(): Unit =
-        snTestScreen.testName = "Example"
+        snTestScreen.testName = "Sprite"
 
         scala.util.Using.Manager { use =>
-            // Create the main window
+            // Setup
             val window = use(RenderWindow(VideoMode(1024, 768), "Test"))
 
-            // Load a sprite to display
             val texture = use(Texture())
             texture.loadFromFile("src/test/resources/sfml.png")
 
             val sprite = use(Sprite(texture))
 
-            // Start the game loop
             window.isOpen()
 
-            // Process events
-            window.pollEvent()
-
-            // Clear screen
-            window.clear(Color(0x01, 0x23, 0x45))
-            window.display()
-            snTestScreen.takeScreenshot()
-
-            // Draw the sprite
+            // Control test
+            window.clear()
             window.draw(sprite)
             window.display()
             snTestScreen.takeScreenshot()
 
-            // Close window
+            // sf::Sprite::setPosition
+            sprite.position = (100, 100)
+
+            window.clear()
+            window.draw(sprite)
+            window.display()
+            snTestScreen.takeScreenshot()
+
+            // Teardown
             window.closeWindow()
         }

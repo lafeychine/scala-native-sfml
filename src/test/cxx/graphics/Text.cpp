@@ -1,30 +1,30 @@
-#include "Test.hpp"
+#include "GraphicalTest.hpp"
 
 #include <SFML/Graphics.hpp>
 
-snTest(TestSprite)
+snGraphicalTest(Text)
 {
     // Setup
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Test");
 
-    sf::Texture texture;
-    texture.loadFromFile("src/test/resources/sfml.png");
+    sf::Font font;
+    font.loadFromFile("src/test/resources/tuffy.ttf");
 
-    sf::Sprite sprite(texture);
+    sf::Text text("Hello World", font, 50);
 
     window.isOpen();
 
     // Control test
     window.clear();
-    window.draw(sprite);
+    window.draw(text);
     window.display();
     snTestScreen.takeScreenshot();
 
-    // sf::Sprite::setPosition
-    sprite.setPosition(100, 100);
+    // sf::Text::setPosition
+    text.setPosition(100, 100);
 
     window.clear();
-    window.draw(sprite);
+    window.draw(text);
     window.display();
     snTestScreen.takeScreenshot();
 

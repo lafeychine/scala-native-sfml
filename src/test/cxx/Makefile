@@ -1,6 +1,6 @@
-override SRC		=	Main.cpp							\
-						TestScreen.cpp						\
-						$(shell find tests -name '*.cpp')
+override SRC		=	Main.cpp									\
+						TestScreen.cpp								\
+						$(shell find . -mindepth 2 -name '*.cpp')
 
 BUILDDIR			=	../../../target
 

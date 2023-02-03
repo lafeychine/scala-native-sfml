@@ -1,5 +1,5 @@
-#ifndef __TEST_H_
-#define __TEST_H_
+#ifndef __GRAPHICAL_TEST_H_
+#define __GRAPHICAL_TEST_H_
 
 #include <filesystem>
 
@@ -8,7 +8,7 @@
 
 #define SECTION_NAME ".sn_test"
 
-#define snTest(name)                                                  \
+#define snGraphicalTest(name)                                         \
     static void name(TestScreen &);                                   \
     static const sn_data_t __sn_##name                                \
         __attribute__((section(SECTION_NAME), used)) = {#name, name}; \
@@ -30,4 +30,4 @@ typedef struct {
     void (*fptr)(TestScreen &);
 } sn_data_t;
 
-#endif /* __TEST_H_ */
+#endif /* __GRAPHICAL_TEST_H_ */

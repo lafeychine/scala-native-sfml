@@ -14,15 +14,15 @@ class TestText:
 
     @Test def getGlobalBounds(): Unit =
         val text = Using(Text("Hello, world!", font, 50)) { text =>
-            assertEquals(text.globalBounds, Rect[Float](3, 13, 244, 43))
+            assertEquals(Rect[Float](3, 13, 244, 43), text.globalBounds)
         }
 
     @After def teardown(): Unit =
         font.close()
 
-class GraphicalTestText extends GraphicalTest:
+class GraphicalText extends GraphicalTest:
     @Test def graphicalTest(): Unit =
-        snTestScreen.testName = "TestText"
+        snTestScreen.testName = "Text"
 
         Using.Manager { use =>
             // Setup

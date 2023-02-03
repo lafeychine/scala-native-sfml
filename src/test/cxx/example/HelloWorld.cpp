@@ -1,8 +1,8 @@
-#include "Test.hpp"
+#include "GraphicalTest.hpp"
 
 #include <SFML/Graphics.hpp>
 
-snTest(Example)
+snGraphicalTest(HelloWorld)
 {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Test");

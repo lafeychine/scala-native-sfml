@@ -1,4 +1,4 @@
-#include "Test.hpp"
+#include "GraphicalTest.hpp"
 
 #include <cstring>
 #include <fcntl.h>
