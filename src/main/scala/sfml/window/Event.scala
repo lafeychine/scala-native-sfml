@@ -31,30 +31,31 @@ enum Event:
 
 object Event:
     private[sfml] def apply(event: Ptr[sfEvent]): Option[Event] =
-        EventType.fromOrdinal(!event) match
-            case EventType.Closed                 => Option(Closed())
-            case EventType.Resized                => Option(Resized(event.asInstanceOf[Ptr[sfSizeEvent]]))
-            case EventType.LostFocus              => Option(LostFocus())
-            case EventType.GainedFocus            => Option(GainedFocus())
-            case EventType.TextEntered            => Option(TextEntered(event.asInstanceOf[Ptr[sfTextEvent]]))
-            case EventType.KeyPressed             => Option(KeyPressed(event.asInstanceOf[Ptr[sfKeyEvent]]))
-            case EventType.KeyReleased            => Option(KeyReleased(event.asInstanceOf[Ptr[sfKeyEvent]]))
-            case EventType.MouseWheelScrolled     => Option(MouseWheelScrolled(event.asInstanceOf[Ptr[sfMouseWheelScrollEvent]]))
-            case EventType.MouseButtonPressed     => Option(MouseButtonPressed(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
-            case EventType.MouseButtonReleased    => Option(MouseButtonReleased(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
-            case EventType.MouseMoved             => Option(MouseMoved(event.asInstanceOf[Ptr[sfMouseMoveEvent]]))
-            case EventType.MouseEntered           => Option(MouseEntered())
-            case EventType.MouseLeft              => Option(MouseLeft())
-            case EventType.JoystickButtonPressed  => Option(JoystickButtonPressed(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
-            case EventType.JoystickButtonReleased => Option(JoystickButtonReleased(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
-            case EventType.JoystickMoved          => Option(JoystickMoved(event.asInstanceOf[Ptr[sfJoystickMoveEvent]]))
-            case EventType.JoystickConnected      => Option(JoystickConnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
-            case EventType.JoystickDisconnected   => Option(JoystickDisconnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
-            case EventType.TouchBegan             => Option(TouchBegan(event.asInstanceOf[Ptr[sfTouchEvent]]))
-            case EventType.TouchMoved             => Option(TouchMoved(event.asInstanceOf[Ptr[sfTouchEvent]]))
-            case EventType.TouchEnded             => Option(TouchEnded(event.asInstanceOf[Ptr[sfTouchEvent]]))
-            case EventType.SensorChanged          => Option(SensorChanged(event.asInstanceOf[Ptr[sfSensorEvent]]))
-            case _                                => None
+        !event match
+            case 0  => Option(Closed())
+            case 1  => Option(Resized(event.asInstanceOf[Ptr[sfSizeEvent]]))
+            case 2  => Option(LostFocus())
+            case 3  => Option(GainedFocus())
+            case 4  => Option(TextEntered(event.asInstanceOf[Ptr[sfTextEvent]]))
+            case 5  => Option(KeyPressed(event.asInstanceOf[Ptr[sfKeyEvent]]))
+            case 6  => Option(KeyReleased(event.asInstanceOf[Ptr[sfKeyEvent]]))
+            case 7  => None // Deprecated: MouseWheelMoved
+            case 8  => Option(MouseWheelScrolled(event.asInstanceOf[Ptr[sfMouseWheelScrollEvent]]))
+            case 9  => Option(MouseButtonPressed(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
+            case 10 => Option(MouseButtonReleased(event.asInstanceOf[Ptr[sfMouseButtonEvent]]))
+            case 11 => Option(MouseMoved(event.asInstanceOf[Ptr[sfMouseMoveEvent]]))
+            case 12 => Option(MouseEntered())
+            case 13 => Option(MouseLeft())
+            case 14 => Option(JoystickButtonPressed(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
+            case 15 => Option(JoystickButtonReleased(event.asInstanceOf[Ptr[sfJoystickButtonEvent]]))
+            case 16 => Option(JoystickMoved(event.asInstanceOf[Ptr[sfJoystickMoveEvent]]))
+            case 17 => Option(JoystickConnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
+            case 18 => Option(JoystickDisconnected(event.asInstanceOf[Ptr[sfJoystickConnectEvent]]))
+            case 19 => Option(TouchBegan(event.asInstanceOf[Ptr[sfTouchEvent]]))
+            case 20 => Option(TouchMoved(event.asInstanceOf[Ptr[sfTouchEvent]]))
+            case 21 => Option(TouchEnded(event.asInstanceOf[Ptr[sfTouchEvent]]))
+            case 22 => Option(SensorChanged(event.asInstanceOf[Ptr[sfSensorEvent]]))
+            case _  => None
 
     object Resized:
         private[sfml] def apply(event: Ptr[sfSizeEvent]): Resized =

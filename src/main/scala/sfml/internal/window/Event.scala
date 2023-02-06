@@ -17,28 +17,3 @@ object Event:
     type sfSizeEvent = CStruct3[sfEvent, CUnsignedInt, CUnsignedInt]
     type sfTouchEvent = CStruct4[sfEvent, CUnsignedInt, CInt, CInt]
     type sfSensorEvent = CStruct5[sfEvent, CInt, CFloat, CFloat, CFloat]
-
-    enum EventType:
-        case Closed
-        case Resized
-        case LostFocus
-        case GainedFocus
-        case TextEntered
-        case KeyPressed
-        case KeyReleased
-        case MouseWheelMoved
-        case MouseWheelScrolled
-        case MouseButtonPressed
-        case MouseButtonReleased
-        case MouseMoved
-        case MouseEntered
-        case MouseLeft
-        case JoystickButtonPressed
-        case JoystickButtonReleased
-        case JoystickMoved
-        case JoystickConnected
-        case JoystickDisconnected
-        case TouchBegan
-        case TouchMoved
-        case TouchEnded
-        case SensorChanged
