@@ -5,22 +5,33 @@ import scalanative.unsafe.*
 
 import internal.Type.sfBoolToBoolean
 import internal.window.Mouse.*
-import internal.window.MouseButton.sfMouseButtonType
-import internal.system.Vector2.sfVector2i
 
 import graphics.RenderWindow
+import system.Vector2
 
 object Mouse:
-    enum Button(button: sfMouseButtonType):
+    enum Button:
         def isPressed(): Boolean =
-            sfMouse_isButtonPressed(button.ordinal)
+            sfMouse_isButtonPressed(ordinal)
 
-        case Left extends Button(sfMouseButtonType.sfMouseLeft)
-        case Right extends Button(sfMouseButtonType.sfMouseRight)
-        case Middle extends Button(sfMouseButtonType.sfMouseMiddle)
-        case XButton1 extends Button(sfMouseButtonType.sfMouseXButton1)
-        case XButton2 extends Button(sfMouseButtonType.sfMouseXButton2)
+        case Left
+        case Right
+        case Middle
+        case XButton1
+        case XButton2
 
     enum Wheel:
         case VerticalWheel
         case HorizontalWheel
+
+    def position: Vector2[Int] =
+        Vector2.toVector2Int(sfMouse_getPosition())()
+
+    def position(relativeTo: Window): Vector2[Int] =
+        Zone { implicit z => Vector2.toVector2Int(sfMouse_getPosition(relativeTo.window))() }
+
+    def position_=(position: Vector2[Int]): Unit =
+        Zone { implicit z => sfMouse_setPosition(position.vector2i) }
+
+    def position_=(position: Vector2[Int])(relativeTo: RenderWindow): Unit =
+        Zone { implicit z => sfMouse_setPosition(position.vector2i, relativeTo.window) }

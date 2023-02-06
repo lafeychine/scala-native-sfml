@@ -42,11 +42,14 @@ object Vector2:
         private[sfml] def toVector2Float(): Vector2[Float] =
             Vector2(vector2._1, vector2._2)
 
+    extension (vector2: internal.Type.sfSplit[sfVector2i])
+        private[sfml] def toVector2Int(): Vector2[Int] =
+            val high = (vector2 >> 32).toInt
+            val low = vector2.toInt
+            Vector2(low, high)
+
     implicit def tupleToVector2Float[T: Numeric](tuple: (T, T)): Vector2[Float] =
         Vector2(tuple._1.toFloat, tuple._2.toFloat)
 
     implicit def tupleToVector2Int[T: Numeric](tuple: (T, T)): Vector2[Int] =
         Vector2(tuple._1.toInt, tuple._2.toInt)
-
-    implicit def tupleToVector2[T: Numeric](tuple: (T, T)): Vector2[T] =
-        Vector2(tuple._1, tuple._2)
