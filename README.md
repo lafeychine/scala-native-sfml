@@ -51,13 +51,13 @@ Since the SFML library has such objects, this binding adds a custom trait [`Reso
 
 ### Requirements
 
-This library requires [Scala Native 0.4.9](https://scala-native.org/en/stable/changelog/0.4.9.html) and therefore [Scala 3.2.1](https://www.scala-lang.org/download/3.2.1.html).
+This library requires [Scala Native 0.4.10](https://scala-native.org/en/stable/changelog/0.4.10.html) and therefore [Scala 3.2.2](https://www.scala-lang.org/download/3.2.2.html).
 
 It is recommended to use [sbt](https://www.scala-sbt.org/download.html) to build a project, by setting up `project/plugins.sbt` and `build.sbt` as follows:
 
 ```scala
 // project/plugins.sbt
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.9")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.10")
 ```
 
 ```scala
@@ -66,7 +66,7 @@ import scala.scalanative.build.*
 
 name := "project"
 
-scalaVersion := "3.2.1"
+scalaVersion := "3.2.2"
 version := "0.1.0"
 
 enablePlugins(ScalaNativePlugin)
@@ -102,7 +102,7 @@ githubSuppressPublicationWarning := true
 githubTokenSource := TokenSource.GitConfig("github.token")
 
 resolvers += Resolver.githubPackages("lafeychine")
-libraryDependencies += "io.github.lafeychine" %%% "scala-native-sfml" % "0.2.1"
+libraryDependencies += "io.github.lafeychine" %%% "scala-native-sfml" % "x.x.x"
 ```
 
 
