@@ -9,6 +9,7 @@ import internal.graphics.RenderWindow.*
 import internal.window.Window.sfWindow
 
 import system.String.stringToSfString
+import system.Vector2
 import window.{ContextSettings, Style, VideoMode, Window}
 
 class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWindow])
@@ -34,6 +35,9 @@ class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWi
 
     def this(mode: VideoMode, title: String) =
         this(mode, title, Style.Default)
+
+    override def size: Vector2[Int] =
+        Zone { implicit z => Vector2.toVector2Int(sfRenderWindow_getSize(renderWindow))() }
 
 object RenderWindow:
     extension (renderWindow: Ptr[sfRenderWindow])

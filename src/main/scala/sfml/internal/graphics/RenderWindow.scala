@@ -4,7 +4,7 @@ package graphics
 
 import scalanative.unsafe.*
 
-import system.String
+import system.{String, Vector2}
 import window.{ContextSettings, VideoMode, Window}
 
 @link("sfml-graphics")
@@ -16,3 +16,6 @@ import window.{ContextSettings, VideoMode, Window}
 
     @name("_ZN2sf12RenderWindowD2Ev")
     def dtor(self: Ptr[sfRenderWindow]): Unit = extern
+
+    @name("_ZNK2sf12RenderWindow7getSizeEv")
+    def sfRenderWindow_getSize(self: Ptr[sfRenderWindow]): Type.sfSplit[Vector2.sfVector2u] = extern
