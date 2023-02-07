@@ -40,7 +40,6 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
 
     final def viewport(view: View): Rect[Int] =
         val viewport_rect = view.viewport
-        println(viewport_rect)
 
         Rect(
             (.5f + size.x * viewport_rect.left).toInt,
