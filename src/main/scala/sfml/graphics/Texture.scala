@@ -31,7 +31,7 @@ class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends 
         sfTexture_isRepeated(texture)
 
     final def repeated_=(repeated: Boolean) =
-        sfTexture_setRepeated(texture, smooth)
+        sfTexture_setRepeated(texture, repeated)
 
 object Texture:
     extension (texture: Ptr[sfTexture])
