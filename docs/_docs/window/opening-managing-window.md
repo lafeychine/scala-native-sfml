@@ -1,11 +1,8 @@
 ---
 title: Opening and managing a SFML window
+layout: sfml
+url: https://www.sfml-dev.org/tutorials/2.5/window-window.php
 ---
-
-# Opening and managing a SFML window
-
-Original content can be found [on the SFML website](https://www.sfml-dev.org/tutorials/2.5/window-window.php) (only for C++)
-
 
 ## Introduction
 
@@ -103,12 +100,14 @@ have to close it explicitly with the
 do something before the window is closed, such as saving the current state of
 the application, or displaying a message.
 
+<div class="warning">
 A mistake that people often make is to forget the event loop, simply because
 they don't yet care about handling events (they use real-time inputs instead).
 Without an event loop, the window will become unresponsive. It is important to
 note that the event loop has two roles: in addition to providing events to the
 user, it gives the window a chance to process its internal events too, which is
 required so that it can react to move or resize user actions.
+</div>
 
 After the window has been closed, the main loop exits and the program
 terminates.
@@ -150,10 +149,11 @@ window.verticalSync = true  // call it once, after creating the window
 After this call, your application will run at the same frequency as the
 monitor's refresh rate.
 
-Sometimes [`verticalSync`](sfml.window.Window.verticalSync_=) will have no
-effect: this is most likely because vertical synchronization is forced to "off"
-in your graphics driver's settings. It should be set to "controlled by
-application" instead.
+<div class="warning">
+Sometimes <code>verticalSync</code> will have no effect: this is most likely
+because vertical synchronization is forced to "off" in your graphics driver's
+settings. It should be set to "controlled by application" instead.
+</div>
 
 In other situations, you may also want your application to run at a given
 framerate, instead of the monitor's frequency. This can be done by setting
@@ -174,8 +174,9 @@ framerates: <!-- sf::sleep's resolution --> it depends on the underlying
 operating system and hardware, and can be as high as 10 or 15 milliseconds.
 Don't rely on this feature to implement precise timing.
 
-Never use both [`verticalSync`](sfml.window.Window.verticalSync_=) and
-[`framerateLimit`](sfml.window.Window.framerateLimit_=) at the same time! They
-would badly mix and make things worse.
+<div class="warning">
+Never use both <code>verticalSync</code> and <code>framerateLimit</code> at the
+same time! They would badly mix and make things worse.
+</div>
 
 <!-- TODO: Things to know about windows -->

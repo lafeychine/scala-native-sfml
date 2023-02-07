@@ -1,0 +1,13 @@
+<main>
+  <header>
+    <h1 class="h500">{{ page.title }}</h1>
+  </header>
+
+  {{ content }}
+
+  <ul class="table-of-contents">
+    {% for item in site.subpages %}
+      <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+    {% endfor %}
+  </ul>
+</main>

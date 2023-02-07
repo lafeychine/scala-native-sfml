@@ -1,11 +1,8 @@
 ---
 title: Sprites and textures
+layout: sfml
+url: https://www.sfml-dev.org/tutorials/2.5/graphics-sprite.php
 ---
-
-# Sprites and textures
-
-Original content can be found [on the SFML website](https://www.sfml-dev.org/tutorials/2.5/graphics-sprite.php) (only for C++)
-
 
 ## Vocabulary
 
@@ -39,17 +36,17 @@ import sfml.graphics.Texture
 val texture = Texture()
 
 if !(texture.loadFromFile("image.png")) then
-     // error...
+    // error...
 //{
-     ()
+    ()
 //}
 ```
 
-<div style="border: 1px solid #bbb; color: #b44; padding: 0.5em 1em">
-The `loadFromFile` function can sometimes fail with no obvious reason. First,
-check the error message that SFML prints to the standard output (check the
-console). If the message is "unable to open file", make sure that the working
-directory (which is the directory that any file path will be interpreted
+<div class="warning">
+The <code>loadFromFile</code> function can sometimes fail with no obvious
+reason. First, check the error message that SFML prints to the standard output
+(check the console). If the message is "unable to open file", make sure that the
+working directory (which is the directory that any file path will be interpreted
 relative to) is what you think it is: When you run the application from your
 desktop environment, the working directory is the executable folder. However,
 when you launch your program from your IDE (Visual Studio, Code::Blocks, ...)
@@ -57,7 +54,7 @@ the working directory might sometimes be set to the project directory instead.
 This can usually be changed quite easily in the project settings.
 </div>
 
-<!-- Side functions for Texture -->
+<!-- TODO: Side functions for Texture -->
 
 SFML supports most common image file formats. The full list is available in the
 API documentation.
@@ -77,7 +74,7 @@ val texture = Texture()
 if !texture.loadFromFile("image.png", (10, 10, 32, 32)) then
     // error...
 //{
-     ()
+    ()
 //}
 ```
 
@@ -85,7 +82,7 @@ The [`Rect`](sfml.graphics.Rect) class is a simple utility type that represents
 a rectangle. Its constructor takes the coordinates of the top-left corner, and
 the size of the rectangle.
 
-<!-- Update image from pixels -->
+<!-- TODO: Update image from pixels -->
 
 Additionally, a texture has two properties that change how it is rendered.
 
@@ -97,7 +94,7 @@ texture.smooth = true
 ```
 <img src="https://www.sfml-dev.org/tutorials/2.5/images/graphics-sprites-smooth.png"/>
 
-<div style="border: 1px solid #bbb; color: #b44; padding: 0.5em 1em">
+<div class="warning">
 Since smoothing samples from adjacent pixels in the texture as well, it can lead
 to the unwanted side effect of factoring in pixels outside the selected texture
 area. This can happen when your sprite is located at non-integer coordinates.

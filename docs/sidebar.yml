@@ -3,12 +3,14 @@ index: ../../README.md
 subsection:
   - title: Window module
     directory: window
+    index: window/index.md
 
     subsection:
       - page: window/opening-managing-window.md
 
   - title: Graphics module
     directory: graphics
+    index: graphics/index.md
 
     subsection:
       - page: graphics/drawing-2d-stuff.md
