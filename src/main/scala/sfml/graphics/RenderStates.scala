@@ -18,4 +18,10 @@ final case class RenderStates(val blendMode: BlendMode, val transform: Transform
 
 object RenderStates:
     def apply(): RenderStates =
-        RenderStates(BlendMode.Alpha(), Transform.Identity())
+        RenderStates(BlendMode.Alpha(), Transform())
+
+    def apply(blendMode: BlendMode): RenderStates =
+        RenderStates(blendMode, Transform())
+
+    def apply(transform: Transform): RenderStates =
+        RenderStates(BlendMode.Alpha(), transform)
