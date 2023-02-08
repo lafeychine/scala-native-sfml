@@ -4,12 +4,16 @@ package graphics
 import scalanative.unsafe.*
 import scalanative.unsigned.UnsignedRichInt
 
+import internal.Type.booleanToSfBool
 import internal.graphics.Sprite.*
 
 class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Transformable(sprite.at2) with Drawable with Resource:
 
     override def close(): Unit =
         Resource.close(sprite)
+
+    def this() =
+        this(Resource { (r: Ptr[sfSprite]) => ctor(r) })
 
     def this(texture: Texture) =
         this(Resource { (r: Ptr[sfSprite]) =>
@@ -24,6 +28,12 @@ class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Tra
 
     final def color_=(color: Color): Unit =
         Zone { implicit z => sfSprite_setColor(sprite, color.color) }
+
+    // NOTE: To be able to use [`font_=`]
+    final def texture = ()
+
+    final def texture_=(texture: Texture, resetRect: Boolean = false) =
+        Zone { implicit z => sfSprite_setTexture(sprite, texture.texture, resetRect) }
 
     final def textureRect: Rect[Int] =
         Rect.toRectInt(sfSprite_getTextureRect(sprite))()
