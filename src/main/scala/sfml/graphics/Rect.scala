@@ -63,5 +63,8 @@ object Rect:
         private[sfml] def toRectFloat(): Rect[Float] =
             Rect(rect._1, rect._2, rect._3, rect._4)
 
-    implicit def tupleToRect[T: Numeric](tuple: (T, T, T, T)): Rect[T] =
-        Rect(tuple._1, tuple._2, tuple._3, tuple._4)
+    implicit def tupleToRectFloat[T: Numeric](tuple: (T, T, T, T)): Rect[Float] =
+        Rect(tuple._1.toFloat, tuple._2.toFloat, tuple._3.toFloat, tuple._4.toFloat)
+
+    implicit def tupleToRectInt[T: Numeric](tuple: (T, T, T, T)): Rect[Int] =
+        Rect(tuple._1.toInt, tuple._2.toInt, tuple._3.toInt, tuple._4.toInt)
