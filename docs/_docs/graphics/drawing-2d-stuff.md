@@ -96,6 +96,6 @@ help you create your own drawable entities (vertex arrays).
 Although they share some common properties, each of these entities come with
 their own nuances and are therefore explained in dedicated tutorials:
   - [Sprite tutorial](sprites-and-textures.html)
-  - Text tutorial (feature not ported yet)
+  - [Text tutorial](text-and-fonts.html)
   - Shape tutorial (feature not ported yet)
   - Vertex array tutorial (feature not ported yet)

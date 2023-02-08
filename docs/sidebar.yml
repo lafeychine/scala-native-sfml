@@ -15,3 +15,5 @@ subsection:
     subsection:
       - page: graphics/drawing-2d-stuff.md
       - page: graphics/sprites-and-textures.md
+      - page: graphics/text-and-fonts.md
+      - page: graphics/transforming-entities.md

@@ -163,8 +163,8 @@ sprite.origin = (25, 25)
 ```
 
 Since transformation functions are common to all SFML entities, they are
-explained in a separate tutorial: Transforming entities (feature not ported
-yet).
+explained in a separate tutorial: [Transforming
+entities](transforming-entities.html).
 
 
 ## The white square problem

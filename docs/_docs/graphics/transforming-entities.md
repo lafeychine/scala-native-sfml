@@ -273,7 +273,7 @@ approximation.
 import sfml.graphics.{Rect, Sprite}
 import sfml.system.Vector2
 
-val sprite = Sprite()
+val entity = Sprite()
 //}
 // get the bounding box of the entity
 val boundingBox: Rect[Float] = entity.globalBounds
@@ -305,7 +305,7 @@ With the custom transforms seen previously, it becomes easy to implement a
 hierarchy of objects in which children are transformed relative to their parent.
 All you have to do is pass the combined transform from parent to children when
 you draw them, all the way until you reach the final drawable entities (sprites,
-text, shapes, vertex arrays or your own drawables). 
+text, shapes, vertex arrays or your own drawables).
 ```
 //{
 import scala.collection.mutable.ListBuffer
