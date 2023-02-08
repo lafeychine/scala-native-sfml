@@ -8,6 +8,8 @@ import scalanative.unsafe.*
 
 import internal.graphics.Rect.*
 
+import system.Vector2
+
 final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T = 0, val height: T = 0):
 
     def contains(x: T, y: T)(implicit num: Numeric[T]): Boolean =
@@ -19,6 +21,9 @@ final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T 
         val maxY = max(top, top + height)
 
         x >= minX && x < maxX && y >= minY && y < maxY
+
+    def contains(point: Vector2[T])(implicit num: Numeric[T]): Boolean =
+        contains(point.x, point.y)
 
     def intersects(other: Rect[T])(implicit num: Numeric[T]): Boolean =
         import num.*
