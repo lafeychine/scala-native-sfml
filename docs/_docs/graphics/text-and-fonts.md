@@ -1,7 +1,7 @@
 ---
 title: Text and fonts
 layout: sfml
-url: https://www.sfml-dev.org/tutorials/2.5/graphics-text.php
+refurl: https://www.sfml-dev.org/tutorials/2.5/graphics-text.php
 ---
 
 ## Loading a font

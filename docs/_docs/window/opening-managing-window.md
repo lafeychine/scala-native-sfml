@@ -1,7 +1,7 @@
 ---
 title: Opening and managing a SFML window
 layout: sfml
-url: https://www.sfml-dev.org/tutorials/2.5/window-window.php
+refurl: https://www.sfml-dev.org/tutorials/2.5/window-window.php
 ---
 
 ## Introduction

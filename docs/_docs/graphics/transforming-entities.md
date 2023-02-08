@@ -1,7 +1,7 @@
 ---
 title: Position, rotation, scale: Transforming entities
 layout: sfml
-url: https://www.sfml-dev.org/tutorials/2.5/graphics-transform.php
+refurl: https://www.sfml-dev.org/tutorials/2.5/graphics-transform.php
 ---
 
 ## Transforming SFML entities

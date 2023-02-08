@@ -1,7 +1,7 @@
 ---
 title: Sprites and textures
 layout: sfml
-url: https://www.sfml-dev.org/tutorials/2.5/graphics-sprite.php
+refurl: https://www.sfml-dev.org/tutorials/2.5/graphics-sprite.php
 ---
 
 ## Vocabulary

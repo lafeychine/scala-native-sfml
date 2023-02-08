@@ -1,7 +1,7 @@
 ---
 title: Drawing 2D stuff
 layout: sfml
-url: https://www.sfml-dev.org/tutorials/2.5/graphics-draw.php
+refurl: https://www.sfml-dev.org/tutorials/2.5/graphics-draw.php
 ---
 
 ## Introduction
