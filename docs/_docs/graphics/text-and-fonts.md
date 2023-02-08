@@ -14,8 +14,7 @@ attributes. In a typical program, you'll only have to make use of the first
 feature, loading the font, so let's focus on that first.
 
 The most common way of loading a font is from a file on disk, which is done with
-the [`loadFromFile`](sfml.graphics.Font.loadFromFile) function. 
-
+the [`loadFromFile`](sfml.graphics.Font.loadFromFile) function.
 ```scala sc-name:Texture.scala
 //{
 import sfml.graphics.{Color, Font, RenderWindow, Text}
@@ -56,12 +55,13 @@ This can usually be changed quite easily in the project settings.
 SFML supports most common font formats. The full list is available in the API
 documentation.
 
-That's all you need to do. Once your font is loaded, you can start drawing text. 
+That's all you need to do. Once your font is loaded, you can start drawing text.
 
 
 ## Drawing text
 
-To draw text, you will be using the [`Text`](sf::Text) class. It's very simple to use: 
+To draw text, you will be using the [`Text`](sfml.graphics.Text) class. It's
+very simple to use:
 ```scala sc-compile-with:Texture.scala sc-name:Texture.scala
 val text = Text()
 
@@ -96,5 +96,3 @@ tutorial. (feature not ported yet)
 <!-- TODO: Non-ASCII characters section -->
 
 <!-- TODO: Making your own text class section -->
-
-

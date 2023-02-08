@@ -12,7 +12,7 @@ comes to drawing something. The only option which is left to you is to use the
 powerful, yet complex and low level OpenGL API.
 
 Fortunately, SFML provides a graphics module which will help you draw 2D
-entities in a much simpler way than with OpenGL. 
+entities in a much simpler way than with OpenGL.
 
 
 ## The drawing window
@@ -31,7 +31,7 @@ these functions: [`clear`](sfml.graphics.RenderWindow.clear) and
 implies: clear clears the whole window with the chosen color, and draw draws
 whatever object you pass to it.
 
-Here is what a typical main loop looks like with a render window: 
+Here is what a typical main loop looks like with a render window:
 ```scala
 import sfml.graphics.*
 import sfml.window.*
@@ -72,7 +72,7 @@ Calling [`display`](sfml.graphics.RenderWindow.display) is also mandatory, it
 takes what was drawn since the last call to display and displays it on the
 window. Indeed, things are not drawn directly to the window, but to a hidden
 buffer. This buffer is then copied to the window when you call display -- this
-is called double-buffering. 
+is called double-buffering.
 
 This `clear`/`draw`/`display` cycle is the only good way to draw things. Don't
 try other strategies, such as keeping pixels from the previous frame, "erasing"
@@ -81,7 +81,7 @@ results due to double-buffering. Modern graphics hardware and APIs are really
 made for repeated `clear`/`draw`/`display` cycles where everything is completely
 refreshed at each iteration of the main loop. Don't be scared to draw 1000
 sprites 60 times per second, you're far below the millions of triangles that
-your computer can handle. 
+your computer can handle.
 
 
 ## What can I draw now?
