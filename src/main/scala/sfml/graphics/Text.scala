@@ -55,6 +55,9 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
     final def fillColor_=(color: Color) =
         Zone { implicit z => sfText_setFillColor(text, color.color) }
 
+    // NOTE: To be able to use [`font_=`]
+    final def font = ()
+
     final def font_=(font: Font) =
         Zone { implicit z => sfText_setFont(text, font.font) }
 
