@@ -29,6 +29,15 @@ class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Tra
     final def color_=(color: Color): Unit =
         Zone { implicit z => sfSprite_setColor(sprite, color.color) }
 
+    final def globalBounds: Rect[Float] =
+        transform.transformRect(localBounds)
+
+    final def localBounds: Rect[Float] =
+        val width = textureRect.width.abs.toFloat
+        val height = textureRect.height.abs.toFloat
+
+        Rect(0, 0, width, height)
+
     // NOTE: To be able to use [`font_=`]
     final def texture = ()
 
