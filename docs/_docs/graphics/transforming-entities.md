@@ -216,8 +216,8 @@ You can apply several predefined transformations to the same transform as well.
 They will all be combined sequentially. Note that transforming an object by
 combining multiple transformations is equivalent to applying each operation in
 reverse order. The last operation (here `scale`) is applied first, and will be
-affected by operations above it in code (second would be `translate(-10.f,
-50.f)`, for example).
+affected by operations above it in code (second would be `translate(-10, 50)`,
+for example).
 ```scala
 //{
 import sfml.graphics.Transform
