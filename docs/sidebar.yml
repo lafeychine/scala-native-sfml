@@ -17,3 +17,4 @@ subsection:
       - page: graphics/sprites-and-textures.md
       - page: graphics/text-and-fonts.md
       - page: graphics/transforming-entities.md
+      - page: graphics/controlling-camera-with-views.md
