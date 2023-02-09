@@ -26,5 +26,8 @@ import system.Vector2
     @name("_ZNK2sf12RenderTarget7getViewEv")
     def sfRenderTarget_getView(self: Ptr[sfRenderTarget]): Ptr[View.sfView] = extern
 
+    @name("_ZN2sf12RenderTarget7setViewERKNS_4ViewE")
+    def sfRenderTarget_setView(self: Ptr[sfRenderTarget], view: Ptr[View.sfView]): Unit = extern
+
     @name("_ZNK2sf12RenderTarget16mapPixelToCoordsERKNS_7Vector2IiEE")
     def sfRenderTarget_mapPixelToCoords(self: Ptr[sfRenderTarget], point: Ptr[Vector2.sfVector2i]): Type.sfSplit[Vector2.sfVector2f] = extern

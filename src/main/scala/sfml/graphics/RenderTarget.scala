@@ -24,7 +24,7 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
         drawable.draw(this, states)
 
     final def mapPixelToCoords(point: Vector2[Int]): Vector2[Float] =
-        mapPixelToCoords(point, view)
+        mapPixelToCoords(point, View(sfRenderTarget_getView(renderTarget)))
 
     final def mapPixelToCoords(point: Vector2[Int], view: View): Vector2[Float] =
         val viewport_rect = viewport(view)
@@ -35,8 +35,10 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
 
         view.inverseTransform().transformPoint(normalized)
 
-    private[sfml] def view: View =
-        View(sfRenderTarget_getView(renderTarget))
+    final def view: Unit = ()
+
+    final def view_=(view: View): Unit =
+        sfRenderTarget_setView(renderTarget, view.view)
 
     final def viewport(view: View): Rect[Int] =
         val viewport_rect = view.viewport

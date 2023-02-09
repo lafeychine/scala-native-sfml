@@ -54,6 +54,15 @@ final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T 
         rect._4 = height.toInt
         rect
 
+    private[sfml] final def floatRect(using Zone): Ptr[sfFloatRect] =
+        val rect = alloc[sfFloatRect]()
+
+        rect._1 = left.toFloat
+        rect._2 = top.toFloat
+        rect._3 = width.toFloat
+        rect._4 = height.toFloat
+        rect
+
 object Rect:
     extension (rect: Ptr[sfIntRect])
         private[sfml] def toRectInt(): Rect[Int] =
