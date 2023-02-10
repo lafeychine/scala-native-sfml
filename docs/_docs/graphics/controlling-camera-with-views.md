@@ -1,5 +1,5 @@
 ---
-title: Drawing 2D stuff
+title: Controlling the 2D camera with views
 layout: sfml
 refurl: https://www.sfml-dev.org/tutorials/2.5/graphics-view.php
 ---
