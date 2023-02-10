@@ -4,7 +4,7 @@ name := "scala-native-sfml"
 organization := "io.github.lafeychine"
 
 scalaVersion := "3.2.2"
-version := "0.3.6"
+version := "0.3.7"
 
 enablePlugins(ScalaNativePlugin)
 
