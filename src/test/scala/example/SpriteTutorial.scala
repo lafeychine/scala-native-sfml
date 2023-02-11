@@ -15,7 +15,7 @@ class SpriteTutorial extends GraphicalTest:
             val texture = use(Texture())
             assertTrue(texture.loadFromFile("src/test/resources/sfml.png"))
 
-            val sprite = use(Sprite(texture))
+            val sprite = Sprite(texture)
 
             assertTrue(window.isOpen())
 

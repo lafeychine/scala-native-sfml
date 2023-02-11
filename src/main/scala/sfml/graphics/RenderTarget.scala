@@ -9,24 +9,20 @@ import internal.window.Window.sfWindow
 import system.{String, Vector2}
 import window.{ContextSettings, VideoMode, Window}
 
-trait RenderTarget private[sfml] (private val renderTarget: Ptr[sfRenderTarget]) extends Resource:
+trait RenderTarget private[sfml] (private val renderTarget: Resource[sfRenderTarget]):
 
-    private[sfml] inline def toNativeRenderTarget: Ptr[sfRenderTarget] = renderTarget
-
-    override def close(): Unit =
-        RenderTarget.close(renderTarget)()
-        Resource.close(renderTarget)
+    private[sfml] inline def toNativeRenderTarget: Ptr[sfRenderTarget] = renderTarget.ptr
 
     final def clear(color: Color = Color.Black()): Unit =
         Zone { implicit z =>
-            sfRenderTarget_clear(renderTarget, color.toNativeColor)
+            sfRenderTarget_clear(toNativeRenderTarget, color.toNativeColor)
         }
 
     final def draw(drawable: Drawable, states: RenderStates = RenderStates()): Unit =
         drawable.draw(this, states)
 
     final def mapPixelToCoords(point: Vector2[Int]): Vector2[Float] =
-        mapPixelToCoords(point, View(sfRenderTarget_getView(renderTarget)))
+        mapPixelToCoords(point, View(Resource(sfRenderTarget_getView(toNativeRenderTarget))))
 
     final def mapPixelToCoords(point: Vector2[Int], view: View): Vector2[Float] =
         val viewport_rect = viewport(view)
@@ -40,7 +36,7 @@ trait RenderTarget private[sfml] (private val renderTarget: Ptr[sfRenderTarget])
     final def view: Unit = ()
 
     final def view_=(view: View): Unit =
-        sfRenderTarget_setView(renderTarget, view.toNativeView)
+        sfRenderTarget_setView(toNativeRenderTarget, view.toNativeView)
 
     final def viewport(view: View): Rect[Int] =
         val viewport_rect = view.viewport
@@ -57,10 +53,6 @@ trait RenderTarget private[sfml] (private val renderTarget: Ptr[sfRenderTarget])
 object RenderTarget:
     import internal.graphics.Drawable.sfDrawable
 
-    extension (renderTarget: Ptr[sfRenderTarget])
-        private[sfml] def close(): Unit =
-            dtor(renderTarget)
-
     private[sfml] def patch_draw(self: Ptr[sfDrawable], target: RenderTarget, states: RenderStates)(using Zone): Unit =
         // NOTE: Use this endpoint to avoid us splitting `states` in the stack
-        sfRenderTarget_draw(target.renderTarget, self, states.toNativeRenderStates)
+        sfRenderTarget_draw(target.toNativeRenderTarget, self, states.toNativeRenderStates)

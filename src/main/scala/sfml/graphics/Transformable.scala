@@ -6,74 +6,65 @@ import scalanative.unsafe.*
 import internal.graphics.Transformable.*
 import system.Vector2
 
-class Transformable private[sfml] (private val transformable: Ptr[sfTransformable]) extends Resource:
+class Transformable private[sfml] (private val transformable: Resource[sfTransformable]):
 
-    private[sfml] inline def toNativeTransformable: Ptr[sfTransformable] = transformable
-
-    override def close(): Unit =
-        Transformable.close(transformable)()
-        Resource.close(transformable)
+    private[sfml] inline def toNativeTransformable: Ptr[sfTransformable] = transformable.ptr
 
     def this() =
         this(Resource { (r: Ptr[sfTransformable]) => ctor(r) })
 
     final def move(offsetX: Float, offsetY: Float): Unit =
-        sfTransformable_move(transformable, offsetX, offsetY)
+        sfTransformable_move(toNativeTransformable, offsetX, offsetY)
 
     final def move(offset: Vector2[Float]): Unit =
-        Zone { implicit z => sfTransformable_move(transformable, offset.toNativeVector2) }
+        Zone { implicit z => sfTransformable_move(toNativeTransformable, offset.toNativeVector2) }
 
     final def rotate(angle: Float): Unit =
-        sfTransformable_rotate(transformable, angle)
+        sfTransformable_rotate(toNativeTransformable, angle)
 
     final def scale(factorX: Float, factorY: Float): Unit =
-        sfTransformable_scale(transformable, factorX, factorY)
+        sfTransformable_scale(toNativeTransformable, factorX, factorY)
 
     final def scale(factor: Vector2[Float]): Unit =
-        Zone { implicit z => sfTransformable_scale(transformable, factor.toNativeVector2) }
+        Zone { implicit z => sfTransformable_scale(toNativeTransformable, factor.toNativeVector2) }
 
     /* Getter / Setter */
 
     final def origin: Vector2[Float] =
-        Vector2.toVector2Float(sfTransformable_getOrigin(transformable))()
+        Vector2.toVector2Float(sfTransformable_getOrigin(toNativeTransformable))()
 
     final def origin_=(x: Float, y: Float) =
-        sfTransformable_setOrigin(transformable, x, y)
+        sfTransformable_setOrigin(toNativeTransformable, x, y)
 
     final def origin_=(origin: Vector2[Float]) =
-        Zone { implicit z => sfTransformable_setOrigin(transformable, origin.toNativeVector2) }
+        Zone { implicit z => sfTransformable_setOrigin(toNativeTransformable, origin.toNativeVector2) }
 
     final def position: Vector2[Float] =
-        Vector2.toVector2Float(sfTransformable_getPosition(transformable))()
+        Vector2.toVector2Float(sfTransformable_getPosition(toNativeTransformable))()
 
     final def position_=(x: Float, y: Float) =
-        sfTransformable_setPosition(transformable, x, y)
+        sfTransformable_setPosition(toNativeTransformable, x, y)
 
     final def position_=(position: Vector2[Float]) =
-        Zone { implicit z => sfTransformable_setPosition(transformable, position.toNativeVector2) }
+        Zone { implicit z => sfTransformable_setPosition(toNativeTransformable, position.toNativeVector2) }
 
     final def rotation: Float =
-        sfTransformable_getRotation(transformable)
+        sfTransformable_getRotation(toNativeTransformable)
 
     final def rotation_=(angle: Float) =
-        Zone { implicit z => sfTransformable_setRotation(transformable, angle) }
+        Zone { implicit z => sfTransformable_setRotation(toNativeTransformable, angle) }
 
     final def scale: Vector2[Float] =
-        Vector2.toVector2Float(sfTransformable_getScale(transformable))()
+        Vector2.toVector2Float(sfTransformable_getScale(toNativeTransformable))()
 
     final def scale_=(x: Float, y: Float) =
-        sfTransformable_setScale(transformable, x, y)
+        sfTransformable_setScale(toNativeTransformable, x, y)
 
     final def scale_=(factors: Vector2[Float]) =
-        Zone { implicit z => sfTransformable_setScale(transformable, factors.toNativeVector2) }
+        Zone { implicit z => sfTransformable_setScale(toNativeTransformable, factors.toNativeVector2) }
 
     final def transform: Transform =
-        Transform.toTransform(sfTransformable_getTransform(transformable))()
+        Transform.toTransform(sfTransformable_getTransform(toNativeTransformable))()
 
     final def inverseTransform(): Transform =
-        Transform.toTransform(sfTransformable_getInverseTransform(transformable))()
-
-object Transformable:
-    extension (transformable: Ptr[sfTransformable])
-        private[sfml] def close(): Unit =
-            dtor(transformable)
+        Transform.toTransform(sfTransformable_getInverseTransform(toNativeTransformable))()

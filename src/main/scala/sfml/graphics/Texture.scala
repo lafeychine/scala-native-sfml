@@ -9,31 +9,30 @@ import internal.graphics.Texture.*
 import graphics.Rect
 import stdlib.String.toNativeStdString
 
-class Texture private[sfml] (private val texture: Ptr[sfTexture]) extends Resource:
+class Texture private[sfml] (private val texture: Resource[sfTexture]) extends AutoCloseable:
 
-    private[sfml] inline def toNativeTexture: Ptr[sfTexture] = texture
+    private[sfml] inline def toNativeTexture: Ptr[sfTexture] = texture.ptr
 
     override def close(): Unit =
-        Texture.close(texture)()
-        Resource.close(texture)
+        Texture.close(toNativeTexture)()
 
     def this() =
         this(Resource { (r: Ptr[sfTexture]) => ctor(r) })
 
     final def loadFromFile(filename: String, area: Rect[Int] = Rect()): Boolean =
-        Zone { implicit z => sfTexture_loadFromFile(texture, filename.toNativeStdString, area.toNativeRect) }
+        Zone { implicit z => sfTexture_loadFromFile(toNativeTexture, filename.toNativeStdString, area.toNativeRect) }
 
     final def smooth: Boolean =
-        sfTexture_isSmooth(texture)
+        sfTexture_isSmooth(toNativeTexture)
 
     final def smooth_=(smooth: Boolean) =
-        sfTexture_setSmooth(texture, smooth)
+        sfTexture_setSmooth(toNativeTexture, smooth)
 
     final def repeated: Boolean =
-        sfTexture_isRepeated(texture)
+        sfTexture_isRepeated(toNativeTexture)
 
     final def repeated_=(repeated: Boolean) =
-        sfTexture_setRepeated(texture, repeated)
+        sfTexture_setRepeated(toNativeTexture, repeated)
 
 object Texture:
     extension (texture: Ptr[sfTexture])

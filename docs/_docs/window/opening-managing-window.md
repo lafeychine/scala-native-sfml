@@ -71,7 +71,7 @@ import sfml.window.{Event, VideoMode, Window}
         while window.isOpen() do
             for event <- window.pollEvent() do
                 event match {
-                    case _: Event.Closed => window.closeWindow()
+                    case _: Event.Closed => window.close()
                     case _               => ()
                 }
     }
@@ -95,10 +95,9 @@ mouse moved? joystick connected? ...), and react accordingly if we are
 interested in it. In this case, we only care about the
 [`Event::Closed`](sfml.window.Event.Closed) event, which is triggered when the
 user wants to close the window. At this point, the window is still open and we
-have to close it explicitly with the
-[`closeWindow`](sfml.window.Window.closeWindow) function.  This enables you to
-do something before the window is closed, such as saving the current state of
-the application, or displaying a message.
+have to close it explicitly with the [`close`](sfml.window.Window.close)
+function. This enables you to do something before the window is closed, such as
+saving the current state of the application, or displaying a message.
 
 <div class="warning">
 A mistake that people often make is to forget the event loop, simply because

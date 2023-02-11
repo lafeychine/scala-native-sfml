@@ -10,13 +10,12 @@ import internal.window.Window.*
 
 import system.String.toNativeString
 
-class Window private[sfml] (private val window: Ptr[sfWindow]) extends Resource:
+class Window private[sfml] (private val window: Resource[sfWindow]) extends AutoCloseable:
 
-    private[sfml] inline def toNativeWindow: Ptr[sfWindow] = window
+    private[sfml] inline def toNativeWindow: Ptr[sfWindow] = window.ptr
 
     override def close(): Unit =
-        Window.close(window)()
-        Resource.close(window)
+        sfWindow_close(toNativeWindow)
 
     def this(mode: VideoMode, title: String, style: Style, settings: ContextSettings) =
         this(Resource { (r: Ptr[sfWindow]) =>
@@ -33,25 +32,22 @@ class Window private[sfml] (private val window: Ptr[sfWindow]) extends Resource:
     def this(mode: VideoMode, title: String) =
         this(mode, title, Style.Default)
 
-    final def closeWindow(): Unit =
-        sfWindow_closeWindow(window)
-
     final def display(): Unit =
-        sfWindow_display(window)
+        sfWindow_display(toNativeWindow)
 
     // NOTE: To be able to use [`framerateLimit_=`]
     final def framerateLimit = ()
 
     final def framerateLimit_=(limit: Int) =
-        sfWindow_setFramerateLimit(window, limit.toUInt)
+        sfWindow_setFramerateLimit(toNativeWindow, limit.toUInt)
 
     final def isOpen(): Boolean =
-        sfWindow_isOpen(window)
+        sfWindow_isOpen(toNativeWindow)
 
     @SuppressWarnings(Array("org.wartremover.warts.OptionPartial"))
     final def pollEvent(): LazyList[Event] =
         def polling(event: Ptr[sfEvent]): Option[Event] =
-            if sfWindow_pollEvent(window, event) then { Event(event) }
+            if sfWindow_pollEvent(toNativeWindow, event) then { Event(event) }
             else { None }
 
         Zone { implicit z =>
@@ -64,9 +60,4 @@ class Window private[sfml] (private val window: Ptr[sfWindow]) extends Resource:
     final def verticalSync = ()
 
     final def verticalSync_=(enabled: Boolean) =
-        sfWindow_setVerticalSyncEnabled(window, enabled)
-
-object Window:
-    extension (window: Ptr[sfWindow])
-        private[sfml] def close(): Unit =
-            dtor(window)
+        sfWindow_setVerticalSyncEnabled(toNativeWindow, enabled)

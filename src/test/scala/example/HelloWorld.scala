@@ -15,7 +15,7 @@ class HelloWorld extends GraphicalTest:
             val texture = use(Texture())
             texture.loadFromFile("src/test/resources/sfml.png")
 
-            val sprite = use(Sprite(texture))
+            val sprite = Sprite(texture)
 
             // Start the game loop
             window.isOpen()
@@ -34,5 +34,5 @@ class HelloWorld extends GraphicalTest:
             snTestScreen.takeScreenshot()
 
             // Close window
-            window.closeWindow()
+            window.close()
         }

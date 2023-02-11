@@ -1,15 +1,16 @@
 package sfml
 package system
 
-import scala.language.implicitConversions
+import scalanative.libc.stdlib.free
 import scalanative.unsafe.*
 
 import internal.system.String.*
 
 private[sfml] object String:
+
     extension (string: Ptr[sfString])
         def close(): Unit =
-            Resource.close(string._1)
+            free(string._1)
 
     extension (string: java.lang.String)
         private[sfml] def toNativeString(using Zone): Ptr[sfString] =

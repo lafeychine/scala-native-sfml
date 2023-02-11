@@ -1,9 +1,7 @@
 package sfml
 package stdlib
 
-import scala.language.implicitConversions
-
-import scalanative.libc.stdlib.malloc
+import scalanative.libc.stdlib.free
 import scalanative.libc.string.memcpy
 import scalanative.unsafe.*
 import scalanative.unsigned.UnsignedRichInt
@@ -11,9 +9,10 @@ import scalanative.unsigned.UnsignedRichInt
 import internal.stdlib.String.*
 
 private[sfml] object String:
+
     extension (string: Ptr[stdString])
-        def close(): Unit =
-            Resource.close(string._1)
+        private[sfml] def close(): Unit =
+            free(string._1)
 
     private inline def convert(ansiString: java.lang.String, charSize: Int)(using Zone): Ptr[stdString] =
         val string = alloc[stdString]()

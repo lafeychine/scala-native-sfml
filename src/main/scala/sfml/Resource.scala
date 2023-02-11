@@ -1,17 +1,20 @@
 package sfml
 
-import scalanative.libc.stdlib.{malloc, free}
+import scalanative.runtime.*
 import scalanative.unsafe.*
+import scalanative.unsigned.UnsignedRichInt
 
-trait Resource extends AutoCloseable
+@SuppressWarnings(scala.Array("org.wartremover.warts.Nothing"))
+private[sfml] final class Resource[T: Tag] private (buffer: Either[Ptr[T], ByteArray]):
 
-private[sfml] object Resource:
+    private[sfml] def this(ctor: Ptr[T] => Unit) =
+        this(Right(ByteArray.alloc(sizeof[T].toInt)))
+        ctor(ptr)
 
-    private def apply[T: Tag](ctor: Ptr[T] => Unit, buffer: Ptr[T]): Ptr[T] =
-        ctor(buffer); buffer
+    private[sfml] def this(inner: Ptr[T]) =
+        this(Left(inner))
 
-    final def apply[T: Tag](ctor: Ptr[T] => Unit): Ptr[T] =
-        apply(ctor, malloc(sizeof[T]).asInstanceOf[Ptr[T]])
-
-    final def close[T](resource: Ptr[T]): Unit =
-        free(resource.asInstanceOf[Ptr[Byte]])
+    private[sfml] inline def ptr: Ptr[T] =
+        buffer match
+            case Left(ptr)    => ptr
+            case Right(array) => fromRawPtr(array.atRaw(0))

@@ -48,7 +48,7 @@ import sfml.window.*
             for event <- window.pollEvent() do
                 event match
                     // "close requested" event: we close the window
-                    case _: Event.Closed => window.closeWindow()
+                    case _: Event.Closed => window.close()
                     case _               => ()
 
             // clear the window with black color

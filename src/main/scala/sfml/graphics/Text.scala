@@ -8,15 +8,17 @@ import internal.graphics.Text.*
 
 import system.String.toNativeString
 
-class Text private[sfml] (private val text: Ptr[sfText]) extends Transformable(text.at2) with Drawable with Resource:
+class Text private[sfml] (private val text: Resource[sfText])
+    extends Transformable(Resource(text.ptr.at2))
+    with Drawable
+    with AutoCloseable:
 
-    private[sfml] inline def toNativeText: Ptr[sfText] = text
+    private[sfml] inline def toNativeText: Ptr[sfText] = text.ptr
 
     override def close(): Unit =
-        system.String.close(text.at3)()
-        graphics.VertexArray.close(text.at5)()
-        graphics.VertexArray.close(text.at6)()
-        Resource.close(text)
+        system.String.close(text.ptr.at3)()
+        graphics.VertexArray.close(text.ptr.at5)()
+        graphics.VertexArray.close(text.ptr.at6)()
 
     def this() =
         this(Resource { (r: Ptr[sfText]) => ctor(r) })
@@ -27,68 +29,68 @@ class Text private[sfml] (private val text: Ptr[sfText]) extends Transformable(t
         })
 
     override final def draw(target: RenderTarget, states: RenderStates): Unit =
-        Zone { implicit z => RenderTarget.patch_draw(text.at1, target, states) }
+        Zone { implicit z => RenderTarget.patch_draw(toNativeText.at1, target, states) }
 
     final def globalBounds: Rect[Float] =
         transform.transformRect(localBounds)
 
     final def localBounds: Rect[Float] =
-        sfText_ensureGeometryUpdate(text)
+        sfText_ensureGeometryUpdate(toNativeText)
 
-        Rect.toRectFloat(text.at7)()
+        Rect.toRectFloat(toNativeText.at7)()
 
     /* Getter / Setter */
 
     final def characterSize: Int =
-        sfText_getCharacterSize(text).toInt
+        sfText_getCharacterSize(toNativeText).toInt
 
     final def characterSize_=(size: Int) =
-        sfText_setCharacterSize(text, size.toUInt)
+        sfText_setCharacterSize(toNativeText, size.toUInt)
 
     final def color: Color =
-        Color.toColor(sfText_getColor(text))()
+        Color.toColor(sfText_getColor(toNativeText))()
 
     final def color_=(color: Color) =
-        Zone { implicit z => sfText_setColor(text, color.toNativeColor) }
+        Zone { implicit z => sfText_setColor(toNativeText, color.toNativeColor) }
 
     final def fillColor: Color =
-        Color.toColor(sfText_getFillColor(text))()
+        Color.toColor(sfText_getFillColor(toNativeText))()
 
     final def fillColor_=(color: Color) =
-        Zone { implicit z => sfText_setFillColor(text, color.toNativeColor) }
+        Zone { implicit z => sfText_setFillColor(toNativeText, color.toNativeColor) }
 
     // NOTE: To be able to use [`font_=`]
     final def font = ()
 
     final def font_=(font: Font) =
-        Zone { implicit z => sfText_setFont(text, font.toNativeFont) }
+        Zone { implicit z => sfText_setFont(toNativeText, font.toNativeFont) }
 
     final def letterSpacing: Float =
-        sfText_getLetterSpacing(text)
+        sfText_getLetterSpacing(toNativeText)
 
     final def letterSpacing_=(spacingFactor: Float) =
-        sfText_setLetterSpacing(text, spacingFactor)
+        sfText_setLetterSpacing(toNativeText, spacingFactor)
 
     final def lineSpacing: Float =
-        sfText_getLineSpacing(text)
+        sfText_getLineSpacing(toNativeText)
 
     final def lineSpacing_=(spacingFactor: Float) =
-        sfText_setLineSpacing(text, spacingFactor)
+        sfText_setLineSpacing(toNativeText, spacingFactor)
 
     final def outlineColor: Color =
-        Color.toColor(sfText_getOutlineColor(text))()
+        Color.toColor(sfText_getOutlineColor(toNativeText))()
 
     final def outlineColor_=(color: Color) =
-        Zone { implicit z => sfText_setOutlineColor(text, color.toNativeColor) }
+        Zone { implicit z => sfText_setOutlineColor(toNativeText, color.toNativeColor) }
 
     final def outlineThickness: Float =
-        sfText_getOutlineThickness(text)
+        sfText_getOutlineThickness(toNativeText)
 
     final def outlineThickness_=(thickness: Float) =
-        sfText_setOutlineThickness(text, thickness)
+        sfText_setOutlineThickness(toNativeText, thickness)
 
     // TODO: sfText_getString
     final def string = ()
 
     final def string_=(string: String) =
-        Zone { implicit z => sfText_setString(text, string.toNativeString) }
+        Zone { implicit z => sfText_setString(toNativeText, string.toNativeString) }

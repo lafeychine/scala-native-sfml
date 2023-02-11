@@ -14,7 +14,7 @@ class GraphicalSprite extends GraphicalTest:
             val texture = use(Texture())
             texture.loadFromFile("src/test/resources/sfml.png")
 
-            val sprite = use(Sprite(texture))
+            val sprite = Sprite(texture)
 
             window.isOpen()
 
@@ -33,5 +33,5 @@ class GraphicalSprite extends GraphicalTest:
             snTestScreen.takeScreenshot()
 
             // Teardown
-            window.closeWindow()
+            window.close()
         }

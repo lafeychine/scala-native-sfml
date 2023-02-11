@@ -18,12 +18,12 @@ import sfml.window.*
         val texture = use(Texture())
         texture.loadFromFile("cat.png")
 
-        val sprite = use(Sprite(texture))
+        val sprite = Sprite(texture)
 
         while window.isOpen() do
             for event <- window.pollEvent() do
                 event match {
-                    case _: Event.Closed => window.closeWindow()
+                    case _: Event.Closed => window.close()
                     case _               => ()
                 }
 
@@ -40,11 +40,11 @@ import sfml.window.*
 
 ### Resource management
 
-When an object manipulates system resources, it must extend the [`AutoCloseable`](https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html) trait and has to be explicitly [`close`](https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html#close--)d.
+When an object manipulates system resources, it must extend the [`AutoCloseable`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html) trait and has to be explicitly [`close`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html#close())d.
 
-Since the SFML library has such objects, this binding adds a custom trait [`Resource`](https://lafeychine.github.io/scala-native-sfml/sfml/Resource.html), which enables either of the following paradigms:
+Since the SFML library has such objects, one of the following paradigms has to be used for each object marked with [`AutoCloseable`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html):
  - manipulate these objects through the [`Using`](https://www.scala-lang.org/api/3.x/scala/util/Using$.html) manager, as shown in the example above;
- - explicitly call the [`close`](https://lafeychine.github.io/scala-native-sfml/sfml/Resource.html#close:Unit) method when appropriate.
+ - explicitly call the [`close`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/AutoCloseable.html#close()) method when appropriate.
 
 
 ## Installation

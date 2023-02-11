@@ -50,5 +50,5 @@ class GraphicalText extends GraphicalTest:
             snTestScreen.takeScreenshot()
 
             // Teardown
-            window.closeWindow()
+            window.close()
         }
