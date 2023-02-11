@@ -7,12 +7,12 @@ import internal.graphics.RenderStates.*
 
 final case class RenderStates(val blendMode: BlendMode, val transform: Transform):
 
-    private[sfml] final def renderStates(using Zone): Ptr[sfRenderStates] =
+    private[sfml] inline def toNativeRenderStates(using Zone): Ptr[sfRenderStates] =
         import internal.graphics.Transform.sfTransform
 
         val renderStates = alloc[sfRenderStates]()
 
-        renderStates._1 = blendMode.blendMode
+        renderStates._1 = blendMode.toNativeBlendMode
         for i <- 0 until 16 do renderStates._2(i) = transform.matrix(i)
         renderStates
 

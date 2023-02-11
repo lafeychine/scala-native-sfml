@@ -6,7 +6,9 @@ import scalanative.unsafe.*
 import internal.graphics.Transformable.*
 import system.Vector2
 
-class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransformable]) extends Resource:
+class Transformable private[sfml] (private val transformable: Ptr[sfTransformable]) extends Resource:
+
+    private[sfml] inline def toNativeTransformable: Ptr[sfTransformable] = transformable
 
     override def close(): Unit =
         Transformable.close(transformable)()
@@ -19,7 +21,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         sfTransformable_move(transformable, offsetX, offsetY)
 
     final def move(offset: Vector2[Float]): Unit =
-        Zone { implicit z => sfTransformable_move(transformable, offset.vector2f) }
+        Zone { implicit z => sfTransformable_move(transformable, offset.toNativeVector2) }
 
     final def rotate(angle: Float): Unit =
         sfTransformable_rotate(transformable, angle)
@@ -28,7 +30,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         sfTransformable_scale(transformable, factorX, factorY)
 
     final def scale(factor: Vector2[Float]): Unit =
-        Zone { implicit z => sfTransformable_scale(transformable, factor.vector2f) }
+        Zone { implicit z => sfTransformable_scale(transformable, factor.toNativeVector2) }
 
     /* Getter / Setter */
 
@@ -39,7 +41,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         sfTransformable_setOrigin(transformable, x, y)
 
     final def origin_=(origin: Vector2[Float]) =
-        Zone { implicit z => sfTransformable_setOrigin(transformable, origin.vector2f) }
+        Zone { implicit z => sfTransformable_setOrigin(transformable, origin.toNativeVector2) }
 
     final def position: Vector2[Float] =
         Vector2.toVector2Float(sfTransformable_getPosition(transformable))()
@@ -48,7 +50,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         sfTransformable_setPosition(transformable, x, y)
 
     final def position_=(position: Vector2[Float]) =
-        Zone { implicit z => sfTransformable_setPosition(transformable, position.vector2f) }
+        Zone { implicit z => sfTransformable_setPosition(transformable, position.toNativeVector2) }
 
     final def rotation: Float =
         sfTransformable_getRotation(transformable)
@@ -63,7 +65,7 @@ class Transformable private[sfml] (private[sfml] val transformable: Ptr[sfTransf
         sfTransformable_setScale(transformable, x, y)
 
     final def scale_=(factors: Vector2[Float]) =
-        Zone { implicit z => sfTransformable_setScale(transformable, factors.vector2f) }
+        Zone { implicit z => sfTransformable_setScale(transformable, factors.toNativeVector2) }
 
     final def transform: Transform =
         Transform.toTransform(sfTransformable_getTransform(transformable))()

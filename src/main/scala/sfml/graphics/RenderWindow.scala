@@ -8,14 +8,16 @@ import internal.Type.split
 import internal.graphics.RenderWindow.*
 import internal.window.Window.sfWindow
 
-import system.String.stringToSfString
+import system.String.toNativeString
 import system.Vector2
 import window.{ContextSettings, Style, VideoMode, Window}
 
-class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWindow])
+class RenderWindow private[sfml] (private val renderWindow: Ptr[sfRenderWindow])
     extends Window(renderWindow.at1)
     with RenderTarget(renderWindow.at2)
     with Resource:
+
+    private[sfml] inline def toNativeRenderWindow: Ptr[sfRenderWindow] = renderWindow
 
     override def close(): Unit =
         RenderWindow.close(renderWindow)()
@@ -24,9 +26,9 @@ class RenderWindow private[sfml] (private[sfml] val renderWindow: Ptr[sfRenderWi
     def this(mode: VideoMode, title: String, style: Style, settings: ContextSettings) =
         this(Resource { (r: Ptr[sfRenderWindow]) =>
             Zone { implicit z =>
-                val modeSplit = split(mode.videoMode)
+                val modeSplit = split(mode.toNativeVideoMode)
 
-                ctor(r, modeSplit(0), modeSplit(1), title, style.value.toUInt, settings.contextSettings);
+                ctor(r, modeSplit(0), modeSplit(1), toNativeString(title), style.value.toUInt, settings.toNativeContextSettings)
             }
         })
 

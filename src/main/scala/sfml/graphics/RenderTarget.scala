@@ -9,7 +9,9 @@ import internal.window.Window.sfWindow
 import system.{String, Vector2}
 import window.{ContextSettings, VideoMode, Window}
 
-trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTarget]) extends Resource:
+trait RenderTarget private[sfml] (private val renderTarget: Ptr[sfRenderTarget]) extends Resource:
+
+    private[sfml] inline def toNativeRenderTarget: Ptr[sfRenderTarget] = renderTarget
 
     override def close(): Unit =
         RenderTarget.close(renderTarget)()
@@ -17,7 +19,7 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
 
     final def clear(color: Color = Color.Black()): Unit =
         Zone { implicit z =>
-            sfRenderTarget_clear(renderTarget, color.color)
+            sfRenderTarget_clear(renderTarget, color.toNativeColor)
         }
 
     final def draw(drawable: Drawable, states: RenderStates = RenderStates()): Unit =
@@ -38,7 +40,7 @@ trait RenderTarget private[sfml] (private[sfml] val renderTarget: Ptr[sfRenderTa
     final def view: Unit = ()
 
     final def view_=(view: View): Unit =
-        sfRenderTarget_setView(renderTarget, view.view)
+        sfRenderTarget_setView(renderTarget, view.toNativeView)
 
     final def viewport(view: View): Rect[Int] =
         val viewport_rect = view.viewport
@@ -61,4 +63,4 @@ object RenderTarget:
 
     private[sfml] def patch_draw(self: Ptr[sfDrawable], target: RenderTarget, states: RenderStates)(using Zone): Unit =
         // NOTE: Use this endpoint to avoid us splitting `states` in the stack
-        sfRenderTarget_draw(target.renderTarget, self, states.renderStates)
+        sfRenderTarget_draw(target.renderTarget, self, states.toNativeRenderStates)

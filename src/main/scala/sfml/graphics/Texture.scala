@@ -7,9 +7,11 @@ import internal.Type.{booleanToSfBool, sfBoolToBoolean}
 import internal.graphics.Texture.*
 
 import graphics.Rect
-import stdlib.String.stringToStdString
+import stdlib.String.toNativeStdString
 
-class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends Resource:
+class Texture private[sfml] (private val texture: Ptr[sfTexture]) extends Resource:
+
+    private[sfml] inline def toNativeTexture: Ptr[sfTexture] = texture
 
     override def close(): Unit =
         Texture.close(texture)()
@@ -19,7 +21,7 @@ class Texture private[sfml] (private[sfml] val texture: Ptr[sfTexture]) extends 
         this(Resource { (r: Ptr[sfTexture]) => ctor(r) })
 
     final def loadFromFile(filename: String, area: Rect[Int] = Rect()): Boolean =
-        Zone { implicit z => sfTexture_loadFromFile(texture, filename, area.intRect) }
+        Zone { implicit z => sfTexture_loadFromFile(texture, filename.toNativeStdString, area.toNativeRect) }
 
     final def smooth: Boolean =
         sfTexture_isSmooth(texture)

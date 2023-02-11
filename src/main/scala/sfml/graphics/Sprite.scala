@@ -7,7 +7,9 @@ import scalanative.unsigned.UnsignedRichInt
 import internal.Type.booleanToSfBool
 import internal.graphics.Sprite.*
 
-class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Transformable(sprite.at2) with Drawable with Resource:
+class Sprite private[sfml] (private val sprite: Ptr[sfSprite]) extends Transformable(sprite.at2) with Drawable with Resource:
+
+    private[sfml] inline def toNativeSprite: Ptr[sfSprite] = sprite
 
     override def close(): Unit =
         Resource.close(sprite)
@@ -17,7 +19,7 @@ class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Tra
 
     def this(texture: Texture) =
         this(Resource { (r: Ptr[sfSprite]) =>
-            Zone { implicit z => ctor(r, texture.texture) }
+            Zone { implicit z => ctor(r, texture.toNativeTexture) }
         })
 
     override final def draw(target: RenderTarget, states: RenderStates): Unit =
@@ -27,7 +29,7 @@ class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Tra
         Color.toColor(sfSprite_getColor(sprite))()
 
     final def color_=(color: Color): Unit =
-        Zone { implicit z => sfSprite_setColor(sprite, color.color) }
+        Zone { implicit z => sfSprite_setColor(sprite, color.toNativeColor) }
 
     final def globalBounds: Rect[Float] =
         transform.transformRect(localBounds)
@@ -42,10 +44,10 @@ class Sprite private[sfml] (private[sfml] val sprite: Ptr[sfSprite]) extends Tra
     final def texture = ()
 
     final def texture_=(texture: Texture, resetRect: Boolean = false) =
-        Zone { implicit z => sfSprite_setTexture(sprite, texture.texture, resetRect) }
+        Zone { implicit z => sfSprite_setTexture(sprite, texture.toNativeTexture, resetRect) }
 
     final def textureRect: Rect[Int] =
         Rect.toRectInt(sfSprite_getTextureRect(sprite))()
 
     final def textureRect_=(rect: Rect[Int]): Unit =
-        Zone { implicit z => sfSprite_setTextureRect(sprite, rect.intRect) }
+        Zone { implicit z => sfSprite_setTextureRect(sprite, rect.toNativeRect) }

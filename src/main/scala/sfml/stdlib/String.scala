@@ -28,8 +28,9 @@ private[sfml] object String:
 
         string
 
-    implicit def stringToStdString(ansiString: java.lang.String)(using Zone): Ptr[stdString] =
-        convert(ansiString, 1)
+    extension (string: java.lang.String)
+        private[sfml] def toNativeStdString(using Zone): Ptr[stdString] =
+            convert(string, 1)
 
-    implicit def wideStringToStdString(ansiString: java.lang.String)(using Zone): Ptr[stdString] =
-        convert(ansiString, 4)
+        private[sfml] def toNativeWideStdString(using Zone): Ptr[stdString] =
+            convert(string, 4)

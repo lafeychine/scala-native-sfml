@@ -3,6 +3,7 @@ package graphics
 
 import math.Numeric.Implicits.infixNumericOps
 
+import scala.annotation.targetName
 import scala.language.implicitConversions
 import scalanative.unsafe.*
 
@@ -11,6 +12,26 @@ import internal.graphics.Rect.*
 import system.Vector2
 
 final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T = 0, val height: T = 0):
+
+    @targetName("toNative_sfFloatRect")
+    private[sfml] inline def toNativeRect(using Zone)(implicit ev: T =:= Float): Ptr[sfFloatRect] =
+        val rect = alloc[sfFloatRect]()
+
+        rect._1 = left
+        rect._2 = top
+        rect._3 = width
+        rect._4 = height
+        rect
+
+    @targetName("toNative_sfIntRect")
+    private[sfml] inline def toNativeRect(using Zone)(implicit ev: T =:= Int): Ptr[sfIntRect] =
+        val rect = alloc[sfIntRect]()
+
+        rect._1 = left
+        rect._2 = top
+        rect._3 = width
+        rect._4 = height
+        rect
 
     def contains(x: T, y: T)(implicit num: Numeric[T]): Boolean =
         import num.*
@@ -44,24 +65,6 @@ final case class Rect[T: Numeric](val left: T = 0, val top: T = 0, val width: T 
         val interBottom = min(r1MaxY, r2MaxY)
 
         interLeft < interRight && interTop < interBottom
-
-    private[sfml] final def intRect(using Zone): Ptr[sfIntRect] =
-        val rect = alloc[sfIntRect]()
-
-        rect._1 = left.toInt
-        rect._2 = top.toInt
-        rect._3 = width.toInt
-        rect._4 = height.toInt
-        rect
-
-    private[sfml] final def floatRect(using Zone): Ptr[sfFloatRect] =
-        val rect = alloc[sfFloatRect]()
-
-        rect._1 = left.toFloat
-        rect._2 = top.toFloat
-        rect._3 = width.toFloat
-        rect._4 = height.toFloat
-        rect
 
 object Rect:
     extension (rect: Ptr[sfIntRect])

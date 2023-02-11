@@ -9,7 +9,7 @@ import system.Vector2
 //format: off
 final case class Transform private[sfml] (val matrix: Array[Float]):
 
-    private[sfml] final def transform(using Zone): sfTransform =
+    private[sfml] inline def toNativeTransform(using Zone): sfTransform =
         val transform = alloc[sfTransform]()
 
         for i <- 0 until 16 do transform(i) = matrix(i)

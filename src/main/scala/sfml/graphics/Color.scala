@@ -8,7 +8,7 @@ import internal.graphics.Color.*
 
 final case class Color(val r: Byte, val g: Byte, val b: Byte, val a: Byte = 255.toByte):
 
-    private[sfml] final def color(using Zone): Ptr[sfColor] =
+    private[sfml] inline def toNativeColor(using Zone): Ptr[sfColor] =
         val color = alloc[sfColor]()
 
         color._1 = r.toUByte

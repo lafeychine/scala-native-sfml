@@ -7,9 +7,11 @@ import internal.Type.{booleanToSfBool, sfBoolToBoolean}
 import internal.graphics.Font.*
 
 import graphics.Rect
-import stdlib.String.stringToStdString
+import stdlib.String.toNativeStdString
 
-class Font private[sfml] (private[sfml] val font: Ptr[sfFont]) extends Resource:
+class Font private[sfml] (private val font: Ptr[sfFont]) extends Resource:
+
+    private[sfml] inline def toNativeFont: Ptr[sfFont] = font
 
     override def close(): Unit =
         Font.close(font)()
@@ -19,7 +21,7 @@ class Font private[sfml] (private[sfml] val font: Ptr[sfFont]) extends Resource:
         this(Resource { (r: Ptr[sfFont]) => ctor(r) })
 
     final def loadFromFile(filename: String): Boolean =
-        Zone { implicit z => sfFont_loadFromFile(font, filename) }
+        Zone { implicit z => sfFont_loadFromFile(font, filename.toNativeStdString) }
 
 object Font:
     extension (font: Ptr[sfFont])

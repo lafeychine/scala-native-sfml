@@ -3,6 +3,7 @@ package system
 
 import math.Numeric.Implicits.infixNumericOps
 
+import scala.annotation.targetName
 import scala.language.implicitConversions
 import scalanative.unsafe.*
 
@@ -10,18 +11,20 @@ import internal.system.Vector2.*
 
 final case class Vector2[T: Numeric](val x: T = 0, val y: T = 0):
 
-    private[sfml] final def vector2f(using Zone): Ptr[sfVector2f] =
+    @targetName("toNative_sfVector2f")
+    private[sfml] inline def toNativeVector2(using Zone)(implicit ev: T =:= Float): Ptr[sfVector2f] =
         val vector2 = alloc[sfVector2f]()
 
-        vector2._1 = x.toFloat
-        vector2._2 = y.toFloat
+        vector2._1 = x
+        vector2._2 = y
         vector2
 
-    private[sfml] final def vector2i(using Zone): Ptr[sfVector2i] =
+    @targetName("toNative_sfVector2i")
+    private[sfml] inline def toNativeVector2(using Zone)(implicit ev: T =:= Int): Ptr[sfVector2i] =
         val vector2 = alloc[sfVector2i]()
 
-        vector2._1 = x.toInt
-        vector2._2 = y.toInt
+        vector2._1 = x
+        vector2._2 = y
         vector2
 
     def +(rhs: Vector2[T]) =

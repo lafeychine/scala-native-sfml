@@ -9,7 +9,7 @@ import internal.window.VideoMode.*
 
 class VideoMode(val width: Int, val height: Int, val bitsPerPixel: Int = 32):
 
-    private[sfml] final def videoMode(using Zone): Ptr[sfVideoMode] =
+    private[sfml] inline def toNativeVideoMode(using Zone): Ptr[sfVideoMode] =
         val videoMode = alloc[sfVideoMode]()
 
         videoMode._1 = width.toUInt

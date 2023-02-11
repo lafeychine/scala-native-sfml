@@ -6,9 +6,11 @@ import scalanative.unsigned.UnsignedRichInt
 
 import internal.graphics.Text.*
 
-import system.String.stringToSfString
+import system.String.toNativeString
 
-class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transformable(text.at2) with Drawable with Resource:
+class Text private[sfml] (private val text: Ptr[sfText]) extends Transformable(text.at2) with Drawable with Resource:
+
+    private[sfml] inline def toNativeText: Ptr[sfText] = text
 
     override def close(): Unit =
         system.String.close(text.at3)()
@@ -21,7 +23,7 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
 
     def this(string: String, font: Font, characterSize: Int = 30) =
         this(Resource { (r: Ptr[sfText]) =>
-            Zone { implicit z => ctor(r, string, font.font, characterSize.toUInt) }
+            Zone { implicit z => ctor(r, string.toNativeString, font.toNativeFont, characterSize.toUInt) }
         })
 
     override final def draw(target: RenderTarget, states: RenderStates): Unit =
@@ -47,19 +49,19 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
         Color.toColor(sfText_getColor(text))()
 
     final def color_=(color: Color) =
-        Zone { implicit z => sfText_setColor(text, color.color) }
+        Zone { implicit z => sfText_setColor(text, color.toNativeColor) }
 
     final def fillColor: Color =
         Color.toColor(sfText_getFillColor(text))()
 
     final def fillColor_=(color: Color) =
-        Zone { implicit z => sfText_setFillColor(text, color.color) }
+        Zone { implicit z => sfText_setFillColor(text, color.toNativeColor) }
 
     // NOTE: To be able to use [`font_=`]
     final def font = ()
 
     final def font_=(font: Font) =
-        Zone { implicit z => sfText_setFont(text, font.font) }
+        Zone { implicit z => sfText_setFont(text, font.toNativeFont) }
 
     final def letterSpacing: Float =
         sfText_getLetterSpacing(text)
@@ -77,7 +79,7 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
         Color.toColor(sfText_getOutlineColor(text))()
 
     final def outlineColor_=(color: Color) =
-        Zone { implicit z => sfText_setOutlineColor(text, color.color) }
+        Zone { implicit z => sfText_setOutlineColor(text, color.toNativeColor) }
 
     final def outlineThickness: Float =
         sfText_getOutlineThickness(text)
@@ -89,4 +91,4 @@ class Text private[sfml] (private[sfml] val text: Ptr[sfText]) extends Transform
     final def string = ()
 
     final def string_=(string: String) =
-        Zone { implicit z => sfText_setString(text, string) }
+        Zone { implicit z => sfText_setString(text, string.toNativeString) }

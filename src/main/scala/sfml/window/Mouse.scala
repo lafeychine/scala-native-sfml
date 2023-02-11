@@ -28,10 +28,10 @@ object Mouse:
         Vector2.toVector2Int(sfMouse_getPosition())()
 
     def position(relativeTo: Window): Vector2[Int] =
-        Zone { implicit z => Vector2.toVector2Int(sfMouse_getPosition(relativeTo.window))() }
+        Zone { implicit z => Vector2.toVector2Int(sfMouse_getPosition(relativeTo.toNativeWindow))() }
 
     def position_=(position: Vector2[Int]): Unit =
-        Zone { implicit z => sfMouse_setPosition(position.vector2i) }
+        Zone { implicit z => sfMouse_setPosition(position.toNativeVector2) }
 
-    def position_=(position: Vector2[Int])(relativeTo: RenderWindow): Unit =
-        Zone { implicit z => sfMouse_setPosition(position.vector2i, relativeTo.window) }
+    def position_=(position: Vector2[Int])(relativeTo: Window): Unit =
+        Zone { implicit z => sfMouse_setPosition(position.toNativeVector2, relativeTo.toNativeWindow) }

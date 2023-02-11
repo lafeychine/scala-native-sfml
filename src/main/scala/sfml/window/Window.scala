@@ -8,9 +8,11 @@ import internal.Type.{booleanToSfBool, split, sfBoolToBoolean}
 import internal.window.Event.sfEvent
 import internal.window.Window.*
 
-import system.String.stringToSfString
+import system.String.toNativeString
 
-class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Resource:
+class Window private[sfml] (private val window: Ptr[sfWindow]) extends Resource:
+
+    private[sfml] inline def toNativeWindow: Ptr[sfWindow] = window
 
     override def close(): Unit =
         Window.close(window)()
@@ -19,9 +21,9 @@ class Window private[sfml] (private[sfml] val window: Ptr[sfWindow]) extends Res
     def this(mode: VideoMode, title: String, style: Style, settings: ContextSettings) =
         this(Resource { (r: Ptr[sfWindow]) =>
             Zone { implicit z =>
-                val modeSplit = split(mode.videoMode)
+                val modeSplit = split(mode.toNativeVideoMode)
 
-                ctor(r, modeSplit(0), modeSplit(1), title, style.value.toUInt, settings.contextSettings);
+                ctor(r, modeSplit(0), modeSplit(1), toNativeString(title), style.value.toUInt, settings.toNativeContextSettings);
             }
         })
 
