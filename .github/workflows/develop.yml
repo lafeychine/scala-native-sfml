@@ -1,9 +1,6 @@
 name: develop
 
-on:
-  push:
-    branches-ignore:
-      - master
+on: [fork, pull_request, push]
 
 concurrency:
   cancel-in-progress: true
