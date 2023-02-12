@@ -28,6 +28,9 @@ import system.String
     @name("_ZNK2sf6Window6isOpenEv")
     def sfWindow_isOpen(self: Ptr[sfWindow]): Type.sfBool = extern
 
+    @name("_ZN2sf6Window21setMouseCursorVisibleEb")
+    def sfWindow_setMouseCursorVisible(self: Ptr[sfWindow], visible: Type.sfBool): Unit = extern
+
     @name("_ZN2sf6Window9pollEventERNS_5EventE")
     def sfWindow_pollEvent(self: Ptr[sfWindow], event: Ptr[Event.sfEvent]): Type.sfBool = extern
 

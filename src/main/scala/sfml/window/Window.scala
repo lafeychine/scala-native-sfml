@@ -44,6 +44,19 @@ class Window private[sfml] (private val window: Resource[sfWindow]) extends Auto
     final def isOpen(): Boolean =
         sfWindow_isOpen(toNativeWindow)
 
+    // NOTE: To be able to use [`mouseCursorVisible_=`]
+    final def mouseCursorVisible = ()
+
+    /** Show or hide the mouse cursor.
+      *
+      * The mouse cursor is visible by default.
+      *
+      * @param visible
+      *   True to show the mouse cursor, false to hide it
+      */
+    final def mouseCursorVisible_=(visible: Boolean) =
+        sfWindow_setMouseCursorVisible(toNativeWindow, visible)
+
     @SuppressWarnings(Array("org.wartremover.warts.OptionPartial"))
     final def pollEvent(): LazyList[Event] =
         def polling(event: Ptr[sfEvent]): Option[Event] =
